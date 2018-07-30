@@ -1,0 +1,1791 @@
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] POST   /login                    --> stock/apps/fleetDashboard/controller.handleLogin (5 handlers)
+[GIN-debug] GET    /me                       --> stock/apps/fleetDashboard/controller.handleGetMe (5 handlers)
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] POST   /createProduct            --> stock/apps/fleetDashboard/controller.createProduct (5 handlers)
+[GIN-debug] POST   /updateProduct            --> stock/apps/fleetDashboard/controller.updateProduct (5 handlers)
+[GIN-debug] GET    /getProductById           --> stock/apps/fleetDashboard/controller.getProductById (5 handlers)
+[GIN-debug] GET    /deleteProducts           --> stock/apps/fleetDashboard/controller.deleteProducts (5 handlers)
+[GIN-debug] GET    /getProducts              --> stock/apps/fleetDashboard/controller.getProducts (5 handlers)
+[GIN-debug] [WARNING] Headers were already written. Wanted to override status code 400 with 500
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] POST   /createProduct            --> stock/apps/fleetDashboard/controller.createProduct (5 handlers)
+[GIN-debug] POST   /updateProduct            --> stock/apps/fleetDashboard/controller.updateProduct (5 handlers)
+[GIN-debug] GET    /getProductById           --> stock/apps/fleetDashboard/controller.getProductById (5 handlers)
+[GIN-debug] GET    /deleteProducts           --> stock/apps/fleetDashboard/controller.deleteProducts (5 handlers)
+[GIN-debug] GET    /getProducts              --> stock/apps/fleetDashboard/controller.getProducts (5 handlers)
+INFO: 2018/07/29 00:20:45 [200 POST /createProduct 69.235984ms]
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] POST   /createProduct            --> stock/apps/fleetDashboard/controller.createProduct (5 handlers)
+[GIN-debug] POST   /updateProduct            --> stock/apps/fleetDashboard/controller.updateProduct (5 handlers)
+[GIN-debug] GET    /getProductById           --> stock/apps/fleetDashboard/controller.getProductById (5 handlers)
+[GIN-debug] GET    /deleteProducts           --> stock/apps/fleetDashboard/controller.deleteProducts (5 handlers)
+[GIN-debug] GET    /getProducts              --> stock/apps/fleetDashboard/controller.getProducts (5 handlers)
+INFO: 2018/07/29 00:24:11 [200 POST /createProduct 48.995271ms]
+INFO: 2018/07/29 00:24:37 [200 POST /updateProduct 114.932266ms]
+INFO: 2018/07/29 00:27:14 [404 GET /getProductById=1 14.347µs]
+INFO: 2018/07/29 00:27:26 [200 GET /getProductById 1.540218ms]
+DEBUG: 2018/07/29 00:28:04 [SELECT * FROM stock_demo.product WHERE  barcode LIKE '%"1234"%'  ORDER BY  name  ASC ]
+INFO: 2018/07/29 00:28:04 [200 GET /getProducts 3.446424ms]
+DEBUG: 2018/07/29 00:28:38 [SELECT * FROM stock_demo.product WHERE  barcode LIKE '%1234%'  ORDER BY  name  ASC ]
+INFO: 2018/07/29 00:28:38 [200 GET /getProducts 4.600889ms]
+DEBUG: 2018/07/29 00:30:28 [SELECT * FROM stock_demo.product WHERE  barcode LIKE '%1234%'  AND  name LIKE '%gofret%'  ORDER BY  name  ASC  LIMIT 0,10]
+INFO: 2018/07/29 00:30:28 [200 GET /getProducts 4.76315ms]
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] POST   /createProduct            --> stock/apps/fleetDashboard/controller.createProduct (5 handlers)
+[GIN-debug] POST   /updateProduct            --> stock/apps/fleetDashboard/controller.updateProduct (5 handlers)
+[GIN-debug] GET    /getProductById           --> stock/apps/fleetDashboard/controller.getProductById (5 handlers)
+[GIN-debug] GET    /deleteProducts           --> stock/apps/fleetDashboard/controller.deleteProducts (5 handlers)
+[GIN-debug] GET    /getProducts              --> stock/apps/fleetDashboard/controller.getProducts (5 handlers)
+[GIN-debug] POST   /createStock              --> stock/apps/fleetDashboard/controller.createStock (5 handlers)
+[GIN-debug] POST   /updateStock              --> stock/apps/fleetDashboard/controller.updateStock (5 handlers)
+[GIN-debug] GET    /getStockById             --> stock/apps/fleetDashboard/controller.getStockById (5 handlers)
+[GIN-debug] GET    /deleteStocks             --> stock/apps/fleetDashboard/controller.deleteStocks (5 handlers)
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] POST   /createProduct            --> stock/apps/fleetDashboard/controller.createProduct (5 handlers)
+[GIN-debug] POST   /updateProduct            --> stock/apps/fleetDashboard/controller.updateProduct (5 handlers)
+[GIN-debug] GET    /getProductById           --> stock/apps/fleetDashboard/controller.getProductById (5 handlers)
+[GIN-debug] GET    /deleteProducts           --> stock/apps/fleetDashboard/controller.deleteProducts (5 handlers)
+[GIN-debug] GET    /getProducts              --> stock/apps/fleetDashboard/controller.getProducts (5 handlers)
+[GIN-debug] POST   /createStock              --> stock/apps/fleetDashboard/controller.createStock (5 handlers)
+[GIN-debug] POST   /updateStock              --> stock/apps/fleetDashboard/controller.updateStock (5 handlers)
+[GIN-debug] GET    /getStockById             --> stock/apps/fleetDashboard/controller.getStockById (5 handlers)
+[GIN-debug] GET    /deleteStocks             --> stock/apps/fleetDashboard/controller.deleteStocks (5 handlers)
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] POST   /createProduct            --> stock/apps/fleetDashboard/controller.createProduct (5 handlers)
+[GIN-debug] POST   /updateProduct            --> stock/apps/fleetDashboard/controller.updateProduct (5 handlers)
+[GIN-debug] GET    /getProductById           --> stock/apps/fleetDashboard/controller.getProductById (5 handlers)
+[GIN-debug] GET    /deleteProducts           --> stock/apps/fleetDashboard/controller.deleteProducts (5 handlers)
+[GIN-debug] GET    /getProducts              --> stock/apps/fleetDashboard/controller.getProducts (5 handlers)
+[GIN-debug] POST   /createStock              --> stock/apps/fleetDashboard/controller.createStock (5 handlers)
+[GIN-debug] POST   /updateStock              --> stock/apps/fleetDashboard/controller.updateStock (5 handlers)
+[GIN-debug] GET    /getStockById             --> stock/apps/fleetDashboard/controller.getStockById (5 handlers)
+[GIN-debug] GET    /deleteStocks             --> stock/apps/fleetDashboard/controller.deleteStocks (5 handlers)
+[GIN-debug] GET    /getStocks                --> stock/apps/fleetDashboard/controller.getStocks (5 handlers)
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] POST   /createProduct            --> stock/apps/fleetDashboard/controller.createProduct (5 handlers)
+[GIN-debug] POST   /updateProduct            --> stock/apps/fleetDashboard/controller.updateProduct (5 handlers)
+[GIN-debug] GET    /getProductById           --> stock/apps/fleetDashboard/controller.getProductById (5 handlers)
+[GIN-debug] GET    /deleteProducts           --> stock/apps/fleetDashboard/controller.deleteProducts (5 handlers)
+[GIN-debug] GET    /getProducts              --> stock/apps/fleetDashboard/controller.getProducts (5 handlers)
+[GIN-debug] POST   /createStock              --> stock/apps/fleetDashboard/controller.createStock (5 handlers)
+[GIN-debug] POST   /updateStock              --> stock/apps/fleetDashboard/controller.updateStock (5 handlers)
+[GIN-debug] GET    /getStockById             --> stock/apps/fleetDashboard/controller.getStockById (5 handlers)
+[GIN-debug] GET    /deleteStocks             --> stock/apps/fleetDashboard/controller.deleteStocks (5 handlers)
+[GIN-debug] GET    /getStocks                --> stock/apps/fleetDashboard/controller.getStocks (5 handlers)
+[GIN-debug] POST   /createPerson             --> stock/apps/fleetDashboard/controller.createPerson (5 handlers)
+[GIN-debug] POST   /updatePerson             --> stock/apps/fleetDashboard/controller.updatePerson (5 handlers)
+[GIN-debug] GET    /getPersonById            --> stock/apps/fleetDashboard/controller.getPersonById (5 handlers)
+[GIN-debug] GET    /deletePersons            --> stock/apps/fleetDashboard/controller.deletePersons (5 handlers)
+[GIN-debug] GET    /getPeople                --> stock/apps/fleetDashboard/controller.getPeople (5 handlers)
+INFO: 2018/07/29 13:36:35 [200 POST /createPerson 62.806124ms]
+INFO: 2018/07/29 13:37:18 [200 POST /updatePerson 65.503139ms]
+INFO: 2018/07/29 13:38:16 [200 POST /createPerson 44.849364ms]
+INFO: 2018/07/29 13:38:37 [200 POST /createPerson 50.334958ms]
+INFO: 2018/07/29 13:40:13 [200 GET /getPersonById 1.323534ms]
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] POST   /createProduct            --> stock/apps/fleetDashboard/controller.createProduct (5 handlers)
+[GIN-debug] POST   /updateProduct            --> stock/apps/fleetDashboard/controller.updateProduct (5 handlers)
+[GIN-debug] GET    /getProductById           --> stock/apps/fleetDashboard/controller.getProductById (5 handlers)
+[GIN-debug] GET    /deleteProducts           --> stock/apps/fleetDashboard/controller.deleteProducts (5 handlers)
+[GIN-debug] GET    /getProducts              --> stock/apps/fleetDashboard/controller.getProducts (5 handlers)
+[GIN-debug] POST   /createStock              --> stock/apps/fleetDashboard/controller.createStock (5 handlers)
+[GIN-debug] POST   /updateStock              --> stock/apps/fleetDashboard/controller.updateStock (5 handlers)
+[GIN-debug] GET    /getStockById             --> stock/apps/fleetDashboard/controller.getStockById (5 handlers)
+[GIN-debug] GET    /deleteStocks             --> stock/apps/fleetDashboard/controller.deleteStocks (5 handlers)
+[GIN-debug] GET    /getStocks                --> stock/apps/fleetDashboard/controller.getStocks (5 handlers)
+[GIN-debug] POST   /createPerson             --> stock/apps/fleetDashboard/controller.createPerson (5 handlers)
+[GIN-debug] POST   /updatePerson             --> stock/apps/fleetDashboard/controller.updatePerson (5 handlers)
+[GIN-debug] GET    /getPersonById            --> stock/apps/fleetDashboard/controller.getPersonById (5 handlers)
+[GIN-debug] GET    /deletePeople             --> stock/apps/fleetDashboard/controller.deletePeople (5 handlers)
+[GIN-debug] GET    /getPeople                --> stock/apps/fleetDashboard/controller.getPeople (5 handlers)
+DEBUG: 2018/07/29 13:43:21 [SELECT * FROM stock_demo.person WHERE  name LIKE '%cemal%'  ORDER BY  name  ASC  LIMIT 0,10]
+INFO: 2018/07/29 13:43:21 [200 GET /getPeople 4.856896ms]
+DEBUG: 2018/07/29 13:43:28 [SELECT * FROM stock_demo.person WHERE  name LIKE '%cema%'  ORDER BY  name  ASC  LIMIT 0,10]
+INFO: 2018/07/29 13:43:28 [200 GET /getPeople 3.57936ms]
+DEBUG: 2018/07/29 13:43:31 [SELECT * FROM stock_demo.person WHERE  name LIKE '%cem%'  ORDER BY  name  ASC  LIMIT 0,10]
+INFO: 2018/07/29 13:43:31 [200 GET /getPeople 3.344918ms]
+DEBUG: 2018/07/29 13:43:34 [SELECT * FROM stock_demo.person ORDER BY  name  ASC  LIMIT 0,10]
+INFO: 2018/07/29 13:43:34 [200 GET /getPeople 2.623619ms]
+DEBUG: 2018/07/29 13:43:42 [SELECT * FROM stock_demo.person ORDER BY  name  ASC  LIMIT 0,10]
+INFO: 2018/07/29 13:43:42 [200 GET /getPeople 4.294541ms]
+DEBUG: 2018/07/29 13:43:47 [SELECT * FROM stock_demo.person ORDER BY  name  ASC  LIMIT 0,10]
+INFO: 2018/07/29 13:43:47 [200 GET /getPeople 3.402293ms]
+DEBUG: 2018/07/29 13:43:54 [SELECT * FROM stock_demo.person ORDER BY  name  ASC  LIMIT 0,10]
+INFO: 2018/07/29 13:43:54 [200 GET /getPeople 2.716037ms]
+DEBUG: 2018/07/29 13:44:05 [SELECT * FROM stock_demo.person ORDER BY  name  ASC  LIMIT 0,10]
+INFO: 2018/07/29 13:44:05 [200 GET /getPeople 4.531964ms]
+DEBUG: 2018/07/29 13:44:30 [SELECT * FROM stock_demo.person ORDER BY  name  ASC  LIMIT 0,10]
+INFO: 2018/07/29 13:44:30 [200 GET /getPeople 2.600229ms]
+DEBUG: 2018/07/29 13:44:42 [SELECT * FROM stock_demo.person ORDER BY  name  ASC  LIMIT 0,10]
+INFO: 2018/07/29 13:44:42 [200 GET /getPeople 3.661466ms]
+DEBUG: 2018/07/29 13:44:45 [SELECT * FROM stock_demo.person WHERE  p_type LIKE '%Müşteri%'  ORDER BY  name  ASC  LIMIT 0,10]
+INFO: 2018/07/29 13:44:45 [200 GET /getPeople 3.860284ms]
+DEBUG: 2018/07/29 13:44:57 [SELECT * FROM stock_demo.person WHERE  p_type LIKE '%Tedarikçi%'  ORDER BY  name  ASC  LIMIT 0,10]
+INFO: 2018/07/29 13:44:57 [200 GET /getPeople 3.899828ms]
+[GIN-debug] [WARNING] Headers were already written. Wanted to override status code 200 with 500
+[GIN-debug] [WARNING] Headers were already written. Wanted to override status code 200 with 500
+[GIN-debug] [WARNING] Headers were already written. Wanted to override status code 200 with 500
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] POST   /createProduct            --> stock/apps/fleetDashboard/controller.createProduct (5 handlers)
+[GIN-debug] POST   /updateProduct            --> stock/apps/fleetDashboard/controller.updateProduct (5 handlers)
+[GIN-debug] GET    /getProductById           --> stock/apps/fleetDashboard/controller.getProductById (5 handlers)
+[GIN-debug] GET    /deleteProducts           --> stock/apps/fleetDashboard/controller.deleteProducts (5 handlers)
+[GIN-debug] GET    /getProducts              --> stock/apps/fleetDashboard/controller.getProducts (5 handlers)
+[GIN-debug] POST   /createStock              --> stock/apps/fleetDashboard/controller.createStock (5 handlers)
+[GIN-debug] POST   /updateStock              --> stock/apps/fleetDashboard/controller.updateStock (5 handlers)
+[GIN-debug] GET    /getStockById             --> stock/apps/fleetDashboard/controller.getStockById (5 handlers)
+[GIN-debug] GET    /deleteStocks             --> stock/apps/fleetDashboard/controller.deleteStocks (5 handlers)
+[GIN-debug] GET    /getStocks                --> stock/apps/fleetDashboard/controller.getStocks (5 handlers)
+[GIN-debug] POST   /createPerson             --> stock/apps/fleetDashboard/controller.createPerson (5 handlers)
+[GIN-debug] POST   /updatePerson             --> stock/apps/fleetDashboard/controller.updatePerson (5 handlers)
+[GIN-debug] GET    /getPersonById            --> stock/apps/fleetDashboard/controller.getPersonById (5 handlers)
+[GIN-debug] GET    /deletePeople             --> stock/apps/fleetDashboard/controller.deletePeople (5 handlers)
+[GIN-debug] GET    /getPeople                --> stock/apps/fleetDashboard/controller.getPeople (5 handlers)
+DEBUG: 2018/07/29 13:49:56 [{0 1 40 2 0 0}]
+[GIN-debug] [WARNING] Headers were already written. Wanted to override status code 200 with 500
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] POST   /createProduct            --> stock/apps/fleetDashboard/controller.createProduct (5 handlers)
+[GIN-debug] POST   /updateProduct            --> stock/apps/fleetDashboard/controller.updateProduct (5 handlers)
+[GIN-debug] GET    /getProductById           --> stock/apps/fleetDashboard/controller.getProductById (5 handlers)
+[GIN-debug] GET    /deleteProducts           --> stock/apps/fleetDashboard/controller.deleteProducts (5 handlers)
+[GIN-debug] GET    /getProducts              --> stock/apps/fleetDashboard/controller.getProducts (5 handlers)
+[GIN-debug] POST   /createStock              --> stock/apps/fleetDashboard/controller.createStock (5 handlers)
+[GIN-debug] POST   /updateStock              --> stock/apps/fleetDashboard/controller.updateStock (5 handlers)
+[GIN-debug] GET    /getStockById             --> stock/apps/fleetDashboard/controller.getStockById (5 handlers)
+[GIN-debug] GET    /deleteStocks             --> stock/apps/fleetDashboard/controller.deleteStocks (5 handlers)
+[GIN-debug] GET    /getStocks                --> stock/apps/fleetDashboard/controller.getStocks (5 handlers)
+[GIN-debug] POST   /createPerson             --> stock/apps/fleetDashboard/controller.createPerson (5 handlers)
+[GIN-debug] POST   /updatePerson             --> stock/apps/fleetDashboard/controller.updatePerson (5 handlers)
+[GIN-debug] GET    /getPersonById            --> stock/apps/fleetDashboard/controller.getPersonById (5 handlers)
+[GIN-debug] GET    /deletePeople             --> stock/apps/fleetDashboard/controller.deletePeople (5 handlers)
+[GIN-debug] GET    /getPeople                --> stock/apps/fleetDashboard/controller.getPeople (5 handlers)
+DEBUG: 2018/07/29 13:51:27 [{0 1 40 2 0 0}]
+ERROR: 2018/07/29 13:51:27 common/gateways/sql/stockRepo.go : 88 [sql: expected 5 arguments, got 6]
+ERROR: 2018/07/29 13:51:27 apps/fleetDashboard/interactors/dashboardInteractor.go : 101 [sql: expected 5 arguments, got 6]
+INFO: 2018/07/29 13:51:27 [200 POST /createStock 3.269369ms]
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] POST   /createProduct            --> stock/apps/fleetDashboard/controller.createProduct (5 handlers)
+[GIN-debug] POST   /updateProduct            --> stock/apps/fleetDashboard/controller.updateProduct (5 handlers)
+[GIN-debug] GET    /getProductById           --> stock/apps/fleetDashboard/controller.getProductById (5 handlers)
+[GIN-debug] GET    /deleteProducts           --> stock/apps/fleetDashboard/controller.deleteProducts (5 handlers)
+[GIN-debug] GET    /getProducts              --> stock/apps/fleetDashboard/controller.getProducts (5 handlers)
+[GIN-debug] POST   /createStock              --> stock/apps/fleetDashboard/controller.createStock (5 handlers)
+[GIN-debug] POST   /updateStock              --> stock/apps/fleetDashboard/controller.updateStock (5 handlers)
+[GIN-debug] GET    /getStockById             --> stock/apps/fleetDashboard/controller.getStockById (5 handlers)
+[GIN-debug] GET    /deleteStocks             --> stock/apps/fleetDashboard/controller.deleteStocks (5 handlers)
+[GIN-debug] GET    /getStocks                --> stock/apps/fleetDashboard/controller.getStocks (5 handlers)
+[GIN-debug] POST   /createPerson             --> stock/apps/fleetDashboard/controller.createPerson (5 handlers)
+[GIN-debug] POST   /updatePerson             --> stock/apps/fleetDashboard/controller.updatePerson (5 handlers)
+[GIN-debug] GET    /getPersonById            --> stock/apps/fleetDashboard/controller.getPersonById (5 handlers)
+[GIN-debug] GET    /deletePeople             --> stock/apps/fleetDashboard/controller.deletePeople (5 handlers)
+[GIN-debug] GET    /getPeople                --> stock/apps/fleetDashboard/controller.getPeople (5 handlers)
+DEBUG: 2018/07/29 13:52:15 [{0 1 40 2 0 0}]
+INFO: 2018/07/29 13:52:15 [200 POST /createStock 53.18331ms]
+DEBUG: 2018/07/29 13:52:28 [{0 1 20 3 0 0}]
+INFO: 2018/07/29 13:52:28 [200 POST /createStock 43.622073ms]
+ERROR: 2018/07/29 13:52:50 common/gateways/sql/stockRepo.go : 106 [Error 1452: Cannot add or update a child row: a foreign key constraint fails (`stock_demo`.`stock`, CONSTRAINT `stock_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`))]
+ERROR: 2018/07/29 13:52:50 apps/fleetDashboard/interactors/dashboardInteractor.go : 113 [Error 1452: Cannot add or update a child row: a foreign key constraint fails (`stock_demo`.`stock`, CONSTRAINT `stock_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`))]
+INFO: 2018/07/29 13:52:50 [200 POST /updateStock 63.4151ms]
+INFO: 2018/07/29 13:53:23 [200 POST /updateStock 52.710468ms]
+INFO: 2018/07/29 13:53:49 [200 GET /getStockById 1.825984ms]
+ERROR: 2018/07/29 13:53:56 common/gateways/sql/stockRepo.go : 77 [sql: no rows in result set]
+ERROR: 2018/07/29 13:53:56 apps/fleetDashboard/interactors/dashboardInteractor.go : 124 [sql: no rows in result set]
+INFO: 2018/07/29 13:53:56 [200 GET /getStockById 1.57196ms]
+DEBUG: 2018/07/29 13:54:10 [SELECT s.id,s.product_id,s.qty,s.dealer_id,s.creation_date,s.update_date,p.barcode,p.name,p.description,p.category,p.purchase_price,p.sale_price,p.register_date,per.id,per.name
+						FROM stock_demo.stock AS s
+						JOIN stock_demo.product AS p ON s.product_id = p.id 
+						LEFT JOIN stock_demo.person AS per ON s.dealer_id = per.id WHERE  s.barcode LIKE '%1234%'  AND  s.name LIKE '%gofret%'  ORDER BY  s.name  ASC  LIMIT 0,10]
+ERROR: 2018/07/29 13:54:10 common/gateways/sql/stockRepo.go : 283 [Error 1054: Unknown column 's.barcode' in 'where clause']
+[GIN-debug] [WARNING] Headers were already written. Wanted to override status code 200 with 500
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] POST   /createProduct            --> stock/apps/fleetDashboard/controller.createProduct (5 handlers)
+[GIN-debug] POST   /updateProduct            --> stock/apps/fleetDashboard/controller.updateProduct (5 handlers)
+[GIN-debug] GET    /getProductById           --> stock/apps/fleetDashboard/controller.getProductById (5 handlers)
+[GIN-debug] GET    /deleteProducts           --> stock/apps/fleetDashboard/controller.deleteProducts (5 handlers)
+[GIN-debug] GET    /getProducts              --> stock/apps/fleetDashboard/controller.getProducts (5 handlers)
+[GIN-debug] POST   /createStock              --> stock/apps/fleetDashboard/controller.createStock (5 handlers)
+[GIN-debug] POST   /updateStock              --> stock/apps/fleetDashboard/controller.updateStock (5 handlers)
+[GIN-debug] GET    /getStockById             --> stock/apps/fleetDashboard/controller.getStockById (5 handlers)
+[GIN-debug] GET    /deleteStocks             --> stock/apps/fleetDashboard/controller.deleteStocks (5 handlers)
+[GIN-debug] GET    /getStocks                --> stock/apps/fleetDashboard/controller.getStocks (5 handlers)
+[GIN-debug] POST   /createPerson             --> stock/apps/fleetDashboard/controller.createPerson (5 handlers)
+[GIN-debug] POST   /updatePerson             --> stock/apps/fleetDashboard/controller.updatePerson (5 handlers)
+[GIN-debug] GET    /getPersonById            --> stock/apps/fleetDashboard/controller.getPersonById (5 handlers)
+[GIN-debug] GET    /deletePeople             --> stock/apps/fleetDashboard/controller.deletePeople (5 handlers)
+[GIN-debug] GET    /getPeople                --> stock/apps/fleetDashboard/controller.getPeople (5 handlers)
+DEBUG: 2018/07/29 14:13:19 [SELECT s.id,s.product_id,s.qty,s.dealer_id,s.creation_date,s.update_date,p.barcode,p.name,p.description,p.category,p.purchase_price,p.sale_price,p.register_date,per.id,per.name
+						FROM stock_demo.stock AS s
+						JOIN stock_demo.product AS p ON s.product_id = p.id 
+						LEFT JOIN stock_demo.person AS per ON s.dealer_id = per.id WHERE  p.barcode LIKE '%1234%'  AND  s.name LIKE '%gofret%'  ORDER BY  s.name  ASC  LIMIT 0,10]
+ERROR: 2018/07/29 14:13:19 common/gateways/sql/stockRepo.go : 283 [Error 1054: Unknown column 's.name' in 'where clause']
+[GIN-debug] [WARNING] Headers were already written. Wanted to override status code 200 with 500
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] POST   /createProduct            --> stock/apps/fleetDashboard/controller.createProduct (5 handlers)
+[GIN-debug] POST   /updateProduct            --> stock/apps/fleetDashboard/controller.updateProduct (5 handlers)
+[GIN-debug] GET    /getProductById           --> stock/apps/fleetDashboard/controller.getProductById (5 handlers)
+[GIN-debug] GET    /deleteProducts           --> stock/apps/fleetDashboard/controller.deleteProducts (5 handlers)
+[GIN-debug] GET    /getProducts              --> stock/apps/fleetDashboard/controller.getProducts (5 handlers)
+[GIN-debug] POST   /createStock              --> stock/apps/fleetDashboard/controller.createStock (5 handlers)
+[GIN-debug] POST   /updateStock              --> stock/apps/fleetDashboard/controller.updateStock (5 handlers)
+[GIN-debug] GET    /getStockById             --> stock/apps/fleetDashboard/controller.getStockById (5 handlers)
+[GIN-debug] GET    /deleteStocks             --> stock/apps/fleetDashboard/controller.deleteStocks (5 handlers)
+[GIN-debug] GET    /getStocks                --> stock/apps/fleetDashboard/controller.getStocks (5 handlers)
+[GIN-debug] POST   /createPerson             --> stock/apps/fleetDashboard/controller.createPerson (5 handlers)
+[GIN-debug] POST   /updatePerson             --> stock/apps/fleetDashboard/controller.updatePerson (5 handlers)
+[GIN-debug] GET    /getPersonById            --> stock/apps/fleetDashboard/controller.getPersonById (5 handlers)
+[GIN-debug] GET    /deletePeople             --> stock/apps/fleetDashboard/controller.deletePeople (5 handlers)
+[GIN-debug] GET    /getPeople                --> stock/apps/fleetDashboard/controller.getPeople (5 handlers)
+DEBUG: 2018/07/29 14:13:50 [SELECT s.id,s.product_id,s.qty,s.dealer_id,s.creation_date,s.update_date,p.barcode,p.name,p.description,p.category,p.purchase_price,p.sale_price,p.register_date,per.id,per.name
+						FROM stock_demo.stock AS s
+						JOIN stock_demo.product AS p ON s.product_id = p.id 
+						LEFT JOIN stock_demo.person AS per ON s.dealer_id = per.id WHERE  p.barcode LIKE '%1234%'  AND  p.name LIKE '%gofret%'  ORDER BY  s.name  ASC  LIMIT 0,10]
+ERROR: 2018/07/29 14:13:50 common/gateways/sql/stockRepo.go : 283 [Error 1054: Unknown column 's.name' in 'order clause']
+[GIN-debug] [WARNING] Headers were already written. Wanted to override status code 200 with 500
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] POST   /createProduct            --> stock/apps/fleetDashboard/controller.createProduct (5 handlers)
+[GIN-debug] POST   /updateProduct            --> stock/apps/fleetDashboard/controller.updateProduct (5 handlers)
+[GIN-debug] GET    /getProductById           --> stock/apps/fleetDashboard/controller.getProductById (5 handlers)
+[GIN-debug] GET    /deleteProducts           --> stock/apps/fleetDashboard/controller.deleteProducts (5 handlers)
+[GIN-debug] GET    /getProducts              --> stock/apps/fleetDashboard/controller.getProducts (5 handlers)
+[GIN-debug] POST   /createStock              --> stock/apps/fleetDashboard/controller.createStock (5 handlers)
+[GIN-debug] POST   /updateStock              --> stock/apps/fleetDashboard/controller.updateStock (5 handlers)
+[GIN-debug] GET    /getStockById             --> stock/apps/fleetDashboard/controller.getStockById (5 handlers)
+[GIN-debug] GET    /deleteStocks             --> stock/apps/fleetDashboard/controller.deleteStocks (5 handlers)
+[GIN-debug] GET    /getStocks                --> stock/apps/fleetDashboard/controller.getStocks (5 handlers)
+[GIN-debug] POST   /createPerson             --> stock/apps/fleetDashboard/controller.createPerson (5 handlers)
+[GIN-debug] POST   /updatePerson             --> stock/apps/fleetDashboard/controller.updatePerson (5 handlers)
+[GIN-debug] GET    /getPersonById            --> stock/apps/fleetDashboard/controller.getPersonById (5 handlers)
+[GIN-debug] GET    /deletePeople             --> stock/apps/fleetDashboard/controller.deletePeople (5 handlers)
+[GIN-debug] GET    /getPeople                --> stock/apps/fleetDashboard/controller.getPeople (5 handlers)
+DEBUG: 2018/07/29 14:14:24 [SELECT s.id,s.product_id,s.qty,s.dealer_id,s.creation_date,s.update_date,p.barcode,p.name,p.description,p.category,p.purchase_price,p.sale_price,p.register_date,per.id,per.name
+						FROM stock_demo.stock AS s
+						JOIN stock_demo.product AS p ON s.product_id = p.id 
+						LEFT JOIN stock_demo.person AS per ON s.dealer_id = per.id WHERE  p.barcode LIKE '%1234%'  AND  p.name LIKE '%gofret%'  ORDER BY  p.name  ASC  LIMIT 0,10]
+[GIN-debug] [WARNING] Headers were already written. Wanted to override status code 200 with 500
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] POST   /createProduct            --> stock/apps/fleetDashboard/controller.createProduct (5 handlers)
+[GIN-debug] POST   /updateProduct            --> stock/apps/fleetDashboard/controller.updateProduct (5 handlers)
+[GIN-debug] GET    /getProductById           --> stock/apps/fleetDashboard/controller.getProductById (5 handlers)
+[GIN-debug] GET    /deleteProducts           --> stock/apps/fleetDashboard/controller.deleteProducts (5 handlers)
+[GIN-debug] GET    /getProducts              --> stock/apps/fleetDashboard/controller.getProducts (5 handlers)
+[GIN-debug] POST   /createStock              --> stock/apps/fleetDashboard/controller.createStock (5 handlers)
+[GIN-debug] POST   /updateStock              --> stock/apps/fleetDashboard/controller.updateStock (5 handlers)
+[GIN-debug] GET    /getStockById             --> stock/apps/fleetDashboard/controller.getStockById (5 handlers)
+[GIN-debug] GET    /deleteStocks             --> stock/apps/fleetDashboard/controller.deleteStocks (5 handlers)
+[GIN-debug] GET    /getStocks                --> stock/apps/fleetDashboard/controller.getStocks (5 handlers)
+[GIN-debug] POST   /createPerson             --> stock/apps/fleetDashboard/controller.createPerson (5 handlers)
+[GIN-debug] POST   /updatePerson             --> stock/apps/fleetDashboard/controller.updatePerson (5 handlers)
+[GIN-debug] GET    /getPersonById            --> stock/apps/fleetDashboard/controller.getPersonById (5 handlers)
+[GIN-debug] GET    /deletePeople             --> stock/apps/fleetDashboard/controller.deletePeople (5 handlers)
+[GIN-debug] GET    /getPeople                --> stock/apps/fleetDashboard/controller.getPeople (5 handlers)
+DEBUG: 2018/07/29 14:19:02 [SELECT s.id,s.product_id,s.qty,s.dealer_id,s.creation_date,s.update_date,p.barcode,p.name,p.description,p.category,p.purchase_price,p.sale_price,p.register_date,per.id,per.name
+						FROM stock_demo.stock AS s
+						JOIN stock_demo.product AS p ON s.product_id = p.id 
+						LEFT JOIN stock_demo.person AS per ON s.dealer_id = per.id WHERE  p.barcode LIKE '%1234%'  AND  p.name LIKE '%gofret%'  ORDER BY  p.name  ASC  LIMIT 0,10]
+ERROR: 2018/07/29 14:19:02 common/gateways/sql/stockRepo.go : 308 [Error 1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'string=stock_demo) WHERE  p.barcode LIKE '%1234%'  AND  p.name LIKE '%gofret%'' at line 2]
+[GIN-debug] [WARNING] Headers were already written. Wanted to override status code 200 with 500
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] POST   /createProduct            --> stock/apps/fleetDashboard/controller.createProduct (5 handlers)
+[GIN-debug] POST   /updateProduct            --> stock/apps/fleetDashboard/controller.updateProduct (5 handlers)
+[GIN-debug] GET    /getProductById           --> stock/apps/fleetDashboard/controller.getProductById (5 handlers)
+[GIN-debug] GET    /deleteProducts           --> stock/apps/fleetDashboard/controller.deleteProducts (5 handlers)
+[GIN-debug] GET    /getProducts              --> stock/apps/fleetDashboard/controller.getProducts (5 handlers)
+[GIN-debug] POST   /createStock              --> stock/apps/fleetDashboard/controller.createStock (5 handlers)
+[GIN-debug] POST   /updateStock              --> stock/apps/fleetDashboard/controller.updateStock (5 handlers)
+[GIN-debug] GET    /getStockById             --> stock/apps/fleetDashboard/controller.getStockById (5 handlers)
+[GIN-debug] GET    /deleteStocks             --> stock/apps/fleetDashboard/controller.deleteStocks (5 handlers)
+[GIN-debug] GET    /getStocks                --> stock/apps/fleetDashboard/controller.getStocks (5 handlers)
+[GIN-debug] POST   /createPerson             --> stock/apps/fleetDashboard/controller.createPerson (5 handlers)
+[GIN-debug] POST   /updatePerson             --> stock/apps/fleetDashboard/controller.updatePerson (5 handlers)
+[GIN-debug] GET    /getPersonById            --> stock/apps/fleetDashboard/controller.getPersonById (5 handlers)
+[GIN-debug] GET    /deletePeople             --> stock/apps/fleetDashboard/controller.deletePeople (5 handlers)
+[GIN-debug] GET    /getPeople                --> stock/apps/fleetDashboard/controller.getPeople (5 handlers)
+DEBUG: 2018/07/29 14:20:08 [SELECT s.id,s.product_id,s.qty,s.dealer_id,s.creation_date,s.update_date,p.barcode,p.name,p.description,p.category,p.purchase_price,p.sale_price,p.register_date,per.id,per.name
+						FROM stock_demo.stock AS s
+						JOIN stock_demo.product AS p ON s.product_id = p.id 
+						LEFT JOIN stock_demo.person AS per ON s.dealer_id = per.id WHERE  p.barcode LIKE '%1234%'  AND  p.name LIKE '%gofret%'  ORDER BY  p.name  ASC  LIMIT 0,10]
+ERROR: 2018/07/29 14:20:08 common/gateways/sql/stockRepo.go : 310 [Error 1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'FROM %!s(MISSING).stock AS s
+						JOIN %!s(MISSING).product AS p ON s.product_i' at line 2]
+[GIN-debug] [WARNING] Headers were already written. Wanted to override status code 200 with 500
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] POST   /createProduct            --> stock/apps/fleetDashboard/controller.createProduct (5 handlers)
+[GIN-debug] POST   /updateProduct            --> stock/apps/fleetDashboard/controller.updateProduct (5 handlers)
+[GIN-debug] GET    /getProductById           --> stock/apps/fleetDashboard/controller.getProductById (5 handlers)
+[GIN-debug] GET    /deleteProducts           --> stock/apps/fleetDashboard/controller.deleteProducts (5 handlers)
+[GIN-debug] GET    /getProducts              --> stock/apps/fleetDashboard/controller.getProducts (5 handlers)
+[GIN-debug] POST   /createStock              --> stock/apps/fleetDashboard/controller.createStock (5 handlers)
+[GIN-debug] POST   /updateStock              --> stock/apps/fleetDashboard/controller.updateStock (5 handlers)
+[GIN-debug] GET    /getStockById             --> stock/apps/fleetDashboard/controller.getStockById (5 handlers)
+[GIN-debug] GET    /deleteStocks             --> stock/apps/fleetDashboard/controller.deleteStocks (5 handlers)
+[GIN-debug] GET    /getStocks                --> stock/apps/fleetDashboard/controller.getStocks (5 handlers)
+[GIN-debug] POST   /createPerson             --> stock/apps/fleetDashboard/controller.createPerson (5 handlers)
+[GIN-debug] POST   /updatePerson             --> stock/apps/fleetDashboard/controller.updatePerson (5 handlers)
+[GIN-debug] GET    /getPersonById            --> stock/apps/fleetDashboard/controller.getPersonById (5 handlers)
+[GIN-debug] GET    /deletePeople             --> stock/apps/fleetDashboard/controller.deletePeople (5 handlers)
+[GIN-debug] GET    /getPeople                --> stock/apps/fleetDashboard/controller.getPeople (5 handlers)
+DEBUG: 2018/07/29 14:21:02 [SELECT s.id,s.product_id,s.qty,s.dealer_id,s.creation_date,s.update_date,p.barcode,p.name,p.description,p.category,p.purchase_price,p.sale_price,p.register_date,per.id,per.name
+						FROM stock_demo.stock AS s
+						JOIN stock_demo.product AS p ON s.product_id = p.id 
+						LEFT JOIN stock_demo.person AS per ON s.dealer_id = per.id WHERE  p.barcode LIKE '%1234%'  AND  p.name LIKE '%gofret%'  ORDER BY  p.name  ASC  LIMIT 0,10]
+ERROR: 2018/07/29 14:21:02 common/gateways/sql/stockRepo.go : 310 [Error 1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'FROM stock_demo.stock AS s
+						JOIN stock_demo.product AS p ON s.product_id = ' at line 2]
+[GIN-debug] [WARNING] Headers were already written. Wanted to override status code 200 with 500
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] POST   /createProduct            --> stock/apps/fleetDashboard/controller.createProduct (5 handlers)
+[GIN-debug] POST   /updateProduct            --> stock/apps/fleetDashboard/controller.updateProduct (5 handlers)
+[GIN-debug] GET    /getProductById           --> stock/apps/fleetDashboard/controller.getProductById (5 handlers)
+[GIN-debug] GET    /deleteProducts           --> stock/apps/fleetDashboard/controller.deleteProducts (5 handlers)
+[GIN-debug] GET    /getProducts              --> stock/apps/fleetDashboard/controller.getProducts (5 handlers)
+[GIN-debug] POST   /createStock              --> stock/apps/fleetDashboard/controller.createStock (5 handlers)
+[GIN-debug] POST   /updateStock              --> stock/apps/fleetDashboard/controller.updateStock (5 handlers)
+[GIN-debug] GET    /getStockById             --> stock/apps/fleetDashboard/controller.getStockById (5 handlers)
+[GIN-debug] GET    /deleteStocks             --> stock/apps/fleetDashboard/controller.deleteStocks (5 handlers)
+[GIN-debug] GET    /getStocks                --> stock/apps/fleetDashboard/controller.getStocks (5 handlers)
+[GIN-debug] POST   /createPerson             --> stock/apps/fleetDashboard/controller.createPerson (5 handlers)
+[GIN-debug] POST   /updatePerson             --> stock/apps/fleetDashboard/controller.updatePerson (5 handlers)
+[GIN-debug] GET    /getPersonById            --> stock/apps/fleetDashboard/controller.getPersonById (5 handlers)
+[GIN-debug] GET    /deletePeople             --> stock/apps/fleetDashboard/controller.deletePeople (5 handlers)
+[GIN-debug] GET    /getPeople                --> stock/apps/fleetDashboard/controller.getPeople (5 handlers)
+DEBUG: 2018/07/29 14:21:58 [SELECT s.id,s.product_id,s.qty,s.dealer_id,s.creation_date,s.update_date,p.barcode,p.name,p.description,p.category,p.purchase_price,p.sale_price,p.register_date,per.id,per.name
+						FROM stock_demo.stock AS s
+						JOIN stock_demo.product AS p ON s.product_id = p.id 
+						LEFT JOIN stock_demo.person AS per ON s.dealer_id = per.id WHERE  p.barcode LIKE '%1234%'  AND  p.name LIKE '%gofret%'  ORDER BY  p.name  ASC  LIMIT 0,10]
+INFO: 2018/07/29 14:21:58 [200 GET /getStocks 4.821294ms]
+DEBUG: 2018/07/29 14:22:41 [SELECT * FROM stock_demo.person WHERE  p_type LIKE '%Tedarikçi%'  ORDER BY  name  ASC  LIMIT 0,10]
+INFO: 2018/07/29 14:22:41 [200 GET /getPeople 8.379039ms]
+DEBUG: 2018/07/29 14:22:46 [SELECT * FROM stock_demo.product WHERE  barcode LIKE '%1234%'  AND  name LIKE '%gofret%'  ORDER BY  name  ASC  LIMIT 0,10]
+INFO: 2018/07/29 14:22:46 [200 GET /getProducts 3.571621ms]
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] POST   /createProduct            --> stock/apps/fleetDashboard/controller.createProduct (5 handlers)
+[GIN-debug] POST   /updateProduct            --> stock/apps/fleetDashboard/controller.updateProduct (5 handlers)
+[GIN-debug] GET    /getProductById           --> stock/apps/fleetDashboard/controller.getProductById (5 handlers)
+[GIN-debug] GET    /deleteProducts           --> stock/apps/fleetDashboard/controller.deleteProducts (5 handlers)
+[GIN-debug] GET    /getProducts              --> stock/apps/fleetDashboard/controller.getProducts (5 handlers)
+[GIN-debug] POST   /createStock              --> stock/apps/fleetDashboard/controller.createStock (5 handlers)
+[GIN-debug] POST   /updateStock              --> stock/apps/fleetDashboard/controller.updateStock (5 handlers)
+[GIN-debug] GET    /getStockById             --> stock/apps/fleetDashboard/controller.getStockById (5 handlers)
+[GIN-debug] GET    /deleteStocks             --> stock/apps/fleetDashboard/controller.deleteStocks (5 handlers)
+[GIN-debug] GET    /getStocks                --> stock/apps/fleetDashboard/controller.getStocks (5 handlers)
+[GIN-debug] POST   /createPerson             --> stock/apps/fleetDashboard/controller.createPerson (5 handlers)
+[GIN-debug] POST   /updatePerson             --> stock/apps/fleetDashboard/controller.updatePerson (5 handlers)
+[GIN-debug] GET    /getPersonById            --> stock/apps/fleetDashboard/controller.getPersonById (5 handlers)
+[GIN-debug] GET    /deletePeople             --> stock/apps/fleetDashboard/controller.deletePeople (5 handlers)
+[GIN-debug] GET    /getPeople                --> stock/apps/fleetDashboard/controller.getPeople (5 handlers)
+[GIN-debug] POST   /createReceiving          --> stock/apps/fleetDashboard/controller.createReceiving (5 handlers)
+[GIN-debug] POST   /updateReceiving          --> stock/apps/fleetDashboard/controller.updateReceiving (5 handlers)
+[GIN-debug] GET    /getReceivingById         --> stock/apps/fleetDashboard/controller.getReceivingById (5 handlers)
+[GIN-debug] GET    /deleteReceivings         --> stock/apps/fleetDashboard/controller.deleteReceivings (5 handlers)
+[GIN-debug] GET    /getReceivings            --> stock/apps/fleetDashboard/controller.getReceivings (5 handlers)
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] POST   /createProduct            --> stock/apps/fleetDashboard/controller.createProduct (5 handlers)
+[GIN-debug] POST   /updateProduct            --> stock/apps/fleetDashboard/controller.updateProduct (5 handlers)
+[GIN-debug] GET    /getProductById           --> stock/apps/fleetDashboard/controller.getProductById (5 handlers)
+[GIN-debug] GET    /deleteProducts           --> stock/apps/fleetDashboard/controller.deleteProducts (5 handlers)
+[GIN-debug] GET    /getProducts              --> stock/apps/fleetDashboard/controller.getProducts (5 handlers)
+[GIN-debug] POST   /createStock              --> stock/apps/fleetDashboard/controller.createStock (5 handlers)
+[GIN-debug] POST   /updateStock              --> stock/apps/fleetDashboard/controller.updateStock (5 handlers)
+[GIN-debug] GET    /getStockById             --> stock/apps/fleetDashboard/controller.getStockById (5 handlers)
+[GIN-debug] GET    /deleteStocks             --> stock/apps/fleetDashboard/controller.deleteStocks (5 handlers)
+[GIN-debug] GET    /getStocks                --> stock/apps/fleetDashboard/controller.getStocks (5 handlers)
+[GIN-debug] POST   /createPerson             --> stock/apps/fleetDashboard/controller.createPerson (5 handlers)
+[GIN-debug] POST   /updatePerson             --> stock/apps/fleetDashboard/controller.updatePerson (5 handlers)
+[GIN-debug] GET    /getPersonById            --> stock/apps/fleetDashboard/controller.getPersonById (5 handlers)
+[GIN-debug] GET    /deletePeople             --> stock/apps/fleetDashboard/controller.deletePeople (5 handlers)
+[GIN-debug] GET    /getPeople                --> stock/apps/fleetDashboard/controller.getPeople (5 handlers)
+[GIN-debug] POST   /createReceiving          --> stock/apps/fleetDashboard/controller.createReceiving (5 handlers)
+[GIN-debug] POST   /updateReceiving          --> stock/apps/fleetDashboard/controller.updateReceiving (5 handlers)
+[GIN-debug] GET    /getReceivingById         --> stock/apps/fleetDashboard/controller.getReceivingById (5 handlers)
+[GIN-debug] GET    /deleteReceivings         --> stock/apps/fleetDashboard/controller.deleteReceivings (5 handlers)
+[GIN-debug] GET    /getReceivings            --> stock/apps/fleetDashboard/controller.getReceivings (5 handlers)
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] POST   /createProduct            --> stock/apps/fleetDashboard/controller.createProduct (5 handlers)
+[GIN-debug] POST   /updateProduct            --> stock/apps/fleetDashboard/controller.updateProduct (5 handlers)
+[GIN-debug] GET    /getProductById           --> stock/apps/fleetDashboard/controller.getProductById (5 handlers)
+[GIN-debug] GET    /deleteProducts           --> stock/apps/fleetDashboard/controller.deleteProducts (5 handlers)
+[GIN-debug] GET    /getProducts              --> stock/apps/fleetDashboard/controller.getProducts (5 handlers)
+[GIN-debug] POST   /createStock              --> stock/apps/fleetDashboard/controller.createStock (5 handlers)
+[GIN-debug] POST   /updateStock              --> stock/apps/fleetDashboard/controller.updateStock (5 handlers)
+[GIN-debug] GET    /getStockById             --> stock/apps/fleetDashboard/controller.getStockById (5 handlers)
+[GIN-debug] GET    /deleteStocks             --> stock/apps/fleetDashboard/controller.deleteStocks (5 handlers)
+[GIN-debug] GET    /getStocks                --> stock/apps/fleetDashboard/controller.getStocks (5 handlers)
+[GIN-debug] POST   /createPerson             --> stock/apps/fleetDashboard/controller.createPerson (5 handlers)
+[GIN-debug] POST   /updatePerson             --> stock/apps/fleetDashboard/controller.updatePerson (5 handlers)
+[GIN-debug] GET    /getPersonById            --> stock/apps/fleetDashboard/controller.getPersonById (5 handlers)
+[GIN-debug] GET    /deletePeople             --> stock/apps/fleetDashboard/controller.deletePeople (5 handlers)
+[GIN-debug] GET    /getPeople                --> stock/apps/fleetDashboard/controller.getPeople (5 handlers)
+[GIN-debug] POST   /createReceiving          --> stock/apps/fleetDashboard/controller.createReceiving (5 handlers)
+[GIN-debug] POST   /updateReceiving          --> stock/apps/fleetDashboard/controller.updateReceiving (5 handlers)
+[GIN-debug] GET    /getReceivingById         --> stock/apps/fleetDashboard/controller.getReceivingById (5 handlers)
+[GIN-debug] GET    /deleteReceivings         --> stock/apps/fleetDashboard/controller.deleteReceivings (5 handlers)
+[GIN-debug] GET    /getReceivings            --> stock/apps/fleetDashboard/controller.getReceivings (5 handlers)
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] POST   /createProduct            --> stock/apps/fleetDashboard/controller.createProduct (5 handlers)
+[GIN-debug] POST   /updateProduct            --> stock/apps/fleetDashboard/controller.updateProduct (5 handlers)
+[GIN-debug] GET    /getProductById           --> stock/apps/fleetDashboard/controller.getProductById (5 handlers)
+[GIN-debug] GET    /deleteProducts           --> stock/apps/fleetDashboard/controller.deleteProducts (5 handlers)
+[GIN-debug] GET    /getProducts              --> stock/apps/fleetDashboard/controller.getProducts (5 handlers)
+[GIN-debug] POST   /createStock              --> stock/apps/fleetDashboard/controller.createStock (5 handlers)
+[GIN-debug] POST   /updateStock              --> stock/apps/fleetDashboard/controller.updateStock (5 handlers)
+[GIN-debug] GET    /getStockById             --> stock/apps/fleetDashboard/controller.getStockById (5 handlers)
+[GIN-debug] GET    /deleteStocks             --> stock/apps/fleetDashboard/controller.deleteStocks (5 handlers)
+[GIN-debug] GET    /getStocks                --> stock/apps/fleetDashboard/controller.getStocks (5 handlers)
+[GIN-debug] POST   /createPerson             --> stock/apps/fleetDashboard/controller.createPerson (5 handlers)
+[GIN-debug] POST   /updatePerson             --> stock/apps/fleetDashboard/controller.updatePerson (5 handlers)
+[GIN-debug] GET    /getPersonById            --> stock/apps/fleetDashboard/controller.getPersonById (5 handlers)
+[GIN-debug] GET    /deletePeople             --> stock/apps/fleetDashboard/controller.deletePeople (5 handlers)
+[GIN-debug] GET    /getPeople                --> stock/apps/fleetDashboard/controller.getPeople (5 handlers)
+[GIN-debug] POST   /createReceiving          --> stock/apps/fleetDashboard/controller.createReceiving (5 handlers)
+[GIN-debug] POST   /updateReceiving          --> stock/apps/fleetDashboard/controller.updateReceiving (5 handlers)
+[GIN-debug] GET    /getReceivingById         --> stock/apps/fleetDashboard/controller.getReceivingById (5 handlers)
+[GIN-debug] GET    /deleteReceivings         --> stock/apps/fleetDashboard/controller.deleteReceivings (5 handlers)
+[GIN-debug] GET    /getReceivings            --> stock/apps/fleetDashboard/controller.getReceivings (5 handlers)
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] POST   /createProduct            --> stock/apps/fleetDashboard/controller.createProduct (5 handlers)
+[GIN-debug] POST   /updateProduct            --> stock/apps/fleetDashboard/controller.updateProduct (5 handlers)
+[GIN-debug] GET    /getProductById           --> stock/apps/fleetDashboard/controller.getProductById (5 handlers)
+[GIN-debug] GET    /deleteProducts           --> stock/apps/fleetDashboard/controller.deleteProducts (5 handlers)
+[GIN-debug] GET    /getProducts              --> stock/apps/fleetDashboard/controller.getProducts (5 handlers)
+[GIN-debug] POST   /createStock              --> stock/apps/fleetDashboard/controller.createStock (5 handlers)
+[GIN-debug] POST   /updateStock              --> stock/apps/fleetDashboard/controller.updateStock (5 handlers)
+[GIN-debug] GET    /getStockById             --> stock/apps/fleetDashboard/controller.getStockById (5 handlers)
+[GIN-debug] GET    /deleteStocks             --> stock/apps/fleetDashboard/controller.deleteStocks (5 handlers)
+[GIN-debug] GET    /getStocks                --> stock/apps/fleetDashboard/controller.getStocks (5 handlers)
+[GIN-debug] POST   /createPerson             --> stock/apps/fleetDashboard/controller.createPerson (5 handlers)
+[GIN-debug] POST   /updatePerson             --> stock/apps/fleetDashboard/controller.updatePerson (5 handlers)
+[GIN-debug] GET    /getPersonById            --> stock/apps/fleetDashboard/controller.getPersonById (5 handlers)
+[GIN-debug] GET    /deletePeople             --> stock/apps/fleetDashboard/controller.deletePeople (5 handlers)
+[GIN-debug] GET    /getPeople                --> stock/apps/fleetDashboard/controller.getPeople (5 handlers)
+[GIN-debug] POST   /createReceiving          --> stock/apps/fleetDashboard/controller.createReceiving (5 handlers)
+[GIN-debug] POST   /updateReceiving          --> stock/apps/fleetDashboard/controller.updateReceiving (5 handlers)
+[GIN-debug] GET    /getReceivingById         --> stock/apps/fleetDashboard/controller.getReceivingById (5 handlers)
+[GIN-debug] GET    /deleteReceivings         --> stock/apps/fleetDashboard/controller.deleteReceivings (5 handlers)
+[GIN-debug] GET    /getReceivings            --> stock/apps/fleetDashboard/controller.getReceivings (5 handlers)
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] POST   /createProduct            --> stock/apps/fleetDashboard/controller.createProduct (5 handlers)
+[GIN-debug] POST   /updateProduct            --> stock/apps/fleetDashboard/controller.updateProduct (5 handlers)
+[GIN-debug] GET    /getProductById           --> stock/apps/fleetDashboard/controller.getProductById (5 handlers)
+[GIN-debug] GET    /deleteProducts           --> stock/apps/fleetDashboard/controller.deleteProducts (5 handlers)
+[GIN-debug] GET    /getProducts              --> stock/apps/fleetDashboard/controller.getProducts (5 handlers)
+[GIN-debug] POST   /createStock              --> stock/apps/fleetDashboard/controller.createStock (5 handlers)
+[GIN-debug] POST   /updateStock              --> stock/apps/fleetDashboard/controller.updateStock (5 handlers)
+[GIN-debug] GET    /getStockById             --> stock/apps/fleetDashboard/controller.getStockById (5 handlers)
+[GIN-debug] GET    /deleteStocks             --> stock/apps/fleetDashboard/controller.deleteStocks (5 handlers)
+[GIN-debug] GET    /getStocks                --> stock/apps/fleetDashboard/controller.getStocks (5 handlers)
+[GIN-debug] POST   /createPerson             --> stock/apps/fleetDashboard/controller.createPerson (5 handlers)
+[GIN-debug] POST   /updatePerson             --> stock/apps/fleetDashboard/controller.updatePerson (5 handlers)
+[GIN-debug] GET    /getPersonById            --> stock/apps/fleetDashboard/controller.getPersonById (5 handlers)
+[GIN-debug] GET    /deletePeople             --> stock/apps/fleetDashboard/controller.deletePeople (5 handlers)
+[GIN-debug] GET    /getPeople                --> stock/apps/fleetDashboard/controller.getPeople (5 handlers)
+[GIN-debug] POST   /createReceiving          --> stock/apps/fleetDashboard/controller.createReceiving (5 handlers)
+[GIN-debug] POST   /updateReceiving          --> stock/apps/fleetDashboard/controller.updateReceiving (5 handlers)
+[GIN-debug] GET    /getReceivingById         --> stock/apps/fleetDashboard/controller.getReceivingById (5 handlers)
+[GIN-debug] GET    /deleteReceivings         --> stock/apps/fleetDashboard/controller.deleteReceivings (5 handlers)
+[GIN-debug] GET    /getReceivings            --> stock/apps/fleetDashboard/controller.getReceivings (5 handlers)
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] POST   /createProduct            --> stock/apps/fleetDashboard/controller.createProduct (5 handlers)
+[GIN-debug] POST   /updateProduct            --> stock/apps/fleetDashboard/controller.updateProduct (5 handlers)
+[GIN-debug] GET    /getProductById           --> stock/apps/fleetDashboard/controller.getProductById (5 handlers)
+[GIN-debug] GET    /deleteProducts           --> stock/apps/fleetDashboard/controller.deleteProducts (5 handlers)
+[GIN-debug] GET    /getProducts              --> stock/apps/fleetDashboard/controller.getProducts (5 handlers)
+[GIN-debug] POST   /createStock              --> stock/apps/fleetDashboard/controller.createStock (5 handlers)
+[GIN-debug] POST   /updateStock              --> stock/apps/fleetDashboard/controller.updateStock (5 handlers)
+[GIN-debug] GET    /getStockById             --> stock/apps/fleetDashboard/controller.getStockById (5 handlers)
+[GIN-debug] GET    /deleteStocks             --> stock/apps/fleetDashboard/controller.deleteStocks (5 handlers)
+[GIN-debug] GET    /getStocks                --> stock/apps/fleetDashboard/controller.getStocks (5 handlers)
+[GIN-debug] POST   /createPerson             --> stock/apps/fleetDashboard/controller.createPerson (5 handlers)
+[GIN-debug] POST   /updatePerson             --> stock/apps/fleetDashboard/controller.updatePerson (5 handlers)
+[GIN-debug] GET    /getPersonById            --> stock/apps/fleetDashboard/controller.getPersonById (5 handlers)
+[GIN-debug] GET    /deletePeople             --> stock/apps/fleetDashboard/controller.deletePeople (5 handlers)
+[GIN-debug] GET    /getPeople                --> stock/apps/fleetDashboard/controller.getPeople (5 handlers)
+[GIN-debug] POST   /createReceiving          --> stock/apps/fleetDashboard/controller.createReceiving (5 handlers)
+[GIN-debug] POST   /updateReceiving          --> stock/apps/fleetDashboard/controller.updateReceiving (5 handlers)
+[GIN-debug] GET    /getReceivingById         --> stock/apps/fleetDashboard/controller.getReceivingById (5 handlers)
+[GIN-debug] GET    /deleteReceivings         --> stock/apps/fleetDashboard/controller.deleteReceivings (5 handlers)
+[GIN-debug] GET    /getReceivings            --> stock/apps/fleetDashboard/controller.getReceivings (5 handlers)
+ERROR: 2018/07/29 22:31:42 common/gateways/sql/receivingRepo.go : 47 [Error 1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'FOREIGN KEY (person_id) REFERENCES stock_demo.person (id)
+)ENGINE=InnoDB DEFAULT' at line 9]
+ERROR: 2018/07/29 22:31:42 common/gateways/sql/receivingRepo.go : 52 [Error 1146: Table 'stock_demo.receiving' doesn't exist]
+ERROR: 2018/07/29 22:31:42 common/gateways/sql/receivingRepo.go : 57 [Error 1146: Table 'stock_demo.receiving' doesn't exist]
+ERROR: 2018/07/29 22:31:42 common/gateways/sql/receivingRepo.go : 62 [Error 1146: Table 'stock_demo.receiving' doesn't exist]
+ERROR: 2018/07/29 22:31:42 common/gateways/sql/receivingRepo.go : 66 [Error 1146: Table 'stock_demo.receiving' doesn't exist]
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] POST   /createProduct            --> stock/apps/fleetDashboard/controller.createProduct (5 handlers)
+[GIN-debug] POST   /updateProduct            --> stock/apps/fleetDashboard/controller.updateProduct (5 handlers)
+[GIN-debug] GET    /getProductById           --> stock/apps/fleetDashboard/controller.getProductById (5 handlers)
+[GIN-debug] GET    /deleteProducts           --> stock/apps/fleetDashboard/controller.deleteProducts (5 handlers)
+[GIN-debug] GET    /getProducts              --> stock/apps/fleetDashboard/controller.getProducts (5 handlers)
+[GIN-debug] POST   /createStock              --> stock/apps/fleetDashboard/controller.createStock (5 handlers)
+[GIN-debug] POST   /updateStock              --> stock/apps/fleetDashboard/controller.updateStock (5 handlers)
+[GIN-debug] GET    /getStockById             --> stock/apps/fleetDashboard/controller.getStockById (5 handlers)
+[GIN-debug] GET    /deleteStocks             --> stock/apps/fleetDashboard/controller.deleteStocks (5 handlers)
+[GIN-debug] GET    /getStocks                --> stock/apps/fleetDashboard/controller.getStocks (5 handlers)
+[GIN-debug] POST   /createPerson             --> stock/apps/fleetDashboard/controller.createPerson (5 handlers)
+[GIN-debug] POST   /updatePerson             --> stock/apps/fleetDashboard/controller.updatePerson (5 handlers)
+[GIN-debug] GET    /getPersonById            --> stock/apps/fleetDashboard/controller.getPersonById (5 handlers)
+[GIN-debug] GET    /deletePeople             --> stock/apps/fleetDashboard/controller.deletePeople (5 handlers)
+[GIN-debug] GET    /getPeople                --> stock/apps/fleetDashboard/controller.getPeople (5 handlers)
+[GIN-debug] POST   /createReceiving          --> stock/apps/fleetDashboard/controller.createReceiving (5 handlers)
+[GIN-debug] POST   /updateReceiving          --> stock/apps/fleetDashboard/controller.updateReceiving (5 handlers)
+[GIN-debug] GET    /getReceivingById         --> stock/apps/fleetDashboard/controller.getReceivingById (5 handlers)
+[GIN-debug] GET    /deleteReceivings         --> stock/apps/fleetDashboard/controller.deleteReceivings (5 handlers)
+[GIN-debug] GET    /getReceivings            --> stock/apps/fleetDashboard/controller.getReceivings (5 handlers)
+ERROR: 2018/07/29 22:34:02 common/gateways/sql/receivingRepo.go : 47 [Error 1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'FOREIGN KEY (person_id) REFERENCES stock_demo.person (id)
+)ENGINE=InnoDB DEFAULT' at line 9]
+ERROR: 2018/07/29 22:34:02 common/gateways/sql/receivingRepo.go : 52 [Error 1146: Table 'stock_demo.receiving' doesn't exist]
+ERROR: 2018/07/29 22:34:02 common/gateways/sql/receivingRepo.go : 57 [Error 1146: Table 'stock_demo.receiving' doesn't exist]
+ERROR: 2018/07/29 22:34:02 common/gateways/sql/receivingRepo.go : 62 [Error 1146: Table 'stock_demo.receiving' doesn't exist]
+ERROR: 2018/07/29 22:34:02 common/gateways/sql/receivingRepo.go : 66 [Error 1146: Table 'stock_demo.receiving' doesn't exist]
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] POST   /createProduct            --> stock/apps/fleetDashboard/controller.createProduct (5 handlers)
+[GIN-debug] POST   /updateProduct            --> stock/apps/fleetDashboard/controller.updateProduct (5 handlers)
+[GIN-debug] GET    /getProductById           --> stock/apps/fleetDashboard/controller.getProductById (5 handlers)
+[GIN-debug] GET    /deleteProducts           --> stock/apps/fleetDashboard/controller.deleteProducts (5 handlers)
+[GIN-debug] GET    /getProducts              --> stock/apps/fleetDashboard/controller.getProducts (5 handlers)
+[GIN-debug] POST   /createStock              --> stock/apps/fleetDashboard/controller.createStock (5 handlers)
+[GIN-debug] POST   /updateStock              --> stock/apps/fleetDashboard/controller.updateStock (5 handlers)
+[GIN-debug] GET    /getStockById             --> stock/apps/fleetDashboard/controller.getStockById (5 handlers)
+[GIN-debug] GET    /deleteStocks             --> stock/apps/fleetDashboard/controller.deleteStocks (5 handlers)
+[GIN-debug] GET    /getStocks                --> stock/apps/fleetDashboard/controller.getStocks (5 handlers)
+[GIN-debug] POST   /createPerson             --> stock/apps/fleetDashboard/controller.createPerson (5 handlers)
+[GIN-debug] POST   /updatePerson             --> stock/apps/fleetDashboard/controller.updatePerson (5 handlers)
+[GIN-debug] GET    /getPersonById            --> stock/apps/fleetDashboard/controller.getPersonById (5 handlers)
+[GIN-debug] GET    /deletePeople             --> stock/apps/fleetDashboard/controller.deletePeople (5 handlers)
+[GIN-debug] GET    /getPeople                --> stock/apps/fleetDashboard/controller.getPeople (5 handlers)
+[GIN-debug] POST   /createReceiving          --> stock/apps/fleetDashboard/controller.createReceiving (5 handlers)
+[GIN-debug] POST   /updateReceiving          --> stock/apps/fleetDashboard/controller.updateReceiving (5 handlers)
+[GIN-debug] GET    /getReceivingById         --> stock/apps/fleetDashboard/controller.getReceivingById (5 handlers)
+[GIN-debug] GET    /deleteReceivings         --> stock/apps/fleetDashboard/controller.deleteReceivings (5 handlers)
+[GIN-debug] GET    /getReceivings            --> stock/apps/fleetDashboard/controller.getReceivings (5 handlers)
+ERROR: 2018/07/29 22:34:22 common/gateways/sql/receivingRepo.go : 47 [Error 1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'FOREIGN KEY (person_id) REFERENCES stock_demo.person (id)
+)ENGINE=InnoDB DEFAULT' at line 9]
+ERROR: 2018/07/29 22:34:22 common/gateways/sql/receivingRepo.go : 52 [Error 1146: Table 'stock_demo.receiving' doesn't exist]
+ERROR: 2018/07/29 22:34:22 common/gateways/sql/receivingRepo.go : 57 [Error 1146: Table 'stock_demo.receiving' doesn't exist]
+ERROR: 2018/07/29 22:34:22 common/gateways/sql/receivingRepo.go : 62 [Error 1146: Table 'stock_demo.receiving' doesn't exist]
+ERROR: 2018/07/29 22:34:22 common/gateways/sql/receivingRepo.go : 66 [Error 1146: Table 'stock_demo.receiving' doesn't exist]
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] POST   /createProduct            --> stock/apps/fleetDashboard/controller.createProduct (5 handlers)
+[GIN-debug] POST   /updateProduct            --> stock/apps/fleetDashboard/controller.updateProduct (5 handlers)
+[GIN-debug] GET    /getProductById           --> stock/apps/fleetDashboard/controller.getProductById (5 handlers)
+[GIN-debug] GET    /deleteProducts           --> stock/apps/fleetDashboard/controller.deleteProducts (5 handlers)
+[GIN-debug] GET    /getProducts              --> stock/apps/fleetDashboard/controller.getProducts (5 handlers)
+[GIN-debug] POST   /createStock              --> stock/apps/fleetDashboard/controller.createStock (5 handlers)
+[GIN-debug] POST   /updateStock              --> stock/apps/fleetDashboard/controller.updateStock (5 handlers)
+[GIN-debug] GET    /getStockById             --> stock/apps/fleetDashboard/controller.getStockById (5 handlers)
+[GIN-debug] GET    /deleteStocks             --> stock/apps/fleetDashboard/controller.deleteStocks (5 handlers)
+[GIN-debug] GET    /getStocks                --> stock/apps/fleetDashboard/controller.getStocks (5 handlers)
+[GIN-debug] POST   /createPerson             --> stock/apps/fleetDashboard/controller.createPerson (5 handlers)
+[GIN-debug] POST   /updatePerson             --> stock/apps/fleetDashboard/controller.updatePerson (5 handlers)
+[GIN-debug] GET    /getPersonById            --> stock/apps/fleetDashboard/controller.getPersonById (5 handlers)
+[GIN-debug] GET    /deletePeople             --> stock/apps/fleetDashboard/controller.deletePeople (5 handlers)
+[GIN-debug] GET    /getPeople                --> stock/apps/fleetDashboard/controller.getPeople (5 handlers)
+[GIN-debug] POST   /createReceiving          --> stock/apps/fleetDashboard/controller.createReceiving (5 handlers)
+[GIN-debug] POST   /updateReceiving          --> stock/apps/fleetDashboard/controller.updateReceiving (5 handlers)
+[GIN-debug] GET    /getReceivingById         --> stock/apps/fleetDashboard/controller.getReceivingById (5 handlers)
+[GIN-debug] GET    /deleteReceivings         --> stock/apps/fleetDashboard/controller.deleteReceivings (5 handlers)
+[GIN-debug] GET    /getReceivings            --> stock/apps/fleetDashboard/controller.getReceivings (5 handlers)
+ERROR: 2018/07/29 22:34:30 common/gateways/sql/receivingRepo.go : 47 [Error 1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'FOREIGN KEY (person_id) REFERENCES stock_demo.person (id)
+)ENGINE=InnoDB DEFAULT' at line 9]
+ERROR: 2018/07/29 22:34:30 common/gateways/sql/receivingRepo.go : 52 [Error 1146: Table 'stock_demo.receiving' doesn't exist]
+ERROR: 2018/07/29 22:34:30 common/gateways/sql/receivingRepo.go : 57 [Error 1146: Table 'stock_demo.receiving' doesn't exist]
+ERROR: 2018/07/29 22:34:30 common/gateways/sql/receivingRepo.go : 62 [Error 1146: Table 'stock_demo.receiving' doesn't exist]
+ERROR: 2018/07/29 22:34:30 common/gateways/sql/receivingRepo.go : 66 [Error 1146: Table 'stock_demo.receiving' doesn't exist]
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] POST   /createProduct            --> stock/apps/fleetDashboard/controller.createProduct (5 handlers)
+[GIN-debug] POST   /updateProduct            --> stock/apps/fleetDashboard/controller.updateProduct (5 handlers)
+[GIN-debug] GET    /getProductById           --> stock/apps/fleetDashboard/controller.getProductById (5 handlers)
+[GIN-debug] GET    /deleteProducts           --> stock/apps/fleetDashboard/controller.deleteProducts (5 handlers)
+[GIN-debug] GET    /getProducts              --> stock/apps/fleetDashboard/controller.getProducts (5 handlers)
+[GIN-debug] POST   /createStock              --> stock/apps/fleetDashboard/controller.createStock (5 handlers)
+[GIN-debug] POST   /updateStock              --> stock/apps/fleetDashboard/controller.updateStock (5 handlers)
+[GIN-debug] GET    /getStockById             --> stock/apps/fleetDashboard/controller.getStockById (5 handlers)
+[GIN-debug] GET    /deleteStocks             --> stock/apps/fleetDashboard/controller.deleteStocks (5 handlers)
+[GIN-debug] GET    /getStocks                --> stock/apps/fleetDashboard/controller.getStocks (5 handlers)
+[GIN-debug] POST   /createPerson             --> stock/apps/fleetDashboard/controller.createPerson (5 handlers)
+[GIN-debug] POST   /updatePerson             --> stock/apps/fleetDashboard/controller.updatePerson (5 handlers)
+[GIN-debug] GET    /getPersonById            --> stock/apps/fleetDashboard/controller.getPersonById (5 handlers)
+[GIN-debug] GET    /deletePeople             --> stock/apps/fleetDashboard/controller.deletePeople (5 handlers)
+[GIN-debug] GET    /getPeople                --> stock/apps/fleetDashboard/controller.getPeople (5 handlers)
+[GIN-debug] POST   /createReceiving          --> stock/apps/fleetDashboard/controller.createReceiving (5 handlers)
+[GIN-debug] POST   /updateReceiving          --> stock/apps/fleetDashboard/controller.updateReceiving (5 handlers)
+[GIN-debug] GET    /getReceivingById         --> stock/apps/fleetDashboard/controller.getReceivingById (5 handlers)
+[GIN-debug] GET    /deleteReceivings         --> stock/apps/fleetDashboard/controller.deleteReceivings (5 handlers)
+[GIN-debug] GET    /getReceivings            --> stock/apps/fleetDashboard/controller.getReceivings (5 handlers)
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] POST   /createProduct            --> stock/apps/fleetDashboard/controller.createProduct (5 handlers)
+[GIN-debug] POST   /updateProduct            --> stock/apps/fleetDashboard/controller.updateProduct (5 handlers)
+[GIN-debug] GET    /getProductById           --> stock/apps/fleetDashboard/controller.getProductById (5 handlers)
+[GIN-debug] GET    /deleteProducts           --> stock/apps/fleetDashboard/controller.deleteProducts (5 handlers)
+[GIN-debug] GET    /getProducts              --> stock/apps/fleetDashboard/controller.getProducts (5 handlers)
+[GIN-debug] POST   /createStock              --> stock/apps/fleetDashboard/controller.createStock (5 handlers)
+[GIN-debug] POST   /updateStock              --> stock/apps/fleetDashboard/controller.updateStock (5 handlers)
+[GIN-debug] GET    /getStockById             --> stock/apps/fleetDashboard/controller.getStockById (5 handlers)
+[GIN-debug] GET    /deleteStocks             --> stock/apps/fleetDashboard/controller.deleteStocks (5 handlers)
+[GIN-debug] GET    /getStocks                --> stock/apps/fleetDashboard/controller.getStocks (5 handlers)
+[GIN-debug] POST   /createPerson             --> stock/apps/fleetDashboard/controller.createPerson (5 handlers)
+[GIN-debug] POST   /updatePerson             --> stock/apps/fleetDashboard/controller.updatePerson (5 handlers)
+[GIN-debug] GET    /getPersonById            --> stock/apps/fleetDashboard/controller.getPersonById (5 handlers)
+[GIN-debug] GET    /deletePeople             --> stock/apps/fleetDashboard/controller.deletePeople (5 handlers)
+[GIN-debug] GET    /getPeople                --> stock/apps/fleetDashboard/controller.getPeople (5 handlers)
+[GIN-debug] POST   /createReceiving          --> stock/apps/fleetDashboard/controller.createReceiving (5 handlers)
+[GIN-debug] POST   /updateReceiving          --> stock/apps/fleetDashboard/controller.updateReceiving (5 handlers)
+[GIN-debug] GET    /getReceivingById         --> stock/apps/fleetDashboard/controller.getReceivingById (5 handlers)
+[GIN-debug] GET    /deleteReceivings         --> stock/apps/fleetDashboard/controller.deleteReceivings (5 handlers)
+[GIN-debug] GET    /getReceivings            --> stock/apps/fleetDashboard/controller.getReceivings (5 handlers)
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] POST   /createProduct            --> stock/apps/fleetDashboard/controller.createProduct (5 handlers)
+[GIN-debug] POST   /updateProduct            --> stock/apps/fleetDashboard/controller.updateProduct (5 handlers)
+[GIN-debug] GET    /getProductById           --> stock/apps/fleetDashboard/controller.getProductById (5 handlers)
+[GIN-debug] GET    /deleteProducts           --> stock/apps/fleetDashboard/controller.deleteProducts (5 handlers)
+[GIN-debug] GET    /getProducts              --> stock/apps/fleetDashboard/controller.getProducts (5 handlers)
+[GIN-debug] POST   /createStock              --> stock/apps/fleetDashboard/controller.createStock (5 handlers)
+[GIN-debug] POST   /updateStock              --> stock/apps/fleetDashboard/controller.updateStock (5 handlers)
+[GIN-debug] GET    /getStockById             --> stock/apps/fleetDashboard/controller.getStockById (5 handlers)
+[GIN-debug] GET    /deleteStocks             --> stock/apps/fleetDashboard/controller.deleteStocks (5 handlers)
+[GIN-debug] GET    /getStocks                --> stock/apps/fleetDashboard/controller.getStocks (5 handlers)
+[GIN-debug] POST   /createPerson             --> stock/apps/fleetDashboard/controller.createPerson (5 handlers)
+[GIN-debug] POST   /updatePerson             --> stock/apps/fleetDashboard/controller.updatePerson (5 handlers)
+[GIN-debug] GET    /getPersonById            --> stock/apps/fleetDashboard/controller.getPersonById (5 handlers)
+[GIN-debug] GET    /deletePeople             --> stock/apps/fleetDashboard/controller.deletePeople (5 handlers)
+[GIN-debug] GET    /getPeople                --> stock/apps/fleetDashboard/controller.getPeople (5 handlers)
+[GIN-debug] POST   /createReceiving          --> stock/apps/fleetDashboard/controller.createReceiving (5 handlers)
+[GIN-debug] POST   /updateReceiving          --> stock/apps/fleetDashboard/controller.updateReceiving (5 handlers)
+[GIN-debug] GET    /getReceivingById         --> stock/apps/fleetDashboard/controller.getReceivingById (5 handlers)
+[GIN-debug] GET    /deleteReceivings         --> stock/apps/fleetDashboard/controller.deleteReceivings (5 handlers)
+[GIN-debug] GET    /getReceivings            --> stock/apps/fleetDashboard/controller.getReceivings (5 handlers)
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] POST   /createProduct            --> stock/apps/fleetDashboard/controller.createProduct (5 handlers)
+[GIN-debug] POST   /updateProduct            --> stock/apps/fleetDashboard/controller.updateProduct (5 handlers)
+[GIN-debug] GET    /getProductById           --> stock/apps/fleetDashboard/controller.getProductById (5 handlers)
+[GIN-debug] GET    /deleteProducts           --> stock/apps/fleetDashboard/controller.deleteProducts (5 handlers)
+[GIN-debug] GET    /getProducts              --> stock/apps/fleetDashboard/controller.getProducts (5 handlers)
+[GIN-debug] POST   /createStock              --> stock/apps/fleetDashboard/controller.createStock (5 handlers)
+[GIN-debug] POST   /updateStock              --> stock/apps/fleetDashboard/controller.updateStock (5 handlers)
+[GIN-debug] GET    /getStockById             --> stock/apps/fleetDashboard/controller.getStockById (5 handlers)
+[GIN-debug] GET    /deleteStocks             --> stock/apps/fleetDashboard/controller.deleteStocks (5 handlers)
+[GIN-debug] GET    /getStocks                --> stock/apps/fleetDashboard/controller.getStocks (5 handlers)
+[GIN-debug] POST   /createPerson             --> stock/apps/fleetDashboard/controller.createPerson (5 handlers)
+[GIN-debug] POST   /updatePerson             --> stock/apps/fleetDashboard/controller.updatePerson (5 handlers)
+[GIN-debug] GET    /getPersonById            --> stock/apps/fleetDashboard/controller.getPersonById (5 handlers)
+[GIN-debug] GET    /deletePeople             --> stock/apps/fleetDashboard/controller.deletePeople (5 handlers)
+[GIN-debug] GET    /getPeople                --> stock/apps/fleetDashboard/controller.getPeople (5 handlers)
+[GIN-debug] POST   /createReceiving          --> stock/apps/fleetDashboard/controller.createReceiving (5 handlers)
+[GIN-debug] POST   /updateReceiving          --> stock/apps/fleetDashboard/controller.updateReceiving (5 handlers)
+[GIN-debug] GET    /getReceivingById         --> stock/apps/fleetDashboard/controller.getReceivingById (5 handlers)
+[GIN-debug] GET    /deleteReceivings         --> stock/apps/fleetDashboard/controller.deleteReceivings (5 handlers)
+[GIN-debug] GET    /getReceivings            --> stock/apps/fleetDashboard/controller.getReceivings (5 handlers)
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] POST   /createProduct            --> stock/apps/fleetDashboard/controller.createProduct (5 handlers)
+[GIN-debug] POST   /updateProduct            --> stock/apps/fleetDashboard/controller.updateProduct (5 handlers)
+[GIN-debug] GET    /getProductById           --> stock/apps/fleetDashboard/controller.getProductById (5 handlers)
+[GIN-debug] GET    /deleteProducts           --> stock/apps/fleetDashboard/controller.deleteProducts (5 handlers)
+[GIN-debug] GET    /getProducts              --> stock/apps/fleetDashboard/controller.getProducts (5 handlers)
+[GIN-debug] POST   /createStock              --> stock/apps/fleetDashboard/controller.createStock (5 handlers)
+[GIN-debug] POST   /updateStock              --> stock/apps/fleetDashboard/controller.updateStock (5 handlers)
+[GIN-debug] GET    /getStockById             --> stock/apps/fleetDashboard/controller.getStockById (5 handlers)
+[GIN-debug] GET    /deleteStocks             --> stock/apps/fleetDashboard/controller.deleteStocks (5 handlers)
+[GIN-debug] GET    /getStocks                --> stock/apps/fleetDashboard/controller.getStocks (5 handlers)
+[GIN-debug] POST   /createPerson             --> stock/apps/fleetDashboard/controller.createPerson (5 handlers)
+[GIN-debug] POST   /updatePerson             --> stock/apps/fleetDashboard/controller.updatePerson (5 handlers)
+[GIN-debug] GET    /getPersonById            --> stock/apps/fleetDashboard/controller.getPersonById (5 handlers)
+[GIN-debug] GET    /deletePeople             --> stock/apps/fleetDashboard/controller.deletePeople (5 handlers)
+[GIN-debug] GET    /getPeople                --> stock/apps/fleetDashboard/controller.getPeople (5 handlers)
+[GIN-debug] POST   /createReceiving          --> stock/apps/fleetDashboard/controller.createReceiving (5 handlers)
+[GIN-debug] POST   /updateReceiving          --> stock/apps/fleetDashboard/controller.updateReceiving (5 handlers)
+[GIN-debug] GET    /getReceivingById         --> stock/apps/fleetDashboard/controller.getReceivingById (5 handlers)
+[GIN-debug] GET    /deleteReceivings         --> stock/apps/fleetDashboard/controller.deleteReceivings (5 handlers)
+[GIN-debug] GET    /getReceivings            --> stock/apps/fleetDashboard/controller.getReceivings (5 handlers)
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] POST   /createProduct            --> stock/apps/fleetDashboard/controller.createProduct (5 handlers)
+[GIN-debug] POST   /updateProduct            --> stock/apps/fleetDashboard/controller.updateProduct (5 handlers)
+[GIN-debug] GET    /getProductById           --> stock/apps/fleetDashboard/controller.getProductById (5 handlers)
+[GIN-debug] GET    /deleteProducts           --> stock/apps/fleetDashboard/controller.deleteProducts (5 handlers)
+[GIN-debug] GET    /getProducts              --> stock/apps/fleetDashboard/controller.getProducts (5 handlers)
+[GIN-debug] POST   /createStock              --> stock/apps/fleetDashboard/controller.createStock (5 handlers)
+[GIN-debug] POST   /updateStock              --> stock/apps/fleetDashboard/controller.updateStock (5 handlers)
+[GIN-debug] GET    /getStockById             --> stock/apps/fleetDashboard/controller.getStockById (5 handlers)
+[GIN-debug] GET    /deleteStocks             --> stock/apps/fleetDashboard/controller.deleteStocks (5 handlers)
+[GIN-debug] GET    /getStocks                --> stock/apps/fleetDashboard/controller.getStocks (5 handlers)
+[GIN-debug] POST   /createPerson             --> stock/apps/fleetDashboard/controller.createPerson (5 handlers)
+[GIN-debug] POST   /updatePerson             --> stock/apps/fleetDashboard/controller.updatePerson (5 handlers)
+[GIN-debug] GET    /getPersonById            --> stock/apps/fleetDashboard/controller.getPersonById (5 handlers)
+[GIN-debug] GET    /deletePeople             --> stock/apps/fleetDashboard/controller.deletePeople (5 handlers)
+[GIN-debug] GET    /getPeople                --> stock/apps/fleetDashboard/controller.getPeople (5 handlers)
+[GIN-debug] POST   /createReceiving          --> stock/apps/fleetDashboard/controller.createReceiving (5 handlers)
+[GIN-debug] POST   /updateReceiving          --> stock/apps/fleetDashboard/controller.updateReceiving (5 handlers)
+[GIN-debug] GET    /getReceivingById         --> stock/apps/fleetDashboard/controller.getReceivingById (5 handlers)
+[GIN-debug] GET    /deleteReceivings         --> stock/apps/fleetDashboard/controller.deleteReceivings (5 handlers)
+[GIN-debug] GET    /getReceivings            --> stock/apps/fleetDashboard/controller.getReceivings (5 handlers)
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] POST   /createProduct            --> stock/apps/fleetDashboard/controller.createProduct (5 handlers)
+[GIN-debug] POST   /updateProduct            --> stock/apps/fleetDashboard/controller.updateProduct (5 handlers)
+[GIN-debug] GET    /getProductById           --> stock/apps/fleetDashboard/controller.getProductById (5 handlers)
+[GIN-debug] GET    /deleteProducts           --> stock/apps/fleetDashboard/controller.deleteProducts (5 handlers)
+[GIN-debug] GET    /getProducts              --> stock/apps/fleetDashboard/controller.getProducts (5 handlers)
+[GIN-debug] POST   /createStock              --> stock/apps/fleetDashboard/controller.createStock (5 handlers)
+[GIN-debug] POST   /updateStock              --> stock/apps/fleetDashboard/controller.updateStock (5 handlers)
+[GIN-debug] GET    /getStockById             --> stock/apps/fleetDashboard/controller.getStockById (5 handlers)
+[GIN-debug] GET    /deleteStocks             --> stock/apps/fleetDashboard/controller.deleteStocks (5 handlers)
+[GIN-debug] GET    /getStocks                --> stock/apps/fleetDashboard/controller.getStocks (5 handlers)
+[GIN-debug] POST   /createPerson             --> stock/apps/fleetDashboard/controller.createPerson (5 handlers)
+[GIN-debug] POST   /updatePerson             --> stock/apps/fleetDashboard/controller.updatePerson (5 handlers)
+[GIN-debug] GET    /getPersonById            --> stock/apps/fleetDashboard/controller.getPersonById (5 handlers)
+[GIN-debug] GET    /deletePeople             --> stock/apps/fleetDashboard/controller.deletePeople (5 handlers)
+[GIN-debug] GET    /getPeople                --> stock/apps/fleetDashboard/controller.getPeople (5 handlers)
+[GIN-debug] POST   /createReceiving          --> stock/apps/fleetDashboard/controller.createReceiving (5 handlers)
+[GIN-debug] POST   /updateReceiving          --> stock/apps/fleetDashboard/controller.updateReceiving (5 handlers)
+[GIN-debug] GET    /getReceivingById         --> stock/apps/fleetDashboard/controller.getReceivingById (5 handlers)
+[GIN-debug] GET    /deleteReceivings         --> stock/apps/fleetDashboard/controller.deleteReceivings (5 handlers)
+[GIN-debug] GET    /getReceivings            --> stock/apps/fleetDashboard/controller.getReceivings (5 handlers)
+INFO: 2018/07/29 23:30:06 [200 POST /createProduct 51.917543ms]
+INFO: 2018/07/29 23:30:19 [200 POST /createReceiving 57.265336ms]
+INFO: 2018/07/29 23:30:34 [200 POST /createReceiving 58.457628ms]
+ERROR: 2018/07/29 23:31:03 common/gateways/sql/receivingRepo.go : 107 [sql: expected 6 arguments, got 7]
+ERROR: 2018/07/29 23:31:03 apps/fleetDashboard/interactors/dashboardInteractor.go : 229 [sql: expected 6 arguments, got 7]
+INFO: 2018/07/29 23:31:03 [200 POST /updateReceiving 1.219159ms]
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] POST   /createProduct            --> stock/apps/fleetDashboard/controller.createProduct (5 handlers)
+[GIN-debug] POST   /updateProduct            --> stock/apps/fleetDashboard/controller.updateProduct (5 handlers)
+[GIN-debug] GET    /getProductById           --> stock/apps/fleetDashboard/controller.getProductById (5 handlers)
+[GIN-debug] GET    /deleteProducts           --> stock/apps/fleetDashboard/controller.deleteProducts (5 handlers)
+[GIN-debug] GET    /getProducts              --> stock/apps/fleetDashboard/controller.getProducts (5 handlers)
+[GIN-debug] POST   /createStock              --> stock/apps/fleetDashboard/controller.createStock (5 handlers)
+[GIN-debug] POST   /updateStock              --> stock/apps/fleetDashboard/controller.updateStock (5 handlers)
+[GIN-debug] GET    /getStockById             --> stock/apps/fleetDashboard/controller.getStockById (5 handlers)
+[GIN-debug] GET    /deleteStocks             --> stock/apps/fleetDashboard/controller.deleteStocks (5 handlers)
+[GIN-debug] GET    /getStocks                --> stock/apps/fleetDashboard/controller.getStocks (5 handlers)
+[GIN-debug] POST   /createPerson             --> stock/apps/fleetDashboard/controller.createPerson (5 handlers)
+[GIN-debug] POST   /updatePerson             --> stock/apps/fleetDashboard/controller.updatePerson (5 handlers)
+[GIN-debug] GET    /getPersonById            --> stock/apps/fleetDashboard/controller.getPersonById (5 handlers)
+[GIN-debug] GET    /deletePeople             --> stock/apps/fleetDashboard/controller.deletePeople (5 handlers)
+[GIN-debug] GET    /getPeople                --> stock/apps/fleetDashboard/controller.getPeople (5 handlers)
+[GIN-debug] POST   /createReceiving          --> stock/apps/fleetDashboard/controller.createReceiving (5 handlers)
+[GIN-debug] POST   /updateReceiving          --> stock/apps/fleetDashboard/controller.updateReceiving (5 handlers)
+[GIN-debug] GET    /getReceivingById         --> stock/apps/fleetDashboard/controller.getReceivingById (5 handlers)
+[GIN-debug] GET    /deleteReceivings         --> stock/apps/fleetDashboard/controller.deleteReceivings (5 handlers)
+[GIN-debug] GET    /getReceivings            --> stock/apps/fleetDashboard/controller.getReceivings (5 handlers)
+INFO: 2018/07/29 23:32:04 [200 POST /updateReceiving 152.366556ms]
+INFO: 2018/07/29 23:32:19 [200 GET /getReceivingById 5.590371ms]
+DEBUG: 2018/07/29 23:32:41 [SELECT * FROM stock_demo.product ORDER BY  name  ASC  LIMIT 0,10]
+INFO: 2018/07/29 23:32:41 [200 GET /getProducts 3.846814ms]
+DEBUG: 2018/07/29 23:32:53 [SELECT r.id,r.person_id,r.amount,r.creation_date,r.update_date,r.expected_date,r.status,p.name,p.phone
+						FROM stock_demo.receiving as r
+						JOIN stock_demo.person as p ON r.person_id = p.id WHERE  r.status LIKE '%Bekliyor%'  ORDER BY  r.expected_date  ASC  LIMIT 0,10]
+INFO: 2018/07/29 23:32:53 [200 GET /getReceivings 22.699571ms]
+DEBUG: 2018/07/29 23:33:03 [SELECT r.id,r.person_id,r.amount,r.creation_date,r.update_date,r.expected_date,r.status,p.name,p.phone
+						FROM stock_demo.receiving as r
+						JOIN stock_demo.person as p ON r.person_id = p.id WHERE  p.name LIKE '%cemal%'  AND  r.status LIKE '%Bekliyor%'  ORDER BY  r.expected_date  ASC  LIMIT 0,10]
+INFO: 2018/07/29 23:33:03 [200 GET /getReceivings 4.181224ms]
+DEBUG: 2018/07/29 23:33:09 [SELECT r.id,r.person_id,r.amount,r.creation_date,r.update_date,r.expected_date,r.status,p.name,p.phone
+						FROM stock_demo.receiving as r
+						JOIN stock_demo.person as p ON r.person_id = p.id WHERE  p.name LIKE '%cemal%'  AND  r.status LIKE '%Bitti%'  ORDER BY  r.expected_date  ASC  LIMIT 0,10]
+INFO: 2018/07/29 23:33:09 [200 GET /getReceivings 8.711806ms]
+DEBUG: 2018/07/29 23:33:15 [SELECT r.id,r.person_id,r.amount,r.creation_date,r.update_date,r.expected_date,r.status,p.name,p.phone
+						FROM stock_demo.receiving as r
+						JOIN stock_demo.person as p ON r.person_id = p.id WHERE  p.name LIKE '%cemal%'  AND  r.status LIKE '%Bekliyor%'  ORDER BY  r.expected_date  ASC  LIMIT 0,10]
+INFO: 2018/07/29 23:33:15 [200 GET /getReceivings 4.553881ms]
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] POST   /createProduct            --> stock/apps/fleetDashboard/controller.createProduct (5 handlers)
+[GIN-debug] POST   /updateProduct            --> stock/apps/fleetDashboard/controller.updateProduct (5 handlers)
+[GIN-debug] GET    /getProductById           --> stock/apps/fleetDashboard/controller.getProductById (5 handlers)
+[GIN-debug] GET    /deleteProducts           --> stock/apps/fleetDashboard/controller.deleteProducts (5 handlers)
+[GIN-debug] GET    /getProducts              --> stock/apps/fleetDashboard/controller.getProducts (5 handlers)
+[GIN-debug] POST   /createStock              --> stock/apps/fleetDashboard/controller.createStock (5 handlers)
+[GIN-debug] POST   /updateStock              --> stock/apps/fleetDashboard/controller.updateStock (5 handlers)
+[GIN-debug] GET    /getStockById             --> stock/apps/fleetDashboard/controller.getStockById (5 handlers)
+[GIN-debug] GET    /deleteStocks             --> stock/apps/fleetDashboard/controller.deleteStocks (5 handlers)
+[GIN-debug] GET    /getStocks                --> stock/apps/fleetDashboard/controller.getStocks (5 handlers)
+[GIN-debug] POST   /createPerson             --> stock/apps/fleetDashboard/controller.createPerson (5 handlers)
+[GIN-debug] POST   /updatePerson             --> stock/apps/fleetDashboard/controller.updatePerson (5 handlers)
+[GIN-debug] GET    /getPersonById            --> stock/apps/fleetDashboard/controller.getPersonById (5 handlers)
+[GIN-debug] GET    /deletePeople             --> stock/apps/fleetDashboard/controller.deletePeople (5 handlers)
+[GIN-debug] GET    /getPeople                --> stock/apps/fleetDashboard/controller.getPeople (5 handlers)
+[GIN-debug] POST   /createReceiving          --> stock/apps/fleetDashboard/controller.createReceiving (5 handlers)
+[GIN-debug] POST   /updateReceiving          --> stock/apps/fleetDashboard/controller.updateReceiving (5 handlers)
+[GIN-debug] GET    /getReceivingById         --> stock/apps/fleetDashboard/controller.getReceivingById (5 handlers)
+[GIN-debug] GET    /deleteReceivings         --> stock/apps/fleetDashboard/controller.deleteReceivings (5 handlers)
+[GIN-debug] GET    /getReceivings            --> stock/apps/fleetDashboard/controller.getReceivings (5 handlers)
+[GIN-debug] POST   /createPayment            --> stock/apps/fleetDashboard/controller.createPayment (5 handlers)
+[GIN-debug] POST   /updatePayment            --> stock/apps/fleetDashboard/controller.updatePayment (5 handlers)
+[GIN-debug] GET    /getPaymentById           --> stock/apps/fleetDashboard/controller.getPaymentById (5 handlers)
+[GIN-debug] GET    /deletePayments           --> stock/apps/fleetDashboard/controller.deletePayments (5 handlers)
+[GIN-debug] GET    /getPayments              --> stock/apps/fleetDashboard/controller.getPayments (5 handlers)
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] POST   /createProduct            --> stock/apps/fleetDashboard/controller.createProduct (5 handlers)
+[GIN-debug] POST   /updateProduct            --> stock/apps/fleetDashboard/controller.updateProduct (5 handlers)
+[GIN-debug] GET    /getProductById           --> stock/apps/fleetDashboard/controller.getProductById (5 handlers)
+[GIN-debug] GET    /deleteProducts           --> stock/apps/fleetDashboard/controller.deleteProducts (5 handlers)
+[GIN-debug] GET    /getProducts              --> stock/apps/fleetDashboard/controller.getProducts (5 handlers)
+[GIN-debug] POST   /createStock              --> stock/apps/fleetDashboard/controller.createStock (5 handlers)
+[GIN-debug] POST   /updateStock              --> stock/apps/fleetDashboard/controller.updateStock (5 handlers)
+[GIN-debug] GET    /getStockById             --> stock/apps/fleetDashboard/controller.getStockById (5 handlers)
+[GIN-debug] GET    /deleteStocks             --> stock/apps/fleetDashboard/controller.deleteStocks (5 handlers)
+[GIN-debug] GET    /getStocks                --> stock/apps/fleetDashboard/controller.getStocks (5 handlers)
+[GIN-debug] POST   /createPerson             --> stock/apps/fleetDashboard/controller.createPerson (5 handlers)
+[GIN-debug] POST   /updatePerson             --> stock/apps/fleetDashboard/controller.updatePerson (5 handlers)
+[GIN-debug] GET    /getPersonById            --> stock/apps/fleetDashboard/controller.getPersonById (5 handlers)
+[GIN-debug] GET    /deletePeople             --> stock/apps/fleetDashboard/controller.deletePeople (5 handlers)
+[GIN-debug] GET    /getPeople                --> stock/apps/fleetDashboard/controller.getPeople (5 handlers)
+[GIN-debug] POST   /createReceiving          --> stock/apps/fleetDashboard/controller.createReceiving (5 handlers)
+[GIN-debug] POST   /updateReceiving          --> stock/apps/fleetDashboard/controller.updateReceiving (5 handlers)
+[GIN-debug] GET    /getReceivingById         --> stock/apps/fleetDashboard/controller.getReceivingById (5 handlers)
+[GIN-debug] GET    /deleteReceivings         --> stock/apps/fleetDashboard/controller.deleteReceivings (5 handlers)
+[GIN-debug] GET    /getReceivings            --> stock/apps/fleetDashboard/controller.getReceivings (5 handlers)
+[GIN-debug] POST   /createPayment            --> stock/apps/fleetDashboard/controller.createPayment (5 handlers)
+[GIN-debug] POST   /updatePayment            --> stock/apps/fleetDashboard/controller.updatePayment (5 handlers)
+[GIN-debug] GET    /getPaymentById           --> stock/apps/fleetDashboard/controller.getPaymentById (5 handlers)
+[GIN-debug] GET    /deletePayments           --> stock/apps/fleetDashboard/controller.deletePayments (5 handlers)
+[GIN-debug] GET    /getPayments              --> stock/apps/fleetDashboard/controller.getPayments (5 handlers)
+DEBUG: 2018/07/30 20:24:20 [SELECT * FROM stock_demo.product ORDER BY  name  ASC  LIMIT 0,10]
+INFO: 2018/07/30 20:24:20 [200 GET /getProducts 63.413661ms]
+DEBUG: 2018/07/30 20:24:36 [SELECT * FROM stock_demo.product ORDER BY  name  ASC  LIMIT 0,10]
+INFO: 2018/07/30 20:24:36 [200 GET /getProducts 87.666663ms]
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] POST   /createProduct            --> stock/apps/fleetDashboard/controller.createProduct (5 handlers)
+[GIN-debug] POST   /updateProduct            --> stock/apps/fleetDashboard/controller.updateProduct (5 handlers)
+[GIN-debug] GET    /getProductById           --> stock/apps/fleetDashboard/controller.getProductById (5 handlers)
+[GIN-debug] GET    /deleteProducts           --> stock/apps/fleetDashboard/controller.deleteProducts (5 handlers)
+[GIN-debug] GET    /getProducts              --> stock/apps/fleetDashboard/controller.getProducts (5 handlers)
+[GIN-debug] POST   /createStock              --> stock/apps/fleetDashboard/controller.createStock (5 handlers)
+[GIN-debug] POST   /updateStock              --> stock/apps/fleetDashboard/controller.updateStock (5 handlers)
+[GIN-debug] GET    /getStockById             --> stock/apps/fleetDashboard/controller.getStockById (5 handlers)
+[GIN-debug] GET    /deleteStocks             --> stock/apps/fleetDashboard/controller.deleteStocks (5 handlers)
+[GIN-debug] GET    /getStocks                --> stock/apps/fleetDashboard/controller.getStocks (5 handlers)
+[GIN-debug] POST   /createPerson             --> stock/apps/fleetDashboard/controller.createPerson (5 handlers)
+[GIN-debug] POST   /updatePerson             --> stock/apps/fleetDashboard/controller.updatePerson (5 handlers)
+[GIN-debug] GET    /getPersonById            --> stock/apps/fleetDashboard/controller.getPersonById (5 handlers)
+[GIN-debug] GET    /deletePeople             --> stock/apps/fleetDashboard/controller.deletePeople (5 handlers)
+[GIN-debug] GET    /getPeople                --> stock/apps/fleetDashboard/controller.getPeople (5 handlers)
+[GIN-debug] POST   /createReceiving          --> stock/apps/fleetDashboard/controller.createReceiving (5 handlers)
+[GIN-debug] POST   /updateReceiving          --> stock/apps/fleetDashboard/controller.updateReceiving (5 handlers)
+[GIN-debug] GET    /getReceivingById         --> stock/apps/fleetDashboard/controller.getReceivingById (5 handlers)
+[GIN-debug] GET    /deleteReceivings         --> stock/apps/fleetDashboard/controller.deleteReceivings (5 handlers)
+[GIN-debug] GET    /getReceivings            --> stock/apps/fleetDashboard/controller.getReceivings (5 handlers)
+[GIN-debug] POST   /createPayment            --> stock/apps/fleetDashboard/controller.createPayment (5 handlers)
+[GIN-debug] POST   /updatePayment            --> stock/apps/fleetDashboard/controller.updatePayment (5 handlers)
+[GIN-debug] GET    /getPaymentById           --> stock/apps/fleetDashboard/controller.getPaymentById (5 handlers)
+[GIN-debug] GET    /deletePayments           --> stock/apps/fleetDashboard/controller.deletePayments (5 handlers)
+[GIN-debug] GET    /getPayments              --> stock/apps/fleetDashboard/controller.getPayments (5 handlers)
+INFO: 2018/07/30 21:47:35 [200 POST /createPayment 173.048316ms]
+INFO: 2018/07/30 21:47:42 [200 POST /createPayment 163.945982ms]
+INFO: 2018/07/30 21:47:58 [200 POST /updatePayment 101.186732ms]
+INFO: 2018/07/30 21:48:09 [200 POST /updatePayment 116.416746ms]
+INFO: 2018/07/30 21:48:28 [200 GET /getPaymentById 20.598194ms]
+DEBUG: 2018/07/30 21:48:39 [SELECT r.id,r.person_id,r.amount,r.creation_date,r.update_date,r.expected_date,r.status,p.name,p.phone
+						FROM stock_demo.payment as r
+						JOIN stock_demo.person as p ON r.person_id = p.id WHERE  p.name LIKE '%cemal%'  AND  r.status LIKE '%Bekliyor%'  ORDER BY  r.expected_date  ASC  LIMIT 0,10]
+INFO: 2018/07/30 21:48:39 [200 GET /getPayments 98.39024ms]
+ERROR: 2018/07/30 22:09:23 common/gateways/sql/expenseRepo.go : 45 [Error 1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')ENGINE=InnoDB DEFAULT CHARSET=utf8' at line 8]
+ERROR: 2018/07/30 22:09:23 common/gateways/sql/expenseRepo.go : 50 [Error 1146: Table 'stock_demo.expense' doesn't exist]
+ERROR: 2018/07/30 22:09:23 common/gateways/sql/expenseRepo.go : 55 [Error 1146: Table 'stock_demo.expense' doesn't exist]
+ERROR: 2018/07/30 22:09:23 common/gateways/sql/expenseRepo.go : 60 [Error 1146: Table 'stock_demo.expense' doesn't exist]
+ERROR: 2018/07/30 22:09:23 common/gateways/sql/expenseRepo.go : 64 [Error 1146: Table 'stock_demo.expense' doesn't exist]
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] POST   /createProduct            --> stock/apps/fleetDashboard/controller.createProduct (5 handlers)
+[GIN-debug] POST   /updateProduct            --> stock/apps/fleetDashboard/controller.updateProduct (5 handlers)
+[GIN-debug] GET    /getProductById           --> stock/apps/fleetDashboard/controller.getProductById (5 handlers)
+[GIN-debug] GET    /deleteProducts           --> stock/apps/fleetDashboard/controller.deleteProducts (5 handlers)
+[GIN-debug] GET    /getProducts              --> stock/apps/fleetDashboard/controller.getProducts (5 handlers)
+[GIN-debug] POST   /createStock              --> stock/apps/fleetDashboard/controller.createStock (5 handlers)
+[GIN-debug] POST   /updateStock              --> stock/apps/fleetDashboard/controller.updateStock (5 handlers)
+[GIN-debug] GET    /getStockById             --> stock/apps/fleetDashboard/controller.getStockById (5 handlers)
+[GIN-debug] GET    /deleteStocks             --> stock/apps/fleetDashboard/controller.deleteStocks (5 handlers)
+[GIN-debug] GET    /getStocks                --> stock/apps/fleetDashboard/controller.getStocks (5 handlers)
+[GIN-debug] POST   /createPerson             --> stock/apps/fleetDashboard/controller.createPerson (5 handlers)
+[GIN-debug] POST   /updatePerson             --> stock/apps/fleetDashboard/controller.updatePerson (5 handlers)
+[GIN-debug] GET    /getPersonById            --> stock/apps/fleetDashboard/controller.getPersonById (5 handlers)
+[GIN-debug] GET    /deletePeople             --> stock/apps/fleetDashboard/controller.deletePeople (5 handlers)
+[GIN-debug] GET    /getPeople                --> stock/apps/fleetDashboard/controller.getPeople (5 handlers)
+[GIN-debug] POST   /createReceiving          --> stock/apps/fleetDashboard/controller.createReceiving (5 handlers)
+[GIN-debug] POST   /updateReceiving          --> stock/apps/fleetDashboard/controller.updateReceiving (5 handlers)
+[GIN-debug] GET    /getReceivingById         --> stock/apps/fleetDashboard/controller.getReceivingById (5 handlers)
+[GIN-debug] GET    /deleteReceivings         --> stock/apps/fleetDashboard/controller.deleteReceivings (5 handlers)
+[GIN-debug] GET    /getReceivings            --> stock/apps/fleetDashboard/controller.getReceivings (5 handlers)
+[GIN-debug] POST   /createPayment            --> stock/apps/fleetDashboard/controller.createPayment (5 handlers)
+[GIN-debug] POST   /updatePayment            --> stock/apps/fleetDashboard/controller.updatePayment (5 handlers)
+[GIN-debug] GET    /getPaymentById           --> stock/apps/fleetDashboard/controller.getPaymentById (5 handlers)
+[GIN-debug] GET    /deletePayments           --> stock/apps/fleetDashboard/controller.deletePayments (5 handlers)
+[GIN-debug] GET    /getPayments              --> stock/apps/fleetDashboard/controller.getPayments (5 handlers)
+[GIN-debug] POST   /createExpense            --> stock/apps/fleetDashboard/controller.createExpense (5 handlers)
+[GIN-debug] POST   /updateExpense            --> stock/apps/fleetDashboard/controller.updateExpense (5 handlers)
+[GIN-debug] GET    /getExpenseById           --> stock/apps/fleetDashboard/controller.getExpenseById (5 handlers)
+[GIN-debug] GET    /deleteExpenses           --> stock/apps/fleetDashboard/controller.deleteExpenses (5 handlers)
+[GIN-debug] GET    /getExpenses              --> stock/apps/fleetDashboard/controller.getExpenses (5 handlers)
+[GIN-debug] [WARNING] Headers were already written. Wanted to override status code 200 with 500
+[GIN-debug] [WARNING] Headers were already written. Wanted to override status code 200 with 500
+ERROR: 2018/07/30 22:12:58 common/gateways/sql/expenseRepo.go : 45 [Error 1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')ENGINE=InnoDB DEFAULT CHARSET=utf8' at line 8]
+ERROR: 2018/07/30 22:12:58 common/gateways/sql/expenseRepo.go : 50 [Error 1146: Table 'stock_demo.expense' doesn't exist]
+ERROR: 2018/07/30 22:12:58 common/gateways/sql/expenseRepo.go : 55 [Error 1146: Table 'stock_demo.expense' doesn't exist]
+ERROR: 2018/07/30 22:12:58 common/gateways/sql/expenseRepo.go : 60 [Error 1146: Table 'stock_demo.expense' doesn't exist]
+ERROR: 2018/07/30 22:12:58 common/gateways/sql/expenseRepo.go : 64 [Error 1146: Table 'stock_demo.expense' doesn't exist]
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] POST   /createProduct            --> stock/apps/fleetDashboard/controller.createProduct (5 handlers)
+[GIN-debug] POST   /updateProduct            --> stock/apps/fleetDashboard/controller.updateProduct (5 handlers)
+[GIN-debug] GET    /getProductById           --> stock/apps/fleetDashboard/controller.getProductById (5 handlers)
+[GIN-debug] GET    /deleteProducts           --> stock/apps/fleetDashboard/controller.deleteProducts (5 handlers)
+[GIN-debug] GET    /getProducts              --> stock/apps/fleetDashboard/controller.getProducts (5 handlers)
+[GIN-debug] POST   /createStock              --> stock/apps/fleetDashboard/controller.createStock (5 handlers)
+[GIN-debug] POST   /updateStock              --> stock/apps/fleetDashboard/controller.updateStock (5 handlers)
+[GIN-debug] GET    /getStockById             --> stock/apps/fleetDashboard/controller.getStockById (5 handlers)
+[GIN-debug] GET    /deleteStocks             --> stock/apps/fleetDashboard/controller.deleteStocks (5 handlers)
+[GIN-debug] GET    /getStocks                --> stock/apps/fleetDashboard/controller.getStocks (5 handlers)
+[GIN-debug] POST   /createPerson             --> stock/apps/fleetDashboard/controller.createPerson (5 handlers)
+[GIN-debug] POST   /updatePerson             --> stock/apps/fleetDashboard/controller.updatePerson (5 handlers)
+[GIN-debug] GET    /getPersonById            --> stock/apps/fleetDashboard/controller.getPersonById (5 handlers)
+[GIN-debug] GET    /deletePeople             --> stock/apps/fleetDashboard/controller.deletePeople (5 handlers)
+[GIN-debug] GET    /getPeople                --> stock/apps/fleetDashboard/controller.getPeople (5 handlers)
+[GIN-debug] POST   /createReceiving          --> stock/apps/fleetDashboard/controller.createReceiving (5 handlers)
+[GIN-debug] POST   /updateReceiving          --> stock/apps/fleetDashboard/controller.updateReceiving (5 handlers)
+[GIN-debug] GET    /getReceivingById         --> stock/apps/fleetDashboard/controller.getReceivingById (5 handlers)
+[GIN-debug] GET    /deleteReceivings         --> stock/apps/fleetDashboard/controller.deleteReceivings (5 handlers)
+[GIN-debug] GET    /getReceivings            --> stock/apps/fleetDashboard/controller.getReceivings (5 handlers)
+[GIN-debug] POST   /createPayment            --> stock/apps/fleetDashboard/controller.createPayment (5 handlers)
+[GIN-debug] POST   /updatePayment            --> stock/apps/fleetDashboard/controller.updatePayment (5 handlers)
+[GIN-debug] GET    /getPaymentById           --> stock/apps/fleetDashboard/controller.getPaymentById (5 handlers)
+[GIN-debug] GET    /deletePayments           --> stock/apps/fleetDashboard/controller.deletePayments (5 handlers)
+[GIN-debug] GET    /getPayments              --> stock/apps/fleetDashboard/controller.getPayments (5 handlers)
+[GIN-debug] POST   /createExpense            --> stock/apps/fleetDashboard/controller.createExpense (5 handlers)
+[GIN-debug] POST   /updateExpense            --> stock/apps/fleetDashboard/controller.updateExpense (5 handlers)
+[GIN-debug] GET    /getExpenseById           --> stock/apps/fleetDashboard/controller.getExpenseById (5 handlers)
+[GIN-debug] GET    /deleteExpenses           --> stock/apps/fleetDashboard/controller.deleteExpenses (5 handlers)
+[GIN-debug] GET    /getExpenses              --> stock/apps/fleetDashboard/controller.getExpenses (5 handlers)
+DEBUG: 2018/07/30 22:13:04 []
+DEBUG: 2018/07/30 22:13:04 [{0 elektrik faturası vergi 0 1532977984 1532977984}]
+[GIN-debug] [WARNING] Headers were already written. Wanted to override status code 200 with 500
+ERROR: 2018/07/30 22:14:29 common/gateways/sql/expenseRepo.go : 45 [Error 1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')ENGINE=InnoDB DEFAULT CHARSET=utf8' at line 8]
+ERROR: 2018/07/30 22:14:29 common/gateways/sql/expenseRepo.go : 50 [Error 1146: Table 'stock_demo.expense' doesn't exist]
+ERROR: 2018/07/30 22:14:29 common/gateways/sql/expenseRepo.go : 55 [Error 1146: Table 'stock_demo.expense' doesn't exist]
+ERROR: 2018/07/30 22:14:29 common/gateways/sql/expenseRepo.go : 60 [Error 1146: Table 'stock_demo.expense' doesn't exist]
+ERROR: 2018/07/30 22:14:29 common/gateways/sql/expenseRepo.go : 64 [Error 1146: Table 'stock_demo.expense' doesn't exist]
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] POST   /createProduct            --> stock/apps/fleetDashboard/controller.createProduct (5 handlers)
+[GIN-debug] POST   /updateProduct            --> stock/apps/fleetDashboard/controller.updateProduct (5 handlers)
+[GIN-debug] GET    /getProductById           --> stock/apps/fleetDashboard/controller.getProductById (5 handlers)
+[GIN-debug] GET    /deleteProducts           --> stock/apps/fleetDashboard/controller.deleteProducts (5 handlers)
+[GIN-debug] GET    /getProducts              --> stock/apps/fleetDashboard/controller.getProducts (5 handlers)
+[GIN-debug] POST   /createStock              --> stock/apps/fleetDashboard/controller.createStock (5 handlers)
+[GIN-debug] POST   /updateStock              --> stock/apps/fleetDashboard/controller.updateStock (5 handlers)
+[GIN-debug] GET    /getStockById             --> stock/apps/fleetDashboard/controller.getStockById (5 handlers)
+[GIN-debug] GET    /deleteStocks             --> stock/apps/fleetDashboard/controller.deleteStocks (5 handlers)
+[GIN-debug] GET    /getStocks                --> stock/apps/fleetDashboard/controller.getStocks (5 handlers)
+[GIN-debug] POST   /createPerson             --> stock/apps/fleetDashboard/controller.createPerson (5 handlers)
+[GIN-debug] POST   /updatePerson             --> stock/apps/fleetDashboard/controller.updatePerson (5 handlers)
+[GIN-debug] GET    /getPersonById            --> stock/apps/fleetDashboard/controller.getPersonById (5 handlers)
+[GIN-debug] GET    /deletePeople             --> stock/apps/fleetDashboard/controller.deletePeople (5 handlers)
+[GIN-debug] GET    /getPeople                --> stock/apps/fleetDashboard/controller.getPeople (5 handlers)
+[GIN-debug] POST   /createReceiving          --> stock/apps/fleetDashboard/controller.createReceiving (5 handlers)
+[GIN-debug] POST   /updateReceiving          --> stock/apps/fleetDashboard/controller.updateReceiving (5 handlers)
+[GIN-debug] GET    /getReceivingById         --> stock/apps/fleetDashboard/controller.getReceivingById (5 handlers)
+[GIN-debug] GET    /deleteReceivings         --> stock/apps/fleetDashboard/controller.deleteReceivings (5 handlers)
+[GIN-debug] GET    /getReceivings            --> stock/apps/fleetDashboard/controller.getReceivings (5 handlers)
+[GIN-debug] POST   /createPayment            --> stock/apps/fleetDashboard/controller.createPayment (5 handlers)
+[GIN-debug] POST   /updatePayment            --> stock/apps/fleetDashboard/controller.updatePayment (5 handlers)
+[GIN-debug] GET    /getPaymentById           --> stock/apps/fleetDashboard/controller.getPaymentById (5 handlers)
+[GIN-debug] GET    /deletePayments           --> stock/apps/fleetDashboard/controller.deletePayments (5 handlers)
+[GIN-debug] GET    /getPayments              --> stock/apps/fleetDashboard/controller.getPayments (5 handlers)
+[GIN-debug] POST   /createExpense            --> stock/apps/fleetDashboard/controller.createExpense (5 handlers)
+[GIN-debug] POST   /updateExpense            --> stock/apps/fleetDashboard/controller.updateExpense (5 handlers)
+[GIN-debug] GET    /getExpenseById           --> stock/apps/fleetDashboard/controller.getExpenseById (5 handlers)
+[GIN-debug] GET    /deleteExpenses           --> stock/apps/fleetDashboard/controller.deleteExpenses (5 handlers)
+[GIN-debug] GET    /getExpenses              --> stock/apps/fleetDashboard/controller.getExpenses (5 handlers)
+DEBUG: 2018/07/30 22:14:39 [{0 elektrik faturası vergi 100.25 0 0}]
+DEBUG: 2018/07/30 22:14:39 [{0 elektrik faturası vergi 100.25 1532978079 1532978079}]
+[GIN-debug] [WARNING] Headers were already written. Wanted to override status code 200 with 500
+ERROR: 2018/07/30 22:17:19 common/gateways/sql/expenseRepo.go : 45 [Error 1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')ENGINE=InnoDB DEFAULT CHARSET=utf8' at line 8]
+ERROR: 2018/07/30 22:17:19 common/gateways/sql/expenseRepo.go : 50 [Error 1146: Table 'stock_demo.expense' doesn't exist]
+ERROR: 2018/07/30 22:17:19 common/gateways/sql/expenseRepo.go : 55 [Error 1146: Table 'stock_demo.expense' doesn't exist]
+ERROR: 2018/07/30 22:17:19 common/gateways/sql/expenseRepo.go : 60 [Error 1146: Table 'stock_demo.expense' doesn't exist]
+ERROR: 2018/07/30 22:17:19 common/gateways/sql/expenseRepo.go : 64 [Error 1146: Table 'stock_demo.expense' doesn't exist]
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] POST   /createProduct            --> stock/apps/fleetDashboard/controller.createProduct (5 handlers)
+[GIN-debug] POST   /updateProduct            --> stock/apps/fleetDashboard/controller.updateProduct (5 handlers)
+[GIN-debug] GET    /getProductById           --> stock/apps/fleetDashboard/controller.getProductById (5 handlers)
+[GIN-debug] GET    /deleteProducts           --> stock/apps/fleetDashboard/controller.deleteProducts (5 handlers)
+[GIN-debug] GET    /getProducts              --> stock/apps/fleetDashboard/controller.getProducts (5 handlers)
+[GIN-debug] POST   /createStock              --> stock/apps/fleetDashboard/controller.createStock (5 handlers)
+[GIN-debug] POST   /updateStock              --> stock/apps/fleetDashboard/controller.updateStock (5 handlers)
+[GIN-debug] GET    /getStockById             --> stock/apps/fleetDashboard/controller.getStockById (5 handlers)
+[GIN-debug] GET    /deleteStocks             --> stock/apps/fleetDashboard/controller.deleteStocks (5 handlers)
+[GIN-debug] GET    /getStocks                --> stock/apps/fleetDashboard/controller.getStocks (5 handlers)
+[GIN-debug] POST   /createPerson             --> stock/apps/fleetDashboard/controller.createPerson (5 handlers)
+[GIN-debug] POST   /updatePerson             --> stock/apps/fleetDashboard/controller.updatePerson (5 handlers)
+[GIN-debug] GET    /getPersonById            --> stock/apps/fleetDashboard/controller.getPersonById (5 handlers)
+[GIN-debug] GET    /deletePeople             --> stock/apps/fleetDashboard/controller.deletePeople (5 handlers)
+[GIN-debug] GET    /getPeople                --> stock/apps/fleetDashboard/controller.getPeople (5 handlers)
+[GIN-debug] POST   /createReceiving          --> stock/apps/fleetDashboard/controller.createReceiving (5 handlers)
+[GIN-debug] POST   /updateReceiving          --> stock/apps/fleetDashboard/controller.updateReceiving (5 handlers)
+[GIN-debug] GET    /getReceivingById         --> stock/apps/fleetDashboard/controller.getReceivingById (5 handlers)
+[GIN-debug] GET    /deleteReceivings         --> stock/apps/fleetDashboard/controller.deleteReceivings (5 handlers)
+[GIN-debug] GET    /getReceivings            --> stock/apps/fleetDashboard/controller.getReceivings (5 handlers)
+[GIN-debug] POST   /createPayment            --> stock/apps/fleetDashboard/controller.createPayment (5 handlers)
+[GIN-debug] POST   /updatePayment            --> stock/apps/fleetDashboard/controller.updatePayment (5 handlers)
+[GIN-debug] GET    /getPaymentById           --> stock/apps/fleetDashboard/controller.getPaymentById (5 handlers)
+[GIN-debug] GET    /deletePayments           --> stock/apps/fleetDashboard/controller.deletePayments (5 handlers)
+[GIN-debug] GET    /getPayments              --> stock/apps/fleetDashboard/controller.getPayments (5 handlers)
+[GIN-debug] POST   /createExpense            --> stock/apps/fleetDashboard/controller.createExpense (5 handlers)
+[GIN-debug] POST   /updateExpense            --> stock/apps/fleetDashboard/controller.updateExpense (5 handlers)
+[GIN-debug] GET    /getExpenseById           --> stock/apps/fleetDashboard/controller.getExpenseById (5 handlers)
+[GIN-debug] GET    /deleteExpenses           --> stock/apps/fleetDashboard/controller.deleteExpenses (5 handlers)
+[GIN-debug] GET    /getExpenses              --> stock/apps/fleetDashboard/controller.getExpenses (5 handlers)
+DEBUG: 2018/07/30 22:17:29 [{0 elektrik faturası vergi 100.25 0 0}]
+DEBUG: 2018/07/30 22:18:36 [{0 elektrik faturası vergi 100.25 1532978316 1532978316}]
+[GIN-debug] [WARNING] Headers were already written. Wanted to override status code 200 with 500
+ERROR: 2018/07/30 22:18:50 common/gateways/sql/expenseRepo.go : 45 [Error 1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')ENGINE=InnoDB DEFAULT CHARSET=utf8' at line 8]
+ERROR: 2018/07/30 22:18:50 common/gateways/sql/expenseRepo.go : 50 [Error 1146: Table 'stock_demo.expense' doesn't exist]
+ERROR: 2018/07/30 22:18:50 common/gateways/sql/expenseRepo.go : 55 [Error 1146: Table 'stock_demo.expense' doesn't exist]
+ERROR: 2018/07/30 22:18:50 common/gateways/sql/expenseRepo.go : 60 [Error 1146: Table 'stock_demo.expense' doesn't exist]
+ERROR: 2018/07/30 22:18:50 common/gateways/sql/expenseRepo.go : 64 [Error 1146: Table 'stock_demo.expense' doesn't exist]
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] POST   /createProduct            --> stock/apps/fleetDashboard/controller.createProduct (5 handlers)
+[GIN-debug] POST   /updateProduct            --> stock/apps/fleetDashboard/controller.updateProduct (5 handlers)
+[GIN-debug] GET    /getProductById           --> stock/apps/fleetDashboard/controller.getProductById (5 handlers)
+[GIN-debug] GET    /deleteProducts           --> stock/apps/fleetDashboard/controller.deleteProducts (5 handlers)
+[GIN-debug] GET    /getProducts              --> stock/apps/fleetDashboard/controller.getProducts (5 handlers)
+[GIN-debug] POST   /createStock              --> stock/apps/fleetDashboard/controller.createStock (5 handlers)
+[GIN-debug] POST   /updateStock              --> stock/apps/fleetDashboard/controller.updateStock (5 handlers)
+[GIN-debug] GET    /getStockById             --> stock/apps/fleetDashboard/controller.getStockById (5 handlers)
+[GIN-debug] GET    /deleteStocks             --> stock/apps/fleetDashboard/controller.deleteStocks (5 handlers)
+[GIN-debug] GET    /getStocks                --> stock/apps/fleetDashboard/controller.getStocks (5 handlers)
+[GIN-debug] POST   /createPerson             --> stock/apps/fleetDashboard/controller.createPerson (5 handlers)
+[GIN-debug] POST   /updatePerson             --> stock/apps/fleetDashboard/controller.updatePerson (5 handlers)
+[GIN-debug] GET    /getPersonById            --> stock/apps/fleetDashboard/controller.getPersonById (5 handlers)
+[GIN-debug] GET    /deletePeople             --> stock/apps/fleetDashboard/controller.deletePeople (5 handlers)
+[GIN-debug] GET    /getPeople                --> stock/apps/fleetDashboard/controller.getPeople (5 handlers)
+[GIN-debug] POST   /createReceiving          --> stock/apps/fleetDashboard/controller.createReceiving (5 handlers)
+[GIN-debug] POST   /updateReceiving          --> stock/apps/fleetDashboard/controller.updateReceiving (5 handlers)
+[GIN-debug] GET    /getReceivingById         --> stock/apps/fleetDashboard/controller.getReceivingById (5 handlers)
+[GIN-debug] GET    /deleteReceivings         --> stock/apps/fleetDashboard/controller.deleteReceivings (5 handlers)
+[GIN-debug] GET    /getReceivings            --> stock/apps/fleetDashboard/controller.getReceivings (5 handlers)
+[GIN-debug] POST   /createPayment            --> stock/apps/fleetDashboard/controller.createPayment (5 handlers)
+[GIN-debug] POST   /updatePayment            --> stock/apps/fleetDashboard/controller.updatePayment (5 handlers)
+[GIN-debug] GET    /getPaymentById           --> stock/apps/fleetDashboard/controller.getPaymentById (5 handlers)
+[GIN-debug] GET    /deletePayments           --> stock/apps/fleetDashboard/controller.deletePayments (5 handlers)
+[GIN-debug] GET    /getPayments              --> stock/apps/fleetDashboard/controller.getPayments (5 handlers)
+[GIN-debug] POST   /createExpense            --> stock/apps/fleetDashboard/controller.createExpense (5 handlers)
+[GIN-debug] POST   /updateExpense            --> stock/apps/fleetDashboard/controller.updateExpense (5 handlers)
+[GIN-debug] GET    /getExpenseById           --> stock/apps/fleetDashboard/controller.getExpenseById (5 handlers)
+[GIN-debug] GET    /deleteExpenses           --> stock/apps/fleetDashboard/controller.deleteExpenses (5 handlers)
+[GIN-debug] GET    /getExpenses              --> stock/apps/fleetDashboard/controller.getExpenses (5 handlers)
+DEBUG: 2018/07/30 22:18:54 [{0 elektrik faturası vergi 100.25 0 0}]
+DEBUG: 2018/07/30 22:19:20 [{0 elektrik faturası vergi 100.25 1532978334 1532978334}]
+[GIN-debug] [WARNING] Headers were already written. Wanted to override status code 200 with 500
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] POST   /createProduct            --> stock/apps/fleetDashboard/controller.createProduct (5 handlers)
+[GIN-debug] POST   /updateProduct            --> stock/apps/fleetDashboard/controller.updateProduct (5 handlers)
+[GIN-debug] GET    /getProductById           --> stock/apps/fleetDashboard/controller.getProductById (5 handlers)
+[GIN-debug] GET    /deleteProducts           --> stock/apps/fleetDashboard/controller.deleteProducts (5 handlers)
+[GIN-debug] GET    /getProducts              --> stock/apps/fleetDashboard/controller.getProducts (5 handlers)
+[GIN-debug] POST   /createStock              --> stock/apps/fleetDashboard/controller.createStock (5 handlers)
+[GIN-debug] POST   /updateStock              --> stock/apps/fleetDashboard/controller.updateStock (5 handlers)
+[GIN-debug] GET    /getStockById             --> stock/apps/fleetDashboard/controller.getStockById (5 handlers)
+[GIN-debug] GET    /deleteStocks             --> stock/apps/fleetDashboard/controller.deleteStocks (5 handlers)
+[GIN-debug] GET    /getStocks                --> stock/apps/fleetDashboard/controller.getStocks (5 handlers)
+[GIN-debug] POST   /createPerson             --> stock/apps/fleetDashboard/controller.createPerson (5 handlers)
+[GIN-debug] POST   /updatePerson             --> stock/apps/fleetDashboard/controller.updatePerson (5 handlers)
+[GIN-debug] GET    /getPersonById            --> stock/apps/fleetDashboard/controller.getPersonById (5 handlers)
+[GIN-debug] GET    /deletePeople             --> stock/apps/fleetDashboard/controller.deletePeople (5 handlers)
+[GIN-debug] GET    /getPeople                --> stock/apps/fleetDashboard/controller.getPeople (5 handlers)
+[GIN-debug] POST   /createReceiving          --> stock/apps/fleetDashboard/controller.createReceiving (5 handlers)
+[GIN-debug] POST   /updateReceiving          --> stock/apps/fleetDashboard/controller.updateReceiving (5 handlers)
+[GIN-debug] GET    /getReceivingById         --> stock/apps/fleetDashboard/controller.getReceivingById (5 handlers)
+[GIN-debug] GET    /deleteReceivings         --> stock/apps/fleetDashboard/controller.deleteReceivings (5 handlers)
+[GIN-debug] GET    /getReceivings            --> stock/apps/fleetDashboard/controller.getReceivings (5 handlers)
+[GIN-debug] POST   /createPayment            --> stock/apps/fleetDashboard/controller.createPayment (5 handlers)
+[GIN-debug] POST   /updatePayment            --> stock/apps/fleetDashboard/controller.updatePayment (5 handlers)
+[GIN-debug] GET    /getPaymentById           --> stock/apps/fleetDashboard/controller.getPaymentById (5 handlers)
+[GIN-debug] GET    /deletePayments           --> stock/apps/fleetDashboard/controller.deletePayments (5 handlers)
+[GIN-debug] GET    /getPayments              --> stock/apps/fleetDashboard/controller.getPayments (5 handlers)
+[GIN-debug] POST   /createExpense            --> stock/apps/fleetDashboard/controller.createExpense (5 handlers)
+[GIN-debug] POST   /updateExpense            --> stock/apps/fleetDashboard/controller.updateExpense (5 handlers)
+[GIN-debug] GET    /getExpenseById           --> stock/apps/fleetDashboard/controller.getExpenseById (5 handlers)
+[GIN-debug] GET    /deleteExpenses           --> stock/apps/fleetDashboard/controller.deleteExpenses (5 handlers)
+[GIN-debug] GET    /getExpenses              --> stock/apps/fleetDashboard/controller.getExpenses (5 handlers)
+DEBUG: 2018/07/30 22:23:16 [{0 elektrik faturası vergi 100.25 0 0}]
+DEBUG: 2018/07/30 22:23:16 [{0 elektrik faturası vergi 100.25 1532978596 1532978596}]
+INFO: 2018/07/30 22:23:17 [200 POST /createExpense 76.882308ms]
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] POST   /createProduct            --> stock/apps/fleetDashboard/controller.createProduct (5 handlers)
+[GIN-debug] POST   /updateProduct            --> stock/apps/fleetDashboard/controller.updateProduct (5 handlers)
+[GIN-debug] GET    /getProductById           --> stock/apps/fleetDashboard/controller.getProductById (5 handlers)
+[GIN-debug] GET    /deleteProducts           --> stock/apps/fleetDashboard/controller.deleteProducts (5 handlers)
+[GIN-debug] GET    /getProducts              --> stock/apps/fleetDashboard/controller.getProducts (5 handlers)
+[GIN-debug] POST   /createStock              --> stock/apps/fleetDashboard/controller.createStock (5 handlers)
+[GIN-debug] POST   /updateStock              --> stock/apps/fleetDashboard/controller.updateStock (5 handlers)
+[GIN-debug] GET    /getStockById             --> stock/apps/fleetDashboard/controller.getStockById (5 handlers)
+[GIN-debug] GET    /deleteStocks             --> stock/apps/fleetDashboard/controller.deleteStocks (5 handlers)
+[GIN-debug] GET    /getStocks                --> stock/apps/fleetDashboard/controller.getStocks (5 handlers)
+[GIN-debug] POST   /createPerson             --> stock/apps/fleetDashboard/controller.createPerson (5 handlers)
+[GIN-debug] POST   /updatePerson             --> stock/apps/fleetDashboard/controller.updatePerson (5 handlers)
+[GIN-debug] GET    /getPersonById            --> stock/apps/fleetDashboard/controller.getPersonById (5 handlers)
+[GIN-debug] GET    /deletePeople             --> stock/apps/fleetDashboard/controller.deletePeople (5 handlers)
+[GIN-debug] GET    /getPeople                --> stock/apps/fleetDashboard/controller.getPeople (5 handlers)
+[GIN-debug] POST   /createReceiving          --> stock/apps/fleetDashboard/controller.createReceiving (5 handlers)
+[GIN-debug] POST   /updateReceiving          --> stock/apps/fleetDashboard/controller.updateReceiving (5 handlers)
+[GIN-debug] GET    /getReceivingById         --> stock/apps/fleetDashboard/controller.getReceivingById (5 handlers)
+[GIN-debug] GET    /deleteReceivings         --> stock/apps/fleetDashboard/controller.deleteReceivings (5 handlers)
+[GIN-debug] GET    /getReceivings            --> stock/apps/fleetDashboard/controller.getReceivings (5 handlers)
+[GIN-debug] POST   /createPayment            --> stock/apps/fleetDashboard/controller.createPayment (5 handlers)
+[GIN-debug] POST   /updatePayment            --> stock/apps/fleetDashboard/controller.updatePayment (5 handlers)
+[GIN-debug] GET    /getPaymentById           --> stock/apps/fleetDashboard/controller.getPaymentById (5 handlers)
+[GIN-debug] GET    /deletePayments           --> stock/apps/fleetDashboard/controller.deletePayments (5 handlers)
+[GIN-debug] GET    /getPayments              --> stock/apps/fleetDashboard/controller.getPayments (5 handlers)
+[GIN-debug] POST   /createExpense            --> stock/apps/fleetDashboard/controller.createExpense (5 handlers)
+[GIN-debug] POST   /updateExpense            --> stock/apps/fleetDashboard/controller.updateExpense (5 handlers)
+[GIN-debug] GET    /getExpenseById           --> stock/apps/fleetDashboard/controller.getExpenseById (5 handlers)
+[GIN-debug] GET    /deleteExpenses           --> stock/apps/fleetDashboard/controller.deleteExpenses (5 handlers)
+[GIN-debug] GET    /getExpenses              --> stock/apps/fleetDashboard/controller.getExpenses (5 handlers)
+INFO: 2018/07/30 22:25:04 [200 POST /createExpense 110.840179ms]
+INFO: 2018/07/30 22:25:46 [200 POST /updateExpense 103.312144ms]
+INFO: 2018/07/30 22:26:45 [200 GET /getExpenseById 1.071936ms]
+DEBUG: 2018/07/30 22:27:12 [SELECT * FROM stock_demo.expense WHERE  name LIKE '%gofret%'  ORDER BY  name  ASC  LIMIT 0,10]
+INFO: 2018/07/30 22:27:12 [200 GET /getExpenses 39.98625ms]
+DEBUG: 2018/07/30 22:27:16 [SELECT * FROM stock_demo.expense ORDER BY  name  ASC  LIMIT 0,10]
+INFO: 2018/07/30 22:27:16 [200 GET /getExpenses 8.919996ms]
+DEBUG: 2018/07/30 22:27:32 [DELETE FROM stock_demo.expense WHERE id in (1,2)]
+INFO: 2018/07/30 22:27:33 [200 GET /deleteExpenses 109.251777ms]
+INFO: 2018/07/30 22:27:37 [200 POST /createExpense 133.928365ms]
+INFO: 2018/07/30 22:27:40 [200 POST /createExpense 79.346139ms]
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] POST   /createProduct            --> stock/apps/fleetDashboard/controller.createProduct (5 handlers)
+[GIN-debug] POST   /updateProduct            --> stock/apps/fleetDashboard/controller.updateProduct (5 handlers)
+[GIN-debug] GET    /getProductById           --> stock/apps/fleetDashboard/controller.getProductById (5 handlers)
+[GIN-debug] GET    /deleteProducts           --> stock/apps/fleetDashboard/controller.deleteProducts (5 handlers)
+[GIN-debug] GET    /getProducts              --> stock/apps/fleetDashboard/controller.getProducts (5 handlers)
+[GIN-debug] POST   /createStock              --> stock/apps/fleetDashboard/controller.createStock (5 handlers)
+[GIN-debug] POST   /updateStock              --> stock/apps/fleetDashboard/controller.updateStock (5 handlers)
+[GIN-debug] GET    /getStockById             --> stock/apps/fleetDashboard/controller.getStockById (5 handlers)
+[GIN-debug] GET    /deleteStocks             --> stock/apps/fleetDashboard/controller.deleteStocks (5 handlers)
+[GIN-debug] GET    /getStocks                --> stock/apps/fleetDashboard/controller.getStocks (5 handlers)
+[GIN-debug] POST   /createPerson             --> stock/apps/fleetDashboard/controller.createPerson (5 handlers)
+[GIN-debug] POST   /updatePerson             --> stock/apps/fleetDashboard/controller.updatePerson (5 handlers)
+[GIN-debug] GET    /getPersonById            --> stock/apps/fleetDashboard/controller.getPersonById (5 handlers)
+[GIN-debug] GET    /deletePeople             --> stock/apps/fleetDashboard/controller.deletePeople (5 handlers)
+[GIN-debug] GET    /getPeople                --> stock/apps/fleetDashboard/controller.getPeople (5 handlers)
+[GIN-debug] POST   /createReceiving          --> stock/apps/fleetDashboard/controller.createReceiving (5 handlers)
+[GIN-debug] POST   /updateReceiving          --> stock/apps/fleetDashboard/controller.updateReceiving (5 handlers)
+[GIN-debug] GET    /getReceivingById         --> stock/apps/fleetDashboard/controller.getReceivingById (5 handlers)
+[GIN-debug] GET    /deleteReceivings         --> stock/apps/fleetDashboard/controller.deleteReceivings (5 handlers)
+[GIN-debug] GET    /getReceivings            --> stock/apps/fleetDashboard/controller.getReceivings (5 handlers)
+[GIN-debug] POST   /createPayment            --> stock/apps/fleetDashboard/controller.createPayment (5 handlers)
+[GIN-debug] POST   /updatePayment            --> stock/apps/fleetDashboard/controller.updatePayment (5 handlers)
+[GIN-debug] GET    /getPaymentById           --> stock/apps/fleetDashboard/controller.getPaymentById (5 handlers)
+[GIN-debug] GET    /deletePayments           --> stock/apps/fleetDashboard/controller.deletePayments (5 handlers)
+[GIN-debug] GET    /getPayments              --> stock/apps/fleetDashboard/controller.getPayments (5 handlers)
+[GIN-debug] POST   /createExpense            --> stock/apps/fleetDashboard/controller.createExpense (5 handlers)
+[GIN-debug] POST   /updateExpense            --> stock/apps/fleetDashboard/controller.updateExpense (5 handlers)
+[GIN-debug] GET    /getExpenseById           --> stock/apps/fleetDashboard/controller.getExpenseById (5 handlers)
+[GIN-debug] GET    /deleteExpenses           --> stock/apps/fleetDashboard/controller.deleteExpenses (5 handlers)
+[GIN-debug] GET    /getExpenses              --> stock/apps/fleetDashboard/controller.getExpenses (5 handlers)
+[GIN-debug] POST   /createUser               --> stock/apps/fleetDashboard/controller.createUser (5 handlers)
+[GIN-debug] POST   /updateUser               --> stock/apps/fleetDashboard/controller.updateUser (5 handlers)
+[GIN-debug] GET    /getUserById              --> stock/apps/fleetDashboard/controller.getUserById (5 handlers)
+[GIN-debug] GET    /deleteUsers              --> stock/apps/fleetDashboard/controller.deleteUsers (5 handlers)
+[GIN-debug] GET    /getUsers                 --> stock/apps/fleetDashboard/controller.getUsers (5 handlers)
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] POST   /createProduct            --> stock/apps/fleetDashboard/controller.createProduct (5 handlers)
+[GIN-debug] POST   /updateProduct            --> stock/apps/fleetDashboard/controller.updateProduct (5 handlers)
+[GIN-debug] GET    /getProductById           --> stock/apps/fleetDashboard/controller.getProductById (5 handlers)
+[GIN-debug] GET    /deleteProducts           --> stock/apps/fleetDashboard/controller.deleteProducts (5 handlers)
+[GIN-debug] GET    /getProducts              --> stock/apps/fleetDashboard/controller.getProducts (5 handlers)
+[GIN-debug] POST   /createStock              --> stock/apps/fleetDashboard/controller.createStock (5 handlers)
+[GIN-debug] POST   /updateStock              --> stock/apps/fleetDashboard/controller.updateStock (5 handlers)
+[GIN-debug] GET    /getStockById             --> stock/apps/fleetDashboard/controller.getStockById (5 handlers)
+[GIN-debug] GET    /deleteStocks             --> stock/apps/fleetDashboard/controller.deleteStocks (5 handlers)
+[GIN-debug] GET    /getStocks                --> stock/apps/fleetDashboard/controller.getStocks (5 handlers)
+[GIN-debug] POST   /createPerson             --> stock/apps/fleetDashboard/controller.createPerson (5 handlers)
+[GIN-debug] POST   /updatePerson             --> stock/apps/fleetDashboard/controller.updatePerson (5 handlers)
+[GIN-debug] GET    /getPersonById            --> stock/apps/fleetDashboard/controller.getPersonById (5 handlers)
+[GIN-debug] GET    /deletePeople             --> stock/apps/fleetDashboard/controller.deletePeople (5 handlers)
+[GIN-debug] GET    /getPeople                --> stock/apps/fleetDashboard/controller.getPeople (5 handlers)
+[GIN-debug] POST   /createReceiving          --> stock/apps/fleetDashboard/controller.createReceiving (5 handlers)
+[GIN-debug] POST   /updateReceiving          --> stock/apps/fleetDashboard/controller.updateReceiving (5 handlers)
+[GIN-debug] GET    /getReceivingById         --> stock/apps/fleetDashboard/controller.getReceivingById (5 handlers)
+[GIN-debug] GET    /deleteReceivings         --> stock/apps/fleetDashboard/controller.deleteReceivings (5 handlers)
+[GIN-debug] GET    /getReceivings            --> stock/apps/fleetDashboard/controller.getReceivings (5 handlers)
+[GIN-debug] POST   /createPayment            --> stock/apps/fleetDashboard/controller.createPayment (5 handlers)
+[GIN-debug] POST   /updatePayment            --> stock/apps/fleetDashboard/controller.updatePayment (5 handlers)
+[GIN-debug] GET    /getPaymentById           --> stock/apps/fleetDashboard/controller.getPaymentById (5 handlers)
+[GIN-debug] GET    /deletePayments           --> stock/apps/fleetDashboard/controller.deletePayments (5 handlers)
+[GIN-debug] GET    /getPayments              --> stock/apps/fleetDashboard/controller.getPayments (5 handlers)
+[GIN-debug] POST   /createExpense            --> stock/apps/fleetDashboard/controller.createExpense (5 handlers)
+[GIN-debug] POST   /updateExpense            --> stock/apps/fleetDashboard/controller.updateExpense (5 handlers)
+[GIN-debug] GET    /getExpenseById           --> stock/apps/fleetDashboard/controller.getExpenseById (5 handlers)
+[GIN-debug] GET    /deleteExpenses           --> stock/apps/fleetDashboard/controller.deleteExpenses (5 handlers)
+[GIN-debug] GET    /getExpenses              --> stock/apps/fleetDashboard/controller.getExpenses (5 handlers)
+[GIN-debug] POST   /createUser               --> stock/apps/fleetDashboard/controller.createUser (5 handlers)
+[GIN-debug] POST   /updateUser               --> stock/apps/fleetDashboard/controller.updateUser (5 handlers)
+[GIN-debug] GET    /getUserById              --> stock/apps/fleetDashboard/controller.getUserById (5 handlers)
+[GIN-debug] GET    /deleteUsers              --> stock/apps/fleetDashboard/controller.deleteUsers (5 handlers)
+[GIN-debug] GET    /getUsers                 --> stock/apps/fleetDashboard/controller.getUsers (5 handlers)
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] POST   /createProduct            --> stock/apps/fleetDashboard/controller.createProduct (5 handlers)
+[GIN-debug] POST   /updateProduct            --> stock/apps/fleetDashboard/controller.updateProduct (5 handlers)
+[GIN-debug] GET    /getProductById           --> stock/apps/fleetDashboard/controller.getProductById (5 handlers)
+[GIN-debug] GET    /deleteProducts           --> stock/apps/fleetDashboard/controller.deleteProducts (5 handlers)
+[GIN-debug] GET    /getProducts              --> stock/apps/fleetDashboard/controller.getProducts (5 handlers)
+[GIN-debug] POST   /createStock              --> stock/apps/fleetDashboard/controller.createStock (5 handlers)
+[GIN-debug] POST   /updateStock              --> stock/apps/fleetDashboard/controller.updateStock (5 handlers)
+[GIN-debug] GET    /getStockById             --> stock/apps/fleetDashboard/controller.getStockById (5 handlers)
+[GIN-debug] GET    /deleteStocks             --> stock/apps/fleetDashboard/controller.deleteStocks (5 handlers)
+[GIN-debug] GET    /getStocks                --> stock/apps/fleetDashboard/controller.getStocks (5 handlers)
+[GIN-debug] POST   /createPerson             --> stock/apps/fleetDashboard/controller.createPerson (5 handlers)
+[GIN-debug] POST   /updatePerson             --> stock/apps/fleetDashboard/controller.updatePerson (5 handlers)
+[GIN-debug] GET    /getPersonById            --> stock/apps/fleetDashboard/controller.getPersonById (5 handlers)
+[GIN-debug] GET    /deletePeople             --> stock/apps/fleetDashboard/controller.deletePeople (5 handlers)
+[GIN-debug] GET    /getPeople                --> stock/apps/fleetDashboard/controller.getPeople (5 handlers)
+[GIN-debug] POST   /createReceiving          --> stock/apps/fleetDashboard/controller.createReceiving (5 handlers)
+[GIN-debug] POST   /updateReceiving          --> stock/apps/fleetDashboard/controller.updateReceiving (5 handlers)
+[GIN-debug] GET    /getReceivingById         --> stock/apps/fleetDashboard/controller.getReceivingById (5 handlers)
+[GIN-debug] GET    /deleteReceivings         --> stock/apps/fleetDashboard/controller.deleteReceivings (5 handlers)
+[GIN-debug] GET    /getReceivings            --> stock/apps/fleetDashboard/controller.getReceivings (5 handlers)
+[GIN-debug] POST   /createPayment            --> stock/apps/fleetDashboard/controller.createPayment (5 handlers)
+[GIN-debug] POST   /updatePayment            --> stock/apps/fleetDashboard/controller.updatePayment (5 handlers)
+[GIN-debug] GET    /getPaymentById           --> stock/apps/fleetDashboard/controller.getPaymentById (5 handlers)
+[GIN-debug] GET    /deletePayments           --> stock/apps/fleetDashboard/controller.deletePayments (5 handlers)
+[GIN-debug] GET    /getPayments              --> stock/apps/fleetDashboard/controller.getPayments (5 handlers)
+[GIN-debug] POST   /createExpense            --> stock/apps/fleetDashboard/controller.createExpense (5 handlers)
+[GIN-debug] POST   /updateExpense            --> stock/apps/fleetDashboard/controller.updateExpense (5 handlers)
+[GIN-debug] GET    /getExpenseById           --> stock/apps/fleetDashboard/controller.getExpenseById (5 handlers)
+[GIN-debug] GET    /deleteExpenses           --> stock/apps/fleetDashboard/controller.deleteExpenses (5 handlers)
+[GIN-debug] GET    /getExpenses              --> stock/apps/fleetDashboard/controller.getExpenses (5 handlers)
+[GIN-debug] POST   /createUser               --> stock/apps/fleetDashboard/controller.createUser (5 handlers)
+[GIN-debug] POST   /updateUser               --> stock/apps/fleetDashboard/controller.updateUser (5 handlers)
+[GIN-debug] GET    /getUserById              --> stock/apps/fleetDashboard/controller.getUserById (5 handlers)
+[GIN-debug] GET    /deleteUsers              --> stock/apps/fleetDashboard/controller.deleteUsers (5 handlers)
+[GIN-debug] GET    /getUsers                 --> stock/apps/fleetDashboard/controller.getUsers (5 handlers)
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] POST   /createProduct            --> stock/apps/fleetDashboard/controller.createProduct (5 handlers)
+[GIN-debug] POST   /updateProduct            --> stock/apps/fleetDashboard/controller.updateProduct (5 handlers)
+[GIN-debug] GET    /getProductById           --> stock/apps/fleetDashboard/controller.getProductById (5 handlers)
+[GIN-debug] GET    /deleteProducts           --> stock/apps/fleetDashboard/controller.deleteProducts (5 handlers)
+[GIN-debug] GET    /getProducts              --> stock/apps/fleetDashboard/controller.getProducts (5 handlers)
+[GIN-debug] POST   /createStock              --> stock/apps/fleetDashboard/controller.createStock (5 handlers)
+[GIN-debug] POST   /updateStock              --> stock/apps/fleetDashboard/controller.updateStock (5 handlers)
+[GIN-debug] GET    /getStockById             --> stock/apps/fleetDashboard/controller.getStockById (5 handlers)
+[GIN-debug] GET    /deleteStocks             --> stock/apps/fleetDashboard/controller.deleteStocks (5 handlers)
+[GIN-debug] GET    /getStocks                --> stock/apps/fleetDashboard/controller.getStocks (5 handlers)
+[GIN-debug] POST   /createPerson             --> stock/apps/fleetDashboard/controller.createPerson (5 handlers)
+[GIN-debug] POST   /updatePerson             --> stock/apps/fleetDashboard/controller.updatePerson (5 handlers)
+[GIN-debug] GET    /getPersonById            --> stock/apps/fleetDashboard/controller.getPersonById (5 handlers)
+[GIN-debug] GET    /deletePeople             --> stock/apps/fleetDashboard/controller.deletePeople (5 handlers)
+[GIN-debug] GET    /getPeople                --> stock/apps/fleetDashboard/controller.getPeople (5 handlers)
+[GIN-debug] POST   /createReceiving          --> stock/apps/fleetDashboard/controller.createReceiving (5 handlers)
+[GIN-debug] POST   /updateReceiving          --> stock/apps/fleetDashboard/controller.updateReceiving (5 handlers)
+[GIN-debug] GET    /getReceivingById         --> stock/apps/fleetDashboard/controller.getReceivingById (5 handlers)
+[GIN-debug] GET    /deleteReceivings         --> stock/apps/fleetDashboard/controller.deleteReceivings (5 handlers)
+[GIN-debug] GET    /getReceivings            --> stock/apps/fleetDashboard/controller.getReceivings (5 handlers)
+[GIN-debug] POST   /createPayment            --> stock/apps/fleetDashboard/controller.createPayment (5 handlers)
+[GIN-debug] POST   /updatePayment            --> stock/apps/fleetDashboard/controller.updatePayment (5 handlers)
+[GIN-debug] GET    /getPaymentById           --> stock/apps/fleetDashboard/controller.getPaymentById (5 handlers)
+[GIN-debug] GET    /deletePayments           --> stock/apps/fleetDashboard/controller.deletePayments (5 handlers)
+[GIN-debug] GET    /getPayments              --> stock/apps/fleetDashboard/controller.getPayments (5 handlers)
+[GIN-debug] POST   /createExpense            --> stock/apps/fleetDashboard/controller.createExpense (5 handlers)
+[GIN-debug] POST   /updateExpense            --> stock/apps/fleetDashboard/controller.updateExpense (5 handlers)
+[GIN-debug] GET    /getExpenseById           --> stock/apps/fleetDashboard/controller.getExpenseById (5 handlers)
+[GIN-debug] GET    /deleteExpenses           --> stock/apps/fleetDashboard/controller.deleteExpenses (5 handlers)
+[GIN-debug] GET    /getExpenses              --> stock/apps/fleetDashboard/controller.getExpenses (5 handlers)
+[GIN-debug] POST   /createUser               --> stock/apps/fleetDashboard/controller.createUser (5 handlers)
+[GIN-debug] POST   /updateUser               --> stock/apps/fleetDashboard/controller.updateUser (5 handlers)
+[GIN-debug] GET    /getUserById              --> stock/apps/fleetDashboard/controller.getUserById (5 handlers)
+[GIN-debug] GET    /deleteUsers              --> stock/apps/fleetDashboard/controller.deleteUsers (5 handlers)
+[GIN-debug] GET    /getUsers                 --> stock/apps/fleetDashboard/controller.getUsers (5 handlers)
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] POST   /login                    --> stock/apps/fleetDashboard/controller.handleLogin (5 handlers)
+[GIN-debug] POST   /createProduct            --> stock/apps/fleetDashboard/controller.createProduct (5 handlers)
+[GIN-debug] POST   /updateProduct            --> stock/apps/fleetDashboard/controller.updateProduct (5 handlers)
+[GIN-debug] GET    /getProductById           --> stock/apps/fleetDashboard/controller.getProductById (5 handlers)
+[GIN-debug] GET    /deleteProducts           --> stock/apps/fleetDashboard/controller.deleteProducts (5 handlers)
+[GIN-debug] GET    /getProducts              --> stock/apps/fleetDashboard/controller.getProducts (5 handlers)
+[GIN-debug] POST   /createStock              --> stock/apps/fleetDashboard/controller.createStock (5 handlers)
+[GIN-debug] POST   /updateStock              --> stock/apps/fleetDashboard/controller.updateStock (5 handlers)
+[GIN-debug] GET    /getStockById             --> stock/apps/fleetDashboard/controller.getStockById (5 handlers)
+[GIN-debug] GET    /deleteStocks             --> stock/apps/fleetDashboard/controller.deleteStocks (5 handlers)
+[GIN-debug] GET    /getStocks                --> stock/apps/fleetDashboard/controller.getStocks (5 handlers)
+[GIN-debug] POST   /createPerson             --> stock/apps/fleetDashboard/controller.createPerson (5 handlers)
+[GIN-debug] POST   /updatePerson             --> stock/apps/fleetDashboard/controller.updatePerson (5 handlers)
+[GIN-debug] GET    /getPersonById            --> stock/apps/fleetDashboard/controller.getPersonById (5 handlers)
+[GIN-debug] GET    /deletePeople             --> stock/apps/fleetDashboard/controller.deletePeople (5 handlers)
+[GIN-debug] GET    /getPeople                --> stock/apps/fleetDashboard/controller.getPeople (5 handlers)
+[GIN-debug] POST   /createReceiving          --> stock/apps/fleetDashboard/controller.createReceiving (5 handlers)
+[GIN-debug] POST   /updateReceiving          --> stock/apps/fleetDashboard/controller.updateReceiving (5 handlers)
+[GIN-debug] GET    /getReceivingById         --> stock/apps/fleetDashboard/controller.getReceivingById (5 handlers)
+[GIN-debug] GET    /deleteReceivings         --> stock/apps/fleetDashboard/controller.deleteReceivings (5 handlers)
+[GIN-debug] GET    /getReceivings            --> stock/apps/fleetDashboard/controller.getReceivings (5 handlers)
+[GIN-debug] POST   /createPayment            --> stock/apps/fleetDashboard/controller.createPayment (5 handlers)
+[GIN-debug] POST   /updatePayment            --> stock/apps/fleetDashboard/controller.updatePayment (5 handlers)
+[GIN-debug] GET    /getPaymentById           --> stock/apps/fleetDashboard/controller.getPaymentById (5 handlers)
+[GIN-debug] GET    /deletePayments           --> stock/apps/fleetDashboard/controller.deletePayments (5 handlers)
+[GIN-debug] GET    /getPayments              --> stock/apps/fleetDashboard/controller.getPayments (5 handlers)
+[GIN-debug] POST   /createExpense            --> stock/apps/fleetDashboard/controller.createExpense (5 handlers)
+[GIN-debug] POST   /updateExpense            --> stock/apps/fleetDashboard/controller.updateExpense (5 handlers)
+[GIN-debug] GET    /getExpenseById           --> stock/apps/fleetDashboard/controller.getExpenseById (5 handlers)
+[GIN-debug] GET    /deleteExpenses           --> stock/apps/fleetDashboard/controller.deleteExpenses (5 handlers)
+[GIN-debug] GET    /getExpenses              --> stock/apps/fleetDashboard/controller.getExpenses (5 handlers)
+[GIN-debug] POST   /createUser               --> stock/apps/fleetDashboard/controller.createUser (5 handlers)
+[GIN-debug] POST   /updateUser               --> stock/apps/fleetDashboard/controller.updateUser (5 handlers)
+[GIN-debug] GET    /getUserById              --> stock/apps/fleetDashboard/controller.getUserById (5 handlers)
+[GIN-debug] GET    /deleteUsers              --> stock/apps/fleetDashboard/controller.deleteUsers (5 handlers)
+[GIN-debug] GET    /getUsers                 --> stock/apps/fleetDashboard/controller.getUsers (5 handlers)
+INFO: 2018/07/30 23:45:43 [200 POST /createUser 371.064508ms]
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] POST   /login                    --> stock/apps/fleetDashboard/controller.handleLogin (5 handlers)
+[GIN-debug] POST   /createProduct            --> stock/apps/fleetDashboard/controller.createProduct (5 handlers)
+[GIN-debug] POST   /updateProduct            --> stock/apps/fleetDashboard/controller.updateProduct (5 handlers)
+[GIN-debug] GET    /getProductById           --> stock/apps/fleetDashboard/controller.getProductById (5 handlers)
+[GIN-debug] GET    /deleteProducts           --> stock/apps/fleetDashboard/controller.deleteProducts (5 handlers)
+[GIN-debug] GET    /getProducts              --> stock/apps/fleetDashboard/controller.getProducts (5 handlers)
+[GIN-debug] POST   /createStock              --> stock/apps/fleetDashboard/controller.createStock (5 handlers)
+[GIN-debug] POST   /updateStock              --> stock/apps/fleetDashboard/controller.updateStock (5 handlers)
+[GIN-debug] GET    /getStockById             --> stock/apps/fleetDashboard/controller.getStockById (5 handlers)
+[GIN-debug] GET    /deleteStocks             --> stock/apps/fleetDashboard/controller.deleteStocks (5 handlers)
+[GIN-debug] GET    /getStocks                --> stock/apps/fleetDashboard/controller.getStocks (5 handlers)
+[GIN-debug] POST   /createPerson             --> stock/apps/fleetDashboard/controller.createPerson (5 handlers)
+[GIN-debug] POST   /updatePerson             --> stock/apps/fleetDashboard/controller.updatePerson (5 handlers)
+[GIN-debug] GET    /getPersonById            --> stock/apps/fleetDashboard/controller.getPersonById (5 handlers)
+[GIN-debug] GET    /deletePeople             --> stock/apps/fleetDashboard/controller.deletePeople (5 handlers)
+[GIN-debug] GET    /getPeople                --> stock/apps/fleetDashboard/controller.getPeople (5 handlers)
+[GIN-debug] POST   /createReceiving          --> stock/apps/fleetDashboard/controller.createReceiving (5 handlers)
+[GIN-debug] POST   /updateReceiving          --> stock/apps/fleetDashboard/controller.updateReceiving (5 handlers)
+[GIN-debug] GET    /getReceivingById         --> stock/apps/fleetDashboard/controller.getReceivingById (5 handlers)
+[GIN-debug] GET    /deleteReceivings         --> stock/apps/fleetDashboard/controller.deleteReceivings (5 handlers)
+[GIN-debug] GET    /getReceivings            --> stock/apps/fleetDashboard/controller.getReceivings (5 handlers)
+[GIN-debug] POST   /createPayment            --> stock/apps/fleetDashboard/controller.createPayment (5 handlers)
+[GIN-debug] POST   /updatePayment            --> stock/apps/fleetDashboard/controller.updatePayment (5 handlers)
+[GIN-debug] GET    /getPaymentById           --> stock/apps/fleetDashboard/controller.getPaymentById (5 handlers)
+[GIN-debug] GET    /deletePayments           --> stock/apps/fleetDashboard/controller.deletePayments (5 handlers)
+[GIN-debug] GET    /getPayments              --> stock/apps/fleetDashboard/controller.getPayments (5 handlers)
+[GIN-debug] POST   /createExpense            --> stock/apps/fleetDashboard/controller.createExpense (5 handlers)
+[GIN-debug] POST   /updateExpense            --> stock/apps/fleetDashboard/controller.updateExpense (5 handlers)
+[GIN-debug] GET    /getExpenseById           --> stock/apps/fleetDashboard/controller.getExpenseById (5 handlers)
+[GIN-debug] GET    /deleteExpenses           --> stock/apps/fleetDashboard/controller.deleteExpenses (5 handlers)
+[GIN-debug] GET    /getExpenses              --> stock/apps/fleetDashboard/controller.getExpenses (5 handlers)
+[GIN-debug] POST   /createUser               --> stock/apps/fleetDashboard/controller.createUser (5 handlers)
+[GIN-debug] POST   /updateUser               --> stock/apps/fleetDashboard/controller.updateUser (5 handlers)
+[GIN-debug] GET    /getUserById              --> stock/apps/fleetDashboard/controller.getUserById (5 handlers)
+[GIN-debug] GET    /deleteUsers              --> stock/apps/fleetDashboard/controller.deleteUsers (5 handlers)
+[GIN-debug] GET    /getUsers                 --> stock/apps/fleetDashboard/controller.getUsers (5 handlers)
+DEBUG: 2018/07/30 23:48:10 [$2a$04$BP1Kx8fQswc75vTZIKH5gu9tBS/J2E0I4NglOIPHyf9cGfG4lUqSu]
+INFO: 2018/07/30 23:48:10 [200 POST /createUser 77.977011ms]
+INFO: 2018/07/30 23:49:55 [200 POST /login 4.954047ms]
+INFO: 2018/07/30 23:51:03 [200 POST /updateUser 131.953187ms]
+INFO: 2018/07/30 23:51:21 [200 GET /getUserById 1.377974ms]
+DEBUG: 2018/07/30 23:51:43 [SELECT * FROM stock_demo.user WHERE  email LIKE '%Tedarikçi%'  ORDER BY  name  ASC  LIMIT 0,10]
+INFO: 2018/07/30 23:51:43 [200 GET /getUsers 2.699301ms]
+DEBUG: 2018/07/30 23:52:01 [SELECT * FROM stock_demo.user ORDER BY  name  ASC  LIMIT 0,10]
+INFO: 2018/07/30 23:52:01 [200 GET /getUsers 38.937987ms]
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] POST   /login                    --> stock/apps/fleetDashboard/controller.handleLogin (5 handlers)
+[GIN-debug] POST   /createProduct            --> stock/apps/fleetDashboard/controller.createProduct (5 handlers)
+[GIN-debug] POST   /updateProduct            --> stock/apps/fleetDashboard/controller.updateProduct (5 handlers)
+[GIN-debug] GET    /getProductById           --> stock/apps/fleetDashboard/controller.getProductById (5 handlers)
+[GIN-debug] GET    /deleteProducts           --> stock/apps/fleetDashboard/controller.deleteProducts (5 handlers)
+[GIN-debug] GET    /getProducts              --> stock/apps/fleetDashboard/controller.getProducts (5 handlers)
+[GIN-debug] POST   /createStock              --> stock/apps/fleetDashboard/controller.createStock (5 handlers)
+[GIN-debug] POST   /updateStock              --> stock/apps/fleetDashboard/controller.updateStock (5 handlers)
+[GIN-debug] GET    /getStockById             --> stock/apps/fleetDashboard/controller.getStockById (5 handlers)
+[GIN-debug] GET    /deleteStocks             --> stock/apps/fleetDashboard/controller.deleteStocks (5 handlers)
+[GIN-debug] GET    /getStocks                --> stock/apps/fleetDashboard/controller.getStocks (5 handlers)
+[GIN-debug] POST   /createPerson             --> stock/apps/fleetDashboard/controller.createPerson (5 handlers)
+[GIN-debug] POST   /updatePerson             --> stock/apps/fleetDashboard/controller.updatePerson (5 handlers)
+[GIN-debug] GET    /getPersonById            --> stock/apps/fleetDashboard/controller.getPersonById (5 handlers)
+[GIN-debug] GET    /deletePeople             --> stock/apps/fleetDashboard/controller.deletePeople (5 handlers)
+[GIN-debug] GET    /getPeople                --> stock/apps/fleetDashboard/controller.getPeople (5 handlers)
+[GIN-debug] POST   /createReceiving          --> stock/apps/fleetDashboard/controller.createReceiving (5 handlers)
+[GIN-debug] POST   /updateReceiving          --> stock/apps/fleetDashboard/controller.updateReceiving (5 handlers)
+[GIN-debug] GET    /getReceivingById         --> stock/apps/fleetDashboard/controller.getReceivingById (5 handlers)
+[GIN-debug] GET    /deleteReceivings         --> stock/apps/fleetDashboard/controller.deleteReceivings (5 handlers)
+[GIN-debug] GET    /getReceivings            --> stock/apps/fleetDashboard/controller.getReceivings (5 handlers)
+[GIN-debug] POST   /createPayment            --> stock/apps/fleetDashboard/controller.createPayment (5 handlers)
+[GIN-debug] POST   /updatePayment            --> stock/apps/fleetDashboard/controller.updatePayment (5 handlers)
+[GIN-debug] GET    /getPaymentById           --> stock/apps/fleetDashboard/controller.getPaymentById (5 handlers)
+[GIN-debug] GET    /deletePayments           --> stock/apps/fleetDashboard/controller.deletePayments (5 handlers)
+[GIN-debug] GET    /getPayments              --> stock/apps/fleetDashboard/controller.getPayments (5 handlers)
+[GIN-debug] POST   /createExpense            --> stock/apps/fleetDashboard/controller.createExpense (5 handlers)
+[GIN-debug] POST   /updateExpense            --> stock/apps/fleetDashboard/controller.updateExpense (5 handlers)
+[GIN-debug] GET    /getExpenseById           --> stock/apps/fleetDashboard/controller.getExpenseById (5 handlers)
+[GIN-debug] GET    /deleteExpenses           --> stock/apps/fleetDashboard/controller.deleteExpenses (5 handlers)
+[GIN-debug] GET    /getExpenses              --> stock/apps/fleetDashboard/controller.getExpenses (5 handlers)
+[GIN-debug] POST   /createUser               --> stock/apps/fleetDashboard/controller.createUser (5 handlers)
+[GIN-debug] POST   /updateUser               --> stock/apps/fleetDashboard/controller.updateUser (5 handlers)
+[GIN-debug] GET    /getUserById              --> stock/apps/fleetDashboard/controller.getUserById (5 handlers)
+[GIN-debug] GET    /deleteUsers              --> stock/apps/fleetDashboard/controller.deleteUsers (5 handlers)
+[GIN-debug] GET    /getUsers                 --> stock/apps/fleetDashboard/controller.getUsers (5 handlers)
+[GIN-debug] GET    /me                       --> stock/apps/fleetDashboard/controller.handleGetMe (5 handlers)
+INFO: 2018/07/30 23:59:40 [404 GET /api/me 27.214µs]
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] POST   /login                    --> stock/apps/fleetDashboard/controller.handleLogin (5 handlers)
+[GIN-debug] GET    /me                       --> stock/apps/fleetDashboard/controller.handleGetMe (5 handlers)
+[GIN-debug] POST   /createProduct            --> stock/apps/fleetDashboard/controller.createProduct (5 handlers)
+[GIN-debug] POST   /updateProduct            --> stock/apps/fleetDashboard/controller.updateProduct (5 handlers)
+[GIN-debug] GET    /getProductById           --> stock/apps/fleetDashboard/controller.getProductById (5 handlers)
+[GIN-debug] GET    /deleteProducts           --> stock/apps/fleetDashboard/controller.deleteProducts (5 handlers)
+[GIN-debug] GET    /getProducts              --> stock/apps/fleetDashboard/controller.getProducts (5 handlers)
+[GIN-debug] POST   /createStock              --> stock/apps/fleetDashboard/controller.createStock (5 handlers)
+[GIN-debug] POST   /updateStock              --> stock/apps/fleetDashboard/controller.updateStock (5 handlers)
+[GIN-debug] GET    /getStockById             --> stock/apps/fleetDashboard/controller.getStockById (5 handlers)
+[GIN-debug] GET    /deleteStocks             --> stock/apps/fleetDashboard/controller.deleteStocks (5 handlers)
+[GIN-debug] GET    /getStocks                --> stock/apps/fleetDashboard/controller.getStocks (5 handlers)
+[GIN-debug] POST   /createPerson             --> stock/apps/fleetDashboard/controller.createPerson (5 handlers)
+[GIN-debug] POST   /updatePerson             --> stock/apps/fleetDashboard/controller.updatePerson (5 handlers)
+[GIN-debug] GET    /getPersonById            --> stock/apps/fleetDashboard/controller.getPersonById (5 handlers)
+[GIN-debug] GET    /deletePeople             --> stock/apps/fleetDashboard/controller.deletePeople (5 handlers)
+[GIN-debug] GET    /getPeople                --> stock/apps/fleetDashboard/controller.getPeople (5 handlers)
+[GIN-debug] POST   /createReceiving          --> stock/apps/fleetDashboard/controller.createReceiving (5 handlers)
+[GIN-debug] POST   /updateReceiving          --> stock/apps/fleetDashboard/controller.updateReceiving (5 handlers)
+[GIN-debug] GET    /getReceivingById         --> stock/apps/fleetDashboard/controller.getReceivingById (5 handlers)
+[GIN-debug] GET    /deleteReceivings         --> stock/apps/fleetDashboard/controller.deleteReceivings (5 handlers)
+[GIN-debug] GET    /getReceivings            --> stock/apps/fleetDashboard/controller.getReceivings (5 handlers)
+[GIN-debug] POST   /createPayment            --> stock/apps/fleetDashboard/controller.createPayment (5 handlers)
+[GIN-debug] POST   /updatePayment            --> stock/apps/fleetDashboard/controller.updatePayment (5 handlers)
+[GIN-debug] GET    /getPaymentById           --> stock/apps/fleetDashboard/controller.getPaymentById (5 handlers)
+[GIN-debug] GET    /deletePayments           --> stock/apps/fleetDashboard/controller.deletePayments (5 handlers)
+[GIN-debug] GET    /getPayments              --> stock/apps/fleetDashboard/controller.getPayments (5 handlers)
+[GIN-debug] POST   /createExpense            --> stock/apps/fleetDashboard/controller.createExpense (5 handlers)
+[GIN-debug] POST   /updateExpense            --> stock/apps/fleetDashboard/controller.updateExpense (5 handlers)
+[GIN-debug] GET    /getExpenseById           --> stock/apps/fleetDashboard/controller.getExpenseById (5 handlers)
+[GIN-debug] GET    /deleteExpenses           --> stock/apps/fleetDashboard/controller.deleteExpenses (5 handlers)
+[GIN-debug] GET    /getExpenses              --> stock/apps/fleetDashboard/controller.getExpenses (5 handlers)
+[GIN-debug] POST   /createUser               --> stock/apps/fleetDashboard/controller.createUser (5 handlers)
+[GIN-debug] POST   /updateUser               --> stock/apps/fleetDashboard/controller.updateUser (5 handlers)
+[GIN-debug] GET    /getUserById              --> stock/apps/fleetDashboard/controller.getUserById (5 handlers)
+[GIN-debug] GET    /deleteUsers              --> stock/apps/fleetDashboard/controller.deleteUsers (5 handlers)
+[GIN-debug] GET    /getUsers                 --> stock/apps/fleetDashboard/controller.getUsers (5 handlers)
+INFO: 2018/07/31 00:00:59 [404 GET /api/me 28.686µs]
+DEBUG: 2018/07/31 00:02:18 [<nil>]
+[GIN-debug] [WARNING] Headers were already written. Wanted to override status code 200 with 500
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] POST   /login                    --> stock/apps/fleetDashboard/controller.handleLogin (5 handlers)
+[GIN-debug] GET    /me                       --> stock/apps/fleetDashboard/controller.handleGetMe (5 handlers)
+[GIN-debug] POST   /createProduct            --> stock/apps/fleetDashboard/controller.createProduct (5 handlers)
+[GIN-debug] POST   /updateProduct            --> stock/apps/fleetDashboard/controller.updateProduct (5 handlers)
+[GIN-debug] GET    /getProductById           --> stock/apps/fleetDashboard/controller.getProductById (5 handlers)
+[GIN-debug] GET    /deleteProducts           --> stock/apps/fleetDashboard/controller.deleteProducts (5 handlers)
+[GIN-debug] GET    /getProducts              --> stock/apps/fleetDashboard/controller.getProducts (5 handlers)
+[GIN-debug] POST   /createStock              --> stock/apps/fleetDashboard/controller.createStock (5 handlers)
+[GIN-debug] POST   /updateStock              --> stock/apps/fleetDashboard/controller.updateStock (5 handlers)
+[GIN-debug] GET    /getStockById             --> stock/apps/fleetDashboard/controller.getStockById (5 handlers)
+[GIN-debug] GET    /deleteStocks             --> stock/apps/fleetDashboard/controller.deleteStocks (5 handlers)
+[GIN-debug] GET    /getStocks                --> stock/apps/fleetDashboard/controller.getStocks (5 handlers)
+[GIN-debug] POST   /createPerson             --> stock/apps/fleetDashboard/controller.createPerson (5 handlers)
+[GIN-debug] POST   /updatePerson             --> stock/apps/fleetDashboard/controller.updatePerson (5 handlers)
+[GIN-debug] GET    /getPersonById            --> stock/apps/fleetDashboard/controller.getPersonById (5 handlers)
+[GIN-debug] GET    /deletePeople             --> stock/apps/fleetDashboard/controller.deletePeople (5 handlers)
+[GIN-debug] GET    /getPeople                --> stock/apps/fleetDashboard/controller.getPeople (5 handlers)
+[GIN-debug] POST   /createReceiving          --> stock/apps/fleetDashboard/controller.createReceiving (5 handlers)
+[GIN-debug] POST   /updateReceiving          --> stock/apps/fleetDashboard/controller.updateReceiving (5 handlers)
+[GIN-debug] GET    /getReceivingById         --> stock/apps/fleetDashboard/controller.getReceivingById (5 handlers)
+[GIN-debug] GET    /deleteReceivings         --> stock/apps/fleetDashboard/controller.deleteReceivings (5 handlers)
+[GIN-debug] GET    /getReceivings            --> stock/apps/fleetDashboard/controller.getReceivings (5 handlers)
+[GIN-debug] POST   /createPayment            --> stock/apps/fleetDashboard/controller.createPayment (5 handlers)
+[GIN-debug] POST   /updatePayment            --> stock/apps/fleetDashboard/controller.updatePayment (5 handlers)
+[GIN-debug] GET    /getPaymentById           --> stock/apps/fleetDashboard/controller.getPaymentById (5 handlers)
+[GIN-debug] GET    /deletePayments           --> stock/apps/fleetDashboard/controller.deletePayments (5 handlers)
+[GIN-debug] GET    /getPayments              --> stock/apps/fleetDashboard/controller.getPayments (5 handlers)
+[GIN-debug] POST   /createExpense            --> stock/apps/fleetDashboard/controller.createExpense (5 handlers)
+[GIN-debug] POST   /updateExpense            --> stock/apps/fleetDashboard/controller.updateExpense (5 handlers)
+[GIN-debug] GET    /getExpenseById           --> stock/apps/fleetDashboard/controller.getExpenseById (5 handlers)
+[GIN-debug] GET    /deleteExpenses           --> stock/apps/fleetDashboard/controller.deleteExpenses (5 handlers)
+[GIN-debug] GET    /getExpenses              --> stock/apps/fleetDashboard/controller.getExpenses (5 handlers)
+[GIN-debug] POST   /createUser               --> stock/apps/fleetDashboard/controller.createUser (5 handlers)
+[GIN-debug] POST   /updateUser               --> stock/apps/fleetDashboard/controller.updateUser (5 handlers)
+[GIN-debug] GET    /getUserById              --> stock/apps/fleetDashboard/controller.getUserById (5 handlers)
+[GIN-debug] GET    /deleteUsers              --> stock/apps/fleetDashboard/controller.deleteUsers (5 handlers)
+[GIN-debug] GET    /getUsers                 --> stock/apps/fleetDashboard/controller.getUsers (5 handlers)
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] POST   /login                    --> stock/apps/fleetDashboard/controller.handleLogin (5 handlers)
+[GIN-debug] GET    /api/me                   --> stock/apps/fleetDashboard/controller.handleGetMe (6 handlers)
+[GIN-debug] POST   /createProduct            --> stock/apps/fleetDashboard/controller.createProduct (5 handlers)
+[GIN-debug] POST   /updateProduct            --> stock/apps/fleetDashboard/controller.updateProduct (5 handlers)
+[GIN-debug] GET    /getProductById           --> stock/apps/fleetDashboard/controller.getProductById (5 handlers)
+[GIN-debug] GET    /deleteProducts           --> stock/apps/fleetDashboard/controller.deleteProducts (5 handlers)
+[GIN-debug] GET    /getProducts              --> stock/apps/fleetDashboard/controller.getProducts (5 handlers)
+[GIN-debug] POST   /createStock              --> stock/apps/fleetDashboard/controller.createStock (5 handlers)
+[GIN-debug] POST   /updateStock              --> stock/apps/fleetDashboard/controller.updateStock (5 handlers)
+[GIN-debug] GET    /getStockById             --> stock/apps/fleetDashboard/controller.getStockById (5 handlers)
+[GIN-debug] GET    /deleteStocks             --> stock/apps/fleetDashboard/controller.deleteStocks (5 handlers)
+[GIN-debug] GET    /getStocks                --> stock/apps/fleetDashboard/controller.getStocks (5 handlers)
+[GIN-debug] POST   /createPerson             --> stock/apps/fleetDashboard/controller.createPerson (5 handlers)
+[GIN-debug] POST   /updatePerson             --> stock/apps/fleetDashboard/controller.updatePerson (5 handlers)
+[GIN-debug] GET    /getPersonById            --> stock/apps/fleetDashboard/controller.getPersonById (5 handlers)
+[GIN-debug] GET    /deletePeople             --> stock/apps/fleetDashboard/controller.deletePeople (5 handlers)
+[GIN-debug] GET    /getPeople                --> stock/apps/fleetDashboard/controller.getPeople (5 handlers)
+[GIN-debug] POST   /createReceiving          --> stock/apps/fleetDashboard/controller.createReceiving (5 handlers)
+[GIN-debug] POST   /updateReceiving          --> stock/apps/fleetDashboard/controller.updateReceiving (5 handlers)
+[GIN-debug] GET    /getReceivingById         --> stock/apps/fleetDashboard/controller.getReceivingById (5 handlers)
+[GIN-debug] GET    /deleteReceivings         --> stock/apps/fleetDashboard/controller.deleteReceivings (5 handlers)
+[GIN-debug] GET    /getReceivings            --> stock/apps/fleetDashboard/controller.getReceivings (5 handlers)
+[GIN-debug] POST   /createPayment            --> stock/apps/fleetDashboard/controller.createPayment (5 handlers)
+[GIN-debug] POST   /updatePayment            --> stock/apps/fleetDashboard/controller.updatePayment (5 handlers)
+[GIN-debug] GET    /getPaymentById           --> stock/apps/fleetDashboard/controller.getPaymentById (5 handlers)
+[GIN-debug] GET    /deletePayments           --> stock/apps/fleetDashboard/controller.deletePayments (5 handlers)
+[GIN-debug] GET    /getPayments              --> stock/apps/fleetDashboard/controller.getPayments (5 handlers)
+[GIN-debug] POST   /createExpense            --> stock/apps/fleetDashboard/controller.createExpense (5 handlers)
+[GIN-debug] POST   /updateExpense            --> stock/apps/fleetDashboard/controller.updateExpense (5 handlers)
+[GIN-debug] GET    /getExpenseById           --> stock/apps/fleetDashboard/controller.getExpenseById (5 handlers)
+[GIN-debug] GET    /deleteExpenses           --> stock/apps/fleetDashboard/controller.deleteExpenses (5 handlers)
+[GIN-debug] GET    /getExpenses              --> stock/apps/fleetDashboard/controller.getExpenses (5 handlers)
+[GIN-debug] POST   /createUser               --> stock/apps/fleetDashboard/controller.createUser (5 handlers)
+[GIN-debug] POST   /updateUser               --> stock/apps/fleetDashboard/controller.updateUser (5 handlers)
+[GIN-debug] GET    /getUserById              --> stock/apps/fleetDashboard/controller.getUserById (5 handlers)
+[GIN-debug] GET    /deleteUsers              --> stock/apps/fleetDashboard/controller.deleteUsers (5 handlers)
+[GIN-debug] GET    /getUsers                 --> stock/apps/fleetDashboard/controller.getUsers (5 handlers)
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] POST   /login                    --> stock/apps/fleetDashboard/controller.handleLogin (5 handlers)
+[GIN-debug] GET    /api/me                   --> stock/apps/fleetDashboard/controller.handleGetMe (6 handlers)
+[GIN-debug] POST   /createProduct            --> stock/apps/fleetDashboard/controller.createProduct (5 handlers)
+[GIN-debug] POST   /updateProduct            --> stock/apps/fleetDashboard/controller.updateProduct (5 handlers)
+[GIN-debug] GET    /getProductById           --> stock/apps/fleetDashboard/controller.getProductById (5 handlers)
+[GIN-debug] GET    /deleteProducts           --> stock/apps/fleetDashboard/controller.deleteProducts (5 handlers)
+[GIN-debug] GET    /getProducts              --> stock/apps/fleetDashboard/controller.getProducts (5 handlers)
+[GIN-debug] POST   /createStock              --> stock/apps/fleetDashboard/controller.createStock (5 handlers)
+[GIN-debug] POST   /updateStock              --> stock/apps/fleetDashboard/controller.updateStock (5 handlers)
+[GIN-debug] GET    /getStockById             --> stock/apps/fleetDashboard/controller.getStockById (5 handlers)
+[GIN-debug] GET    /deleteStocks             --> stock/apps/fleetDashboard/controller.deleteStocks (5 handlers)
+[GIN-debug] GET    /getStocks                --> stock/apps/fleetDashboard/controller.getStocks (5 handlers)
+[GIN-debug] POST   /createPerson             --> stock/apps/fleetDashboard/controller.createPerson (5 handlers)
+[GIN-debug] POST   /updatePerson             --> stock/apps/fleetDashboard/controller.updatePerson (5 handlers)
+[GIN-debug] GET    /getPersonById            --> stock/apps/fleetDashboard/controller.getPersonById (5 handlers)
+[GIN-debug] GET    /deletePeople             --> stock/apps/fleetDashboard/controller.deletePeople (5 handlers)
+[GIN-debug] GET    /getPeople                --> stock/apps/fleetDashboard/controller.getPeople (5 handlers)
+[GIN-debug] POST   /createReceiving          --> stock/apps/fleetDashboard/controller.createReceiving (5 handlers)
+[GIN-debug] POST   /updateReceiving          --> stock/apps/fleetDashboard/controller.updateReceiving (5 handlers)
+[GIN-debug] GET    /getReceivingById         --> stock/apps/fleetDashboard/controller.getReceivingById (5 handlers)
+[GIN-debug] GET    /deleteReceivings         --> stock/apps/fleetDashboard/controller.deleteReceivings (5 handlers)
+[GIN-debug] GET    /getReceivings            --> stock/apps/fleetDashboard/controller.getReceivings (5 handlers)
+[GIN-debug] POST   /createPayment            --> stock/apps/fleetDashboard/controller.createPayment (5 handlers)
+[GIN-debug] POST   /updatePayment            --> stock/apps/fleetDashboard/controller.updatePayment (5 handlers)
+[GIN-debug] GET    /getPaymentById           --> stock/apps/fleetDashboard/controller.getPaymentById (5 handlers)
+[GIN-debug] GET    /deletePayments           --> stock/apps/fleetDashboard/controller.deletePayments (5 handlers)
+[GIN-debug] GET    /getPayments              --> stock/apps/fleetDashboard/controller.getPayments (5 handlers)
+[GIN-debug] POST   /createExpense            --> stock/apps/fleetDashboard/controller.createExpense (5 handlers)
+[GIN-debug] POST   /updateExpense            --> stock/apps/fleetDashboard/controller.updateExpense (5 handlers)
+[GIN-debug] GET    /getExpenseById           --> stock/apps/fleetDashboard/controller.getExpenseById (5 handlers)
+[GIN-debug] GET    /deleteExpenses           --> stock/apps/fleetDashboard/controller.deleteExpenses (5 handlers)
+[GIN-debug] GET    /getExpenses              --> stock/apps/fleetDashboard/controller.getExpenses (5 handlers)
+[GIN-debug] POST   /createUser               --> stock/apps/fleetDashboard/controller.createUser (5 handlers)
+[GIN-debug] POST   /updateUser               --> stock/apps/fleetDashboard/controller.updateUser (5 handlers)
+[GIN-debug] GET    /getUserById              --> stock/apps/fleetDashboard/controller.getUserById (5 handlers)
+[GIN-debug] GET    /deleteUsers              --> stock/apps/fleetDashboard/controller.deleteUsers (5 handlers)
+[GIN-debug] GET    /getUsers                 --> stock/apps/fleetDashboard/controller.getUsers (5 handlers)
+DEBUG: 2018/07/31 00:32:55 [map[email:cemalturkogluiu@gmail.com exp:1.533070195e+09 userId:1]]
+INFO: 2018/07/31 00:32:55 [200 GET /api/me 1.629963ms]
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] POST   /login                    --> stock/apps/fleetDashboard/controller.handleLogin (5 handlers)
+[GIN-debug] GET    /api/me                   --> stock/apps/fleetDashboard/controller.handleGetMe (6 handlers)
+[GIN-debug] POST   /createProduct            --> stock/apps/fleetDashboard/controller.createProduct (5 handlers)
+[GIN-debug] POST   /updateProduct            --> stock/apps/fleetDashboard/controller.updateProduct (5 handlers)
+[GIN-debug] GET    /getProductById           --> stock/apps/fleetDashboard/controller.getProductById (5 handlers)
+[GIN-debug] GET    /deleteProducts           --> stock/apps/fleetDashboard/controller.deleteProducts (5 handlers)
+[GIN-debug] GET    /getProducts              --> stock/apps/fleetDashboard/controller.getProducts (5 handlers)
+[GIN-debug] POST   /createStock              --> stock/apps/fleetDashboard/controller.createStock (5 handlers)
+[GIN-debug] POST   /updateStock              --> stock/apps/fleetDashboard/controller.updateStock (5 handlers)
+[GIN-debug] GET    /getStockById             --> stock/apps/fleetDashboard/controller.getStockById (5 handlers)
+[GIN-debug] GET    /deleteStocks             --> stock/apps/fleetDashboard/controller.deleteStocks (5 handlers)
+[GIN-debug] GET    /getStocks                --> stock/apps/fleetDashboard/controller.getStocks (5 handlers)
+[GIN-debug] POST   /createPerson             --> stock/apps/fleetDashboard/controller.createPerson (5 handlers)
+[GIN-debug] POST   /updatePerson             --> stock/apps/fleetDashboard/controller.updatePerson (5 handlers)
+[GIN-debug] GET    /getPersonById            --> stock/apps/fleetDashboard/controller.getPersonById (5 handlers)
+[GIN-debug] GET    /deletePeople             --> stock/apps/fleetDashboard/controller.deletePeople (5 handlers)
+[GIN-debug] GET    /getPeople                --> stock/apps/fleetDashboard/controller.getPeople (5 handlers)
+[GIN-debug] POST   /createReceiving          --> stock/apps/fleetDashboard/controller.createReceiving (5 handlers)
+[GIN-debug] POST   /updateReceiving          --> stock/apps/fleetDashboard/controller.updateReceiving (5 handlers)
+[GIN-debug] GET    /getReceivingById         --> stock/apps/fleetDashboard/controller.getReceivingById (5 handlers)
+[GIN-debug] GET    /deleteReceivings         --> stock/apps/fleetDashboard/controller.deleteReceivings (5 handlers)
+[GIN-debug] GET    /getReceivings            --> stock/apps/fleetDashboard/controller.getReceivings (5 handlers)
+[GIN-debug] POST   /createPayment            --> stock/apps/fleetDashboard/controller.createPayment (5 handlers)
+[GIN-debug] POST   /updatePayment            --> stock/apps/fleetDashboard/controller.updatePayment (5 handlers)
+[GIN-debug] GET    /getPaymentById           --> stock/apps/fleetDashboard/controller.getPaymentById (5 handlers)
+[GIN-debug] GET    /deletePayments           --> stock/apps/fleetDashboard/controller.deletePayments (5 handlers)
+[GIN-debug] GET    /getPayments              --> stock/apps/fleetDashboard/controller.getPayments (5 handlers)
+[GIN-debug] POST   /createExpense            --> stock/apps/fleetDashboard/controller.createExpense (5 handlers)
+[GIN-debug] POST   /updateExpense            --> stock/apps/fleetDashboard/controller.updateExpense (5 handlers)
+[GIN-debug] GET    /getExpenseById           --> stock/apps/fleetDashboard/controller.getExpenseById (5 handlers)
+[GIN-debug] GET    /deleteExpenses           --> stock/apps/fleetDashboard/controller.deleteExpenses (5 handlers)
+[GIN-debug] GET    /getExpenses              --> stock/apps/fleetDashboard/controller.getExpenses (5 handlers)
+[GIN-debug] POST   /createUser               --> stock/apps/fleetDashboard/controller.createUser (5 handlers)
+[GIN-debug] POST   /updateUser               --> stock/apps/fleetDashboard/controller.updateUser (5 handlers)
+[GIN-debug] GET    /getUserById              --> stock/apps/fleetDashboard/controller.getUserById (5 handlers)
+[GIN-debug] GET    /deleteUsers              --> stock/apps/fleetDashboard/controller.deleteUsers (5 handlers)
+[GIN-debug] GET    /getUsers                 --> stock/apps/fleetDashboard/controller.getUsers (5 handlers)
+DEBUG: 2018/07/31 00:34:34 [map[userId:1 email:cemalturkogluiu@gmail.com exp:1.533070195e+09]]
+INFO: 2018/07/31 00:34:34 [200 GET /api/me 1.342285ms]
+INFO: 2018/07/31 00:35:07 [200 POST /login 3.289087ms]
+INFO: 2018/07/31 00:35:17 [200 POST /login 3.474163ms]
+INFO: 2018/07/31 00:35:25 [200 POST /login 5.557017ms]

@@ -1,0 +1,17 @@
+app:
+  name: Dashboard_app
+  sql:
+    host:   localhost
+    port:   3306
+    user:   root
+    pass:   root
+    db:     stock_demo
+  log:
+    file: "dashboard_app.log"
+    debug: true
+  mail:
+    user: no-reply@iugo.tech
+    password: iugo14112016
+    smtpAddress: smtp.gmail.com
+    smtpPort: 587
+    templateFilePathPrefix: ./templates/email/

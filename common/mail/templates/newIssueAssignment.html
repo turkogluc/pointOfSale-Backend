@@ -1,0 +1,51 @@
+<html>
+<head>
+    <style media="screen" type="text/css">
+        table thead td, table thead tr {
+            border: 2px solid;
+            background-color: lightgreen;
+        }
+        table td, table tr {
+            border: 2px solid;
+        }
+        table {
+            border: 2px solid lightgreen;
+            border-collapse: collapse;
+            border-spacing: 0;
+        }
+    </style>
+</head>
+
+<p>Merhaba,</p>
+<p>Aşağıda detayları belirtilen issue size atanmıştır. </p>
+
+
+<table>
+    <thead>
+    <tr>
+        <th><span translate>Araç Adı</span></th>
+        <th><span translate>Plaka</span></th>
+        <th><span translate>Tarih</span></th>
+        <th><span translate>Atayan Kişi</span></th>
+        <th><span translate>Başlık</span></th>
+        <th><span translate>Açıklama</span></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>{{.VehicleName}}</td>
+        <td>{{.VehiclePlate}}</td>
+        <td>{{formatDate .CreationDate}}</td>
+        <td>{{.ReporterName}}</td>
+        <td>{{.Summary}}</td>
+        <td>{{.Description}}</td>
+    </tr>
+    </tbody>
+</table>
+
+
+<p>İyi çalışmalar.</p>
+<p>iUGO Teknoloji</p>
+<p>www.iugo.tech</p>
+</body>
+</html>
