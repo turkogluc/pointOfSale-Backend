@@ -1,0 +1,490 @@
+package controllers
+
+import (
+	"time"
+	"strconv"
+	"strings"
+
+	"github.com/gin-gonic/gin"
+	//"github.com/gorilla/websocket"
+	jwt_lib "github.com/dgrijalva/jwt-go"
+
+//	. "iugo.tech/common/logger"
+	. "iugo.tech/apps/dashboard/interfaces"
+
+	//"fmt"
+)
+
+var CachedTrips []*DriverReportResponse
+var CachedTrips2 map[string][]*TripReportResp
+var LastTripTime int64
+
+func InitRoutes(public, private *gin.RouterGroup) {
+	public.POST( "register", register)
+	public.POST( "login", login)
+
+	private.POST("groups", CreateGroup)
+	private.GET( "groups", GetGroupWithChildren)
+	private.PUT( "groups/:id/name", UpdateGroupName)
+
+	private.GET( "live", liveTrack)
+
+	private.GET( "reports", GetReport)
+
+	private.GET( "rules", GetRules)
+	private.PUT( "rules", UpdateRules)
+
+	private.GET( "timecards", GetTimecards)
+
+	private.GET( "trips", GetTrips)
+	private.GET( "trip_summaries", GetTripSummaries)
+
+	private.POST(  "users",     CreateUser)
+	private.GET(   "users",     GetUsers)
+	private.GET(   "users/:id", GetUser)
+	private.PUT(   "users/:id", UpdateUser)
+	private.DELETE("users/:id", DeleteUser)
+
+	private.POST(  "vehicles", CreateVehicle)
+	private.GET(   "vehicles", GetVehicles)
+	private.GET(   "vehicles/:id", GetVehicle)
+	private.PUT(   "vehicles/:id", UpdateVehicle)
+	private.DELETE("vehicles/:id", DeleteVehicle)
+
+	private.GET( "violations", GetViolations)
+	private.GET( "trips/:tripid/violations", GetTripViolations)
+	//private.GET( "trips/:tripid/candata", GetCANData)
+	private.GET( "canbus/:tripid", GetCANData)
+	private.GET( "violation_summaries", GetTripViolationSummaries)
+
+	private.GET( "productivity/violations", GetProductivityViolations)
+	private.GET( "productivity/violation_summaries", GetProductivityViolationSummaries)
+
+	private.POST(  "zones", CreateZone)
+	private.GET(   "zones", GetZones)
+	private.PUT(   "zones/:id", UpdateZone)
+	private.DELETE("zones/:id", DeleteZone)
+
+	private.GET( "league", GetLeagueList)
+
+	private.GET( "fuel_fillsup",  GetFuelFillsUp)
+	private.GET( "download_trip", GetRawTripData)
+
+	LastTripTime = 1476007600000
+}
+
+func register(c *gin.Context) { c.JSON(200, nil) }
+func CreateGroup(c *gin.Context) { c.JSON(200, nil) }
+func UpdateGroupName(c *gin.Context) { c.JSON(200, nil) }
+func GetRules(c *gin.Context) { c.JSON(200, nil) }
+func UpdateRules(c *gin.Context) { c.JSON(200, nil) }
+func GetTimecards(c *gin.Context) { c.JSON(200, nil) }
+func CreateUser(c *gin.Context) { c.JSON(200, nil) }
+func GetUsers(c *gin.Context) { c.JSON(200, nil) }
+func GetUser(c *gin.Context) { c.JSON(200, nil) }
+func UpdateUser(c *gin.Context) { c.JSON(200, nil) }
+func DeleteUser(c *gin.Context) { c.JSON(200, nil) }
+func CreateVehicle(c *gin.Context) { c.JSON(200, nil) }
+func GetVehicle(c *gin.Context) { c.JSON(200, nil) }
+func UpdateVehicle(c *gin.Context) { c.JSON(200, nil) }
+func DeleteVehicle(c *gin.Context) { c.JSON(200, nil) }
+func CreateZone(c *gin.Context) { c.JSON(200, nil) }
+func GetZones(c *gin.Context) { c.JSON(200, nil) }
+func UpdateZone(c *gin.Context) { c.JSON(200, nil) }
+func DeleteZone(c *gin.Context) { c.JSON(200, nil) }
+
+////////////////
+type loginParams struct {
+	Email 		string		`json:"email"`
+	Password 	string		`json:"password"`
+	ExtToken	string      `json:"extToken"`
+}
+
+func getUserIdFromToken(c *gin.Context) int {
+	v, _ := c.Get("token-claims")
+	claims := v.(map[string]interface{})
+	userIdStr := claims["id"].(string)
+	userId, _ := strconv.ParseFloat(userIdStr, 64)
+	return int(userId)
+}
+
+func getGroupIdFromToken(c *gin.Context) int {
+	v, _ := c.Get("token-claims")
+	claims := v.(map[string]interface{})
+	userGroup := claims["groupId"].(float64)
+	//groupId, _ := strconv.ParseFloat(userGroup, 64)
+	return int(userGroup)
+}
+
+func login(c *gin.Context) {
+	p := loginParams{}
+	c.BindJSON(&p)
+
+	//var userResp *UserResponse
+	var err error
+
+	/*if len(p.ExtToken) > 0 {
+		userResp, err = UseCase.HandleDTUserLogin(p.ExtToken)
+		if err != nil{
+			LogError(err)
+			c.JSON(404, gin.H{"message": "Token is invalid"})
+			return
+		}
+
+	} else{
+		LogInfo(p.Email)
+		userResp, err = UseCase.Login(p.Email, p.Password)
+		if err != nil {
+			LogError(err)
+			c.JSON(404, gin.H{"message": "User does not exist or wrong password"})
+			return
+		}
+	}*/
+
+
+	// Create the token
+	token := jwt_lib.New(jwt_lib.GetSigningMethod("HS256"))
+
+	// Set some claims
+	//token.Claims["id"] = userResp.Id
+	//token.Claims["name"] = userResp.Fullname
+	//token.Claims["groupId"] = userResp.GroupId
+	//token.Claims["exttoken"] = login.ExtToken
+	//token.Claims["exp"] = time.Now().Add(time.Hour * 24).Unix()
+
+	// Sign and get the complete encoded token as a string
+	tokenString, err := token.SignedString([]byte(secret))
+	if err != nil {
+		c.JSON(500, gin.H{"message": "Could not generate token"})
+	}
+	c.JSON(200, gin.H{"token": tokenString})
+
+
+	//response := `{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE0NzY4Nzg4NDEsImV4dHRva2VuIjoiIiwiZ3JvdXBJZCI6IjU3MjA4YTc1ZDA2ZTgwNmEzMjM3MWI4OCIsImlkIjoiNTc5YTFkMzY5NTQ2NWMxMmE4YjgwMmYzIiwibmFtZSI6IiJ9.DLsdd68xwI_sik46zX4-dXd4rFHsRjxCSCLTSL0T_GM"}`
+	//c.Data(200, gin.MIMEJSON, []byte(response))
+}
+
+func GetGroupWithChildren(c *gin.Context) {
+	groupId := getGroupIdFromToken(c)
+	g := UseCase.GetGroupWithChildren(groupId)
+	c.JSON(200, g)
+	//response := `{"id":"57c3f4e9d06e80436c617111","name":"SAYA GRUP","type":2,"ancestors":["57208a75d06e806a32371b88","571f0b7895465c22a79213ba"],"children":null,"customerId":1413,"rules":null,"tz":""}`
+	//c.Data(200, gin.MIMEJSON, []byte(response))
+}
+
+func GetVehicles(c *gin.Context) {
+	requestedIds := strings.Split(c.Query("groupIds"), ",")
+	drivers := []*DriverResponse{}
+	for i := range requestedIds {
+		groupId, _ := strconv.Atoi(requestedIds[i])
+		d, _ := UseCase.GetDriversForGroup(groupId)
+		drivers = append(drivers, d...)
+	}
+	c.JSON(200, drivers)
+	//response := `[{"id":"575fffa6d06e801f4e5a64ab","user":"34 PC 0219","userId":"575fffa6d06e801f4e5a64aa","groupId":"575fffa6d06e801f4e5a64a9","passive":true,"lastLoc":null,"lastAddress":"","created_at":"2016-05-25T13:35:27.393Z","lastTrip_date":"2016-04-20T00:00:00Z","syncDate":0,"plate":"34 PC 0219","serial":"","fuelType":"","tankCapacity":"","gearType":"","make":"","brand":"","model":0,"engineVolume":"","deviceName":"","protocol":"","rtOBDNameList":"","rtOBDIDList":"","rtOBDSizeList":"","supportedOBD":"","distance":0},{"id":"575fffa6d06e801f4e5a64ad","user":"34 PC 0836","userId":"575fffa6d06e801f4e5a64ac","groupId":"575fffa6d06e801f4e5a64a9","passive":false,"lastLoc":{"type":"Point","coordinates":[36.71058333333333,28.087538333333335]},"lastAddress":"  Turkey /  Muğla /  Marmaris /  Selimiye Köyü /  ","created_at":"2016-05-25T13:36:26.423Z","lastTrip_date":"2016-09-06T11:26:35.999Z","syncDate":0,"plate":"34 PC 0836","serial":"","fuelType":"","tankCapacity":"","gearType":"","make":"","brand":"","model":0,"engineVolume":"","deviceName":"","protocol":"","rtOBDNameList":"","rtOBDIDList":"","rtOBDSizeList":"","supportedOBD":"","distance":0},{"id":"575fffa6d06e801f4e5a64af","user":"34 PC 0221","userId":"575fffa6d06e801f4e5a64ae","groupId":"575fffa6d06e801f4e5a64a9","passive":false,"lastLoc":{"type":"Point","coordinates":[39.90924666666666,32.790955]},"lastAddress":"  Turkey /  Ankara /  Çankaya /  Söğütözü Mh. /  ","created_at":"2016-05-25T13:37:25.767Z","lastTrip_date":"2016-09-07T06:11:21.999Z","syncDate":0,"plate":"34 PC 0221","serial":"","fuelType":"","tankCapacity":"","gearType":"","make":"","brand":"","model":0,"engineVolume":"","deviceName":"","protocol":"","rtOBDNameList":"","rtOBDIDList":"","rtOBDSizeList":"","supportedOBD":"","distance":0}]`
+	//c.Data(200, gin.MIMEJSON, []byte(response))
+}
+
+func GetTrips(c *gin.Context) {
+	//groupId := getGroupIdFromToken(c)
+	//if len(CachedTrips) == 0 {
+	//	FetchTripData(groupId)
+	//}
+	//c.JSON(200, CachedTrips)
+
+	v  := c.Query("vehicleId")
+	m  := c.Query("minDate")
+	n  := c.Query("maxDate")
+	s  := c.Query("sort")
+	p  := c.Query("page")
+
+	vid, _     := strconv.Atoi(v)
+	minDate, _ := strconv.Atoi(m)
+	maxDate, _ := strconv.Atoi(n)
+	page, _    := strconv.Atoi(p)
+
+	//minDate +=  3*3600000
+	//maxDate +=  3*3600000
+
+
+	tripResp := UseCase.GetTripsResponse(vid, minDate, maxDate, s, page)
+
+
+
+	c.JSON(200, tripResp)
+}
+
+func GetTripSummaries(c *gin.Context) {
+
+	s  := strings.Split(c.Query("vehicleIds"), ",")
+	m  := c.Query("minDate")
+	n  := c.Query("maxDate")
+
+	ids := []int{}
+	for j:=0; j < len(s); j++{
+		id, _ := strconv.Atoi(s[j])
+		ids = append(ids, id)
+	}
+	minDate, _ := strconv.Atoi(m)
+	maxDate, _ := strconv.Atoi(n)
+
+	//minDate +=  3*3600000
+	//maxDate +=  3*3600000
+
+	tripSumResp := UseCase.GetTripSummaryResponse(ids, minDate, maxDate)
+
+	c.JSON(200, tripSumResp)
+}
+
+func GetTripViolations(c *gin.Context) {
+	tidStr := c.Param("tripid")
+	tid, _ := strconv.Atoi(tidStr)
+	tripViols,_ := UseCase.GetTripViolationsForTrip(tid)
+
+	c.JSON(200, tripViols)
+}
+
+func GetCANData(c *gin.Context) {
+	tidStr := c.Param("tripid")
+	tid, _ := strconv.Atoi(tidStr)
+	canData,_ := UseCase.GetTripCANData(tid)
+
+	c.JSON(200, canData)
+}
+
+
+func GetLeagueList(c *gin.Context){
+
+	s  := strings.Split(c.Query("vehicleIds"), ",")
+	p  := c.Query("period")
+	m  := c.Query("minDate")
+	f  := c.Query("field")
+
+	ids := []int{}
+	for j:=0; j < len(s); j++{
+		id, _ := strconv.Atoi(s[j])
+		ids = append(ids, id)
+	}
+	period , _ := strconv.Atoi(p)
+	minDate, _ := strconv.Atoi(m)
+
+	//minDate +=  3*3600000
+
+	leagueResp := UseCase.GetLeagueResponse(ids, period, minDate, f)
+
+	c.JSON(200, leagueResp)
+
+}
+
+func GetReport(c *gin.Context) {
+
+	s  := strings.Split(c.Query("vehicleIds"), ",")
+	p  := c.Query("period")
+	m  := c.Query("minDate")
+	t  := c.Query("type")
+	f  := c.Query("field")
+
+	ids := []int{}
+	for j:=0; j < len(s); j++{
+		id, _ := strconv.Atoi(s[j])
+		ids = append(ids, id)
+	}
+
+	period , _ := strconv.Atoi(p)
+	minDate, _ := strconv.Atoi(m)
+	repType, _ := strconv.Atoi(t)
+
+	//minDate +=  3*3600000
+
+	reportResp := UseCase.GetReportResponse(ids, period, repType, minDate, f)
+
+	c.JSON(200, reportResp)
+}
+
+func GetViolations(c *gin.Context){
+
+	s  := strings.Split(c.Query("vehicleIds"), ",")
+	m  := c.Query("minDate")
+	n  := c.Query("maxDate")
+	t  := c.Query("tripId")
+	v  := strings.Split(c.Query("types"), ",")
+
+	ids := []int{}
+	for j:=0; j < len(s); j++{
+		id, _ := strconv.Atoi(s[j])
+		ids = append(ids, id)
+	}
+	minDate, _ := strconv.Atoi(m)
+	maxDate, _ := strconv.Atoi(n)
+
+	//minDate +=  3*3600000
+	//maxDate +=  3*3600000
+
+	tripId := -1
+	if strings.Compare(t,"") != 0{
+		tripId, _ = strconv.Atoi(t)
+	}
+
+	violResp := UseCase.GetTripViolationsResponse(ids, minDate, maxDate, tripId, v)
+
+	c.JSON(200, violResp)
+}
+
+func GetTripViolationSummaries(c *gin.Context) {
+
+	s  := strings.Split(c.Query("vehicleIds"), ",")
+	m  := c.Query("minDate")
+	n  := c.Query("maxDate")
+
+	ids := []int{}
+	for j:=0; j < len(s); j++{
+		id, _ := strconv.Atoi(s[j])
+		ids = append(ids, id)
+	}
+	minDate, _ := strconv.Atoi(m)
+	maxDate, _ := strconv.Atoi(n)
+
+	//minDate +=  3*3600000
+	//maxDate +=  3*3600000
+
+	violSummResp := UseCase.GetTripViolationsSummaryResponse(ids, minDate, maxDate)
+
+	c.JSON(200, violSummResp)
+}
+
+func GetProductivityViolations(c *gin.Context) {
+
+	s  := strings.Split(c.Query("vehicleIds"), ",")
+	m  := c.Query("minDate")
+	n  := c.Query("maxDate")
+	p  := c.Query("page")
+	v  := strings.Split(c.Query("types"), ",")
+
+	ids := []int{}
+	for j:=0; j < len(s); j++{
+		id, _ := strconv.Atoi(s[j])
+		ids = append(ids, id)
+	}
+	page, _ := strconv.Atoi(p)
+
+	minDate, _ := strconv.Atoi(m)
+	maxDate, _ := strconv.Atoi(n)
+
+	//minDate +=  3*3600000
+	//maxDate +=  3*3600000
+
+	prodViolResp := UseCase.GetProdViolationsResponse(ids, minDate, maxDate, v, page)
+
+	c.JSON(200, prodViolResp)
+}
+
+func GetProductivityViolationSummaries(c *gin.Context) {
+
+	s  := strings.Split(c.Query("vehicleIds"), ",")
+	m  := c.Query("minDate")
+	n  := c.Query("maxDate")
+
+	ids := []int{}
+	for j:=0; j < len(s); j++{
+		id, _ := strconv.Atoi(s[j])
+		ids = append(ids, id)
+	}
+	minDate, _ := strconv.Atoi(m)
+	maxDate, _ := strconv.Atoi(n)
+
+	//minDate +=  3*3600000
+	//maxDate +=  3*3600000
+
+	prodViolSummResp := UseCase.GetProdViolationsSummaryResponse(ids, minDate, maxDate)
+
+	c.JSON(200, prodViolSummResp)
+
+}
+
+func GetFuelFillsUp(c *gin.Context) {
+	v  := strings.Split(c.Query("vehicleIds"), ",")
+	m  := c.Query("minDate")
+	n  := c.Query("maxDate")
+	s  := c.Query("sort")
+	p  := c.Query("page")
+
+	ids := []int{}
+	for j:=0; j < len(v); j++{
+		id, _ := strconv.Atoi(v[j])
+		ids = append(ids, id)
+	}
+	minDate, _ := strconv.Atoi(m)
+	maxDate, _ := strconv.Atoi(n)
+	page, _    := strconv.Atoi(p)
+
+	fuelFillsUpResp := UseCase.GetFuelFillsUpResponse(ids, minDate, maxDate, s, page)
+
+	c.JSON(200, fuelFillsUpResp)
+}
+
+func GetRawTripData(c *gin.Context) {
+	v  := c.Query("vehicleId")
+	t  := c.Query("tripId")
+
+	vid, _     := strconv.Atoi(v)
+	tid, _     := strconv.Atoi(t)
+
+	//fmt.Println("Trip Download request received for Vehicle ID: ", vid, "Trip Id:", tid);
+	UseCase.FetchRawTripData(int64(vid), int64(tid))
+
+	c.JSON(200, []int{})
+}
+//////////////////
+type data struct {
+	Data interface{} `json:"data"`
+}
+func liveTrack(c *gin.Context) {
+	groupId := getGroupIdFromToken(c)
+	status := UseCase.GetStatusForGroup(groupId)
+	d := &data{Data:status}
+	c.JSON(200, d)
+}
+
+func FetchTripData(groupId int){
+
+	for {
+		currentTime := time.Now().UnixNano()
+		t, _ := UseCase.GetTripsForGroupByDates(groupId, LastTripTime, currentTime / 1e6)
+
+
+		for j:=0; j < len(t); j++{
+			driverMatched := false
+			for i:=0 ; i < len(CachedTrips); i++{
+				if CachedTrips[i].Id == t[j].Id{
+					driverMatched = true;
+
+					/**< TODO: Fix returned response. Even there is no trip WV and ZV returns data  */
+					if len(t[j].Trips) > 0 {
+						CachedTrips[i].Trips = append(CachedTrips[i].Trips, t[j].Trips...)
+						CachedTrips[i].WV = append(CachedTrips[i].WV, t[j].WV...)
+						CachedTrips[i].ZV = append(CachedTrips[i].ZV, t[j].ZV...)
+						break
+					}
+				}
+			}
+
+			if !driverMatched{
+				CachedTrips = append(CachedTrips, t[j])
+			}
+			//fmt.Println("Cached  Length: ", len(CachedTrips))
+			//fmt.Println("Cached Trips Length: ", len(CachedTrips[0].Trips))
+
+			// Among all drivers find the latest trip start time
+			if len(t[j].Trips) > 0 {
+				if (t[j].Trips[len(t[j].Trips) - 1].TimeStart > LastTripTime) {
+					LastTripTime = t[j].Trips[len(t[j].Trips) - 1].TimeStart
+				}
+			}
+
+		}
+
+
+		time.Sleep(time.Minute * 1)
+	}
+}
+
