@@ -716,7 +716,6 @@ func getUsers (c *gin.Context){
 
 // #########################################################
 
-
 func createSale (c *gin.Context){
 	p := Sale{}
 	c.BindJSON(&p)
