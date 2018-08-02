@@ -5,7 +5,7 @@ import (
 	"log"
 	"github.com/spf13/viper"
 	"github.com/fsnotify/fsnotify"
-	"stock/apps/fleetDashboard/controller"
+	"stock/apps/dashboard/controller"
 	. "stock/common/logger"
 	"stock/common/gateways/sql"
 	common "stock/common/projectArch/interactors"

@@ -9,8 +9,8 @@ import (
 	"github.com/gin-gonic/contrib/gzip"
 
 	. "stock/common/logger"
-	. "stock/apps/fleetDashboard/interfaces"
-	app "stock/apps/fleetDashboard/interactors"
+	. "stock/apps/dashboard/interfaces"
+	app "stock/apps/dashboard/interactors"
 )
 
 var UseCase DashboardUseCases
