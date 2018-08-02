@@ -48,5 +48,11 @@ type DashboardUseCases interface {
 	GetUsers(name,email,orderBy,orderAs string,pageNumber, pageSize int) (*responses.UserResponse,  *ErrorType)
 	DeleteUsers(ids []int) *ErrorType
 
+	CreateSale(p *Sale) *ErrorType
+	UpdateSale(p *Sale) *ErrorType
+	GetSaleById(id int) (*Sale,*ErrorType)
+	GetSales(timeInterval,orderBy,orderAs string,pageNumber, pageSize int) (*responses.SaleResponse,  *ErrorType)
+	DeleteSales(ids []int) *ErrorType
+
 	Login(email, password string, secret string) (*User, string, *ErrorType)
 }

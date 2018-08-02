@@ -58,6 +58,12 @@ func InitRoutes(public,private *gin.RouterGroup) {
 	public.GET("deleteUsers", deleteUsers)
 	public.GET("getUsers",getUsers)
 
+	public.POST("createSale", createSale)
+	public.POST("updateSale", updateSale)
+	public.GET("getSaleById", getSaleById)
+	public.GET("deleteSales", deleteSales)
+	public.GET("getSales",getSales)
+
 
 }
 
@@ -709,6 +715,90 @@ func getUsers (c *gin.Context){
 }
 
 // #########################################################
+
+
+func createSale (c *gin.Context){
+	p := Sale{}
+	c.BindJSON(&p)
+
+	err := UseCase.CreateSale(&p)
+
+	if err != nil{
+		c.JSON(200, generateFailResponse(err))
+		return
+	}
+
+	c.JSON(200, generateSuccessResponse(p))
+}
+
+func updateSale (c *gin.Context){
+	p := Sale{}
+	c.BindJSON(&p)
+
+	err := UseCase.UpdateSale(&p)
+
+	if err != nil{
+		c.JSON(200, generateFailResponse(err))
+		return
+	}
+
+	c.JSON(200, generateSuccessResponse(p))
+}
+
+func getSaleById (c *gin.Context){
+	id,_ := strconv.Atoi(c.Query("id"))
+
+	p, err := UseCase.GetSaleById(id)
+
+	if err != nil{
+		c.JSON(200, generateFailResponse(err))
+		return
+	}
+
+	c.JSON(200, generateSuccessResponse(p))
+}
+
+func deleteSales(c *gin.Context){
+
+	idList := strings.Split(c.Query("ids"),",")
+
+	var ids []int
+	for _,id := range idList{
+		i,_ := strconv.Atoi(id)
+		ids = append(ids,i)
+	}
+
+	err := UseCase.DeleteSales(ids)
+	if err != nil {
+		c.JSON(200, generateFailResponse(err))
+		return
+	}
+
+	c.JSON(200, generateSuccessResponse("ok"))
+}
+
+func getSales (c *gin.Context){
+
+	tInterval := c.Query("timeInterval")
+
+	pageNumber,_ := strconv.Atoi(c.Query("pageNumber"))
+	pageSize,_ := strconv.Atoi(c.Query("pageSize"))
+
+	orderBy := c.Query("orderBy")
+	orderAs := c.Query("orderAs")
+	//isDropdown,_ := strconv.ParseBool(c.Query("isDropdown"))
+
+	p, err := UseCase.GetSales(tInterval,orderBy,orderAs,pageNumber, pageSize)
+	if err != nil{
+		c.JSON(200, generateFailResponse(err))
+		return
+	}
+
+	c.JSON(200, generateSuccessResponse(p))
+}
+
+// ###############################################################
+
 
 func handleLogin (c *gin.Context){
 	p := LoginParams{}

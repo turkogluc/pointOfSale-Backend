@@ -83,6 +83,7 @@ func main() {
 	common.PaymentRepo = sql.GetPaymentRepo()
 	common.ExpenseRepo = sql.GetExpenseRepo()
 	common.UserRepo = sql.GetUserRepo()
+	common.SaleRepo = sql.GetSaleRepo()
 
 	controllers.StartApplicationBackend()
 }

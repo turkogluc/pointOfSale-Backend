@@ -7,6 +7,8 @@ import(
 	. "stock/common/logger"
 	"stock/entities/responses"
 	"time"
+	"strings"
+	"strconv"
 )
 
 var errorMap map[string]map[int]string
@@ -472,6 +474,71 @@ func (DashboardInteractor) GetUsers(name,email,orderBy,orderAs string,pageNumber
 func (DashboardInteractor) DeleteUsers(ids []int) *ErrorType{
 
 	err := interactors.UserRepo.DeleteUsers(ids)
+	if err != nil{
+		LogError(err)
+		return GetError(0)
+	}
+	return nil
+}
+
+// ###########################################################
+
+func (DashboardInteractor) CreateSale(p *Sale) *ErrorType{
+
+	p.CreationDate = int(time.Now().Unix())
+	err := interactors.SaleRepo.InsertSale(p)
+	if err != nil{
+		LogError(err)
+		return GetError(0)
+	}
+	return nil
+
+}
+
+func (DashboardInteractor) UpdateSale(p *Sale) *ErrorType{
+
+	p.CreationDate = int(time.Now().Unix())
+	err := interactors.SaleRepo.UpdateSaleById(p,p.Id)
+	if err != nil{
+		LogError(err)
+		return GetError(0)
+	}
+	return nil
+
+}
+
+func (DashboardInteractor) GetSaleById(id int) (*Sale,*ErrorType){
+
+	p,err := interactors.SaleRepo.SelectSaleById(id)
+	if err != nil{
+		LogError(err)
+		return nil,GetError(0)
+	}
+	return p,nil
+
+}
+
+func (DashboardInteractor) GetSales(tInterval,orderBy,orderAs string,pageNumber, pageSize int) (*responses.SaleResponse,  *ErrorType){
+
+	strInter := strings.Split(tInterval,",")
+	intInter := []int{}
+	for _,str := range strInter{
+		i,_ := strconv.Atoi(str)
+		intInter = append(intInter,i)
+	}
+
+	p,err := interactors.SaleRepo.SelectSales(intInter,orderBy,orderAs,pageNumber, pageSize)
+	if err != nil{
+		LogError(err)
+		return nil,GetError(0)
+	}
+	return p,nil
+
+}
+
+func (DashboardInteractor) DeleteSales(ids []int) *ErrorType{
+
+	err := interactors.SaleRepo.DeleteSales(ids)
 	if err != nil{
 		LogError(err)
 		return GetError(0)

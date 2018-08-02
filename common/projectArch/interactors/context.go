@@ -14,6 +14,7 @@ var (
 	PaymentRepo			interfaces.PaymentGateway
 	ExpenseRepo			interfaces.ExpenseGateway
 	UserRepo			interfaces.UserGateway
+	SaleRepo			interfaces.SaleGateway
 )
 
 

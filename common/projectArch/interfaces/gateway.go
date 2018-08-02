@@ -77,3 +77,13 @@ type UserGateway interface {
 	DeleteUsers(ids []int)(error)
 	Close()
 }
+
+type SaleGateway interface {
+	SelectSaleById(id int)(*Sale,error)
+	SelectSales(timeInterval []int,orderBy,orderAs string,pageNumber, pageSize int) (*responses.SaleResponse,  error)
+	InsertSale(p *Sale)(error)
+	UpdateSaleById(p *Sale, IdToUpdate int)(error)
+	DeleteSaleById(Id int)(error)
+	DeleteSales(ids []int)(error)
+	Close()
+}
