@@ -8,4 +8,5 @@ type Person struct {
 	Address string      `json:"address"`
 	Type string         `json:"type"`
 	CreationDate int    `json:"creationDate"`
+	UserId int			`json:"userId"`
 }

@@ -3,6 +3,10 @@ package interactors
 import (
 	"golang.org/x/crypto/bcrypt"
 	. "iugo.fleet/common/logger"
+	"github.com/robfig/cron"
+	"fmt"
+	"stock/common/projectArch/interactors"
+	"time"
 )
 
 
@@ -30,4 +34,24 @@ func hashAndSalt(pwd []byte) []byte {
 	// GenerateFromPassword returns a byte slice so we need to
 	// convert the bytes to a string and return it
 	return hash
+}
+
+func StartReceivingCheckCronJob(){
+	c := cron.New()
+	c.AddFunc("@every 1h", func() {
+		fmt.Println("StartReceivingCheckCronJob ...")
+		receivings,err := interactors.ReceivingRepo.SelectReceivings("","","","",0,0)
+		if err != nil {
+			LogError(err)
+			return
+		}
+		timeNow := int(time.Now().Unix())
+		for _,item := range receivings.Items{
+			if item.ExpectedDate < timeNow{
+				interactors.ReceivingRepo.SetStatus("Gecikmiş",item.Id)
+			}
+		}
+
+	})
+	c.Start()
 }

@@ -29,12 +29,14 @@ type DashboardUseCases interface {
 	GetReceivingById(id int) (*Receiving,*ErrorType)
 	GetReceivings(person,status,orderBy,orderAs string,pageNumber, pageSize int) (*responses.ReceivingResponse,  *ErrorType)
 	DeleteReceivings(ids []int) *ErrorType
+	SetReceivingStatus(status string,id int) *ErrorType
 
 	CreatePayment(p *Payment) *ErrorType
 	UpdatePayment(p *Payment) *ErrorType
 	GetPaymentById(id int) (*Payment,*ErrorType)
 	GetPayments(person,status,orderBy,orderAs string,pageNumber, pageSize int) (*responses.PaymentResponse,  *ErrorType)
 	DeletePayments(ids []int) *ErrorType
+	SetPaymentStatus(status string,id int) *ErrorType
 
 	CreateExpense(p *Expense) *ErrorType
 	UpdateExpense(p *Expense) *ErrorType
@@ -55,4 +57,5 @@ type DashboardUseCases interface {
 	DeleteSales(ids []int) *ErrorType
 
 	Login(email, password string, secret string) (*User, string, *ErrorType)
+	FillProductTable() *ErrorType
 }

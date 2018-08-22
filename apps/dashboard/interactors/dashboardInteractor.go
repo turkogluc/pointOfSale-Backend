@@ -7,10 +7,10 @@ import(
 	. "stock/common/logger"
 	"stock/entities/responses"
 	"time"
-
 	"strings"
 	"strconv"
-
+	"fmt"
+	"github.com/360EntSecGroup-Skylar/excelize"
 )
 
 var errorMap map[string]map[int]string
@@ -71,13 +71,40 @@ func (DashboardInteractor) Login(email, password string, secret string) (*User, 
 }
 
 
+func (DashboardInteractor) FillProductTable() *ErrorType{
+
+	xlsx, err := excelize.OpenFile("./list.xlsx")
+	if err != nil {
+		fmt.Println(err)
+		return GetError(0)
+	}
+	rows := xlsx.GetRows("Sheet1")
+	timeNow := int(time.Now().Unix())
+	for _, row := range rows {
+		p := &Product{
+			Barcode:row[0],
+			Name:row[1],
+			RegisterDate:timeNow,
+		}
+
+		err := interactors.ProductRepo.InsertProduct(p)
+		if err != nil {
+			LogError(err)
+			return GetError(0)
+		}
+	}
+
+	return nil
+
+}
+
 func (DashboardInteractor) CreateProduct(p *Product) *ErrorType{
 
 	p.RegisterDate = int(time.Now().Unix())
 	err := interactors.ProductRepo.InsertProduct(p)
 	if err != nil{
 		LogError(err)
-		return GetError(0)
+		//return GetError(0)
 	}
 	return nil
 
@@ -288,7 +315,39 @@ func (DashboardInteractor) GetReceivings(person,status,orderBy,orderAs string,pa
 		LogError(err)
 		return nil,GetError(0)
 	}
+
+	// insert product details to productList
+	for k,item := range p.Items{
+		var prodInt []int
+		prodStr := strings.Split(item.ProductIds,",")
+		for _,v := range prodStr{
+			vInt,_ := strconv.Atoi(v)
+			prodInt = append(prodInt,vInt)
+		}
+		for _,v := range prodInt{
+			product,err := interactors.ProductRepo.SelectProductById(v)
+			if err != nil{
+				LogError(err)
+				return nil,GetError(0)
+			}
+
+			p.Items[k].ProductList = append(p.Items[k].ProductList,product)
+		}
+
+	}
+
 	return p,nil
+
+}
+
+func (DashboardInteractor) SetReceivingStatus(status string,id int) *ErrorType{
+
+	err := interactors.ReceivingRepo.SetStatus(status,id)
+	if err != nil{
+		LogError(err)
+		return GetError(0)
+	}
+	return nil
 
 }
 
@@ -359,6 +418,17 @@ func (DashboardInteractor) DeletePayments(ids []int) *ErrorType{
 		return GetError(0)
 	}
 	return nil
+}
+
+func (DashboardInteractor) SetPaymentStatus(status string,id int) *ErrorType{
+
+	err := interactors.PaymentRepo.SetPaymentStatus(status,id)
+	if err != nil{
+		LogError(err)
+		return GetError(0)
+	}
+	return nil
+
 }
 
 // ###########################################################

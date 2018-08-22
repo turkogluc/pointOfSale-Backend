@@ -17,18 +17,20 @@ const stTableProduct = `CREATE TABLE IF NOT EXISTS %s.product (
 						  category       VARCHAR(100) NULL DEFAULT '',
 						  purchase_price FLOAT    NOT NULL DEFAULT 0,
 						  sale_price     FLOAT    NOT NULL DEFAULT 0,
-						  register_date  INT     NOT NULL DEFAULT 0
+						  register_date  INT     NOT NULL DEFAULT 0,
+						  user_id 		 INT 	DEFAULT 1,
+  						  FOREIGN KEY (user_id) REFERENCES %s.user (id) ON DELETE CASCADE ON UPDATE CASCADE
 						)ENGINE=InnoDB DEFAULT CHARSET=utf8;`
 
 
 
-const stSelectProductById = `SELECT id,barcode,name,description,category,purchase_price,sale_price,register_date FROM %s.product
+const stSelectProductById = `SELECT id,barcode,name,description,category,purchase_price,sale_price,register_date,user_id FROM %s.product
 									 WHERE id=?`
 
-const stInsertProduct = `INSERT INTO %s.product (barcode,name,description,category,purchase_price,sale_price,register_date)
-							VALUES (?,?,?,?,?,?,?)`
+const stInsertProduct = `INSERT INTO %s.product (barcode,name,description,category,purchase_price,sale_price,register_date,user_id)
+							VALUES (?,?,?,?,?,?,?,?)`
 
-const stUpdateProductById = `UPDATE %s.product SET barcode=?, name=?, description=?, category=?, purchase_price=?, sale_price=?, register_date=?
+const stUpdateProductById = `UPDATE %s.product SET barcode=?, name=?, description=?, category=?, purchase_price=?, sale_price=?, register_date=?, user_id=?
 								WHERE id=?`
 
 const stDeleteProductById = `DELETE FROM %s.product WHERE id=?`
@@ -43,7 +45,7 @@ func GetProductRepo() *ProductRepo{
 		pr = &ProductRepo{}
 
 		var err error
-		if _, err = DB.Exec(s(stTableProduct)); err != nil {
+		if _, err = DB.Exec(ss(stTableProduct)); err != nil {
 			LogError(err)
 		}
 
@@ -73,7 +75,7 @@ func GetProductRepo() *ProductRepo{
 func (pr *ProductRepo) SelectProductById(id int)(*Product,error){
 	p := &Product{}
 	row := qSelectProductById.QueryRow(id)
-	err := row.Scan(&p.Id,&p.Barcode,&p.Name,&p.Description,&p.Category,&p.PurchasePrice,&p.SalePrice,&p.RegisterDate)
+	err := row.Scan(&p.Id,&p.Barcode,&p.Name,&p.Description,&p.Category,&p.PurchasePrice,&p.SalePrice,&p.RegisterDate,&p.UserId)
 	if err != nil{
 		LogError(err)
 		return nil, err
@@ -84,7 +86,7 @@ func (pr *ProductRepo) SelectProductById(id int)(*Product,error){
 
 func (pr *ProductRepo) InsertProduct(p *Product)(error){
 
-	result,err := qInsertProduct.Exec(p.Barcode,p.Name,p.Description,p.Category,p.PurchasePrice,p.SalePrice,p.RegisterDate)
+	result,err := qInsertProduct.Exec(p.Barcode,p.Name,p.Description,p.Category,p.PurchasePrice,p.SalePrice,p.RegisterDate,p.UserId)
 	if err != nil{
 		LogError(err)
 		return err
@@ -102,7 +104,7 @@ func (pr *ProductRepo) InsertProduct(p *Product)(error){
 
 func (pr *ProductRepo) UpdateProductById(p *Product, IdToUpdate int)(error){
 
-	_,err := qUpdateProductById.Exec(p.Barcode,p.Name,p.Description,p.Category,p.PurchasePrice,p.SalePrice,p.RegisterDate,IdToUpdate)
+	_,err := qUpdateProductById.Exec(p.Barcode,p.Name,p.Description,p.Category,p.PurchasePrice,p.SalePrice,p.RegisterDate,p.UserId,IdToUpdate)
 	if err != nil{
 		LogError(err)
 		return err
@@ -157,7 +159,7 @@ func (pr *ProductRepo) DeleteProducts(ids []int)(error){
 func (pr *ProductRepo) SelectProducts(barcode,name,description,category,orderBy,orderAs string,pageNumber, pageSize int) (*responses.ProductResponse,  error) {
 
 	pres := &responses.ProductResponse{}
-	items := []*Product{}
+	items := []*responses.ProductItem{}
 
 	var barAvail bool
 	var nameAvail bool
@@ -195,11 +197,14 @@ func (pr *ProductRepo) SelectProducts(barcode,name,description,category,orderBy,
 		pageSizeAvail = true
 	}
 
-	stSelect := `SELECT * FROM %s.product`
-	stCount := `SELECT COUNT(*) FROM %s.product`
+	stSelect := `SELECT p.id, p.barcode, p.name, p.description, p.category, p.purchase_price, p.sale_price, p.register_date, p.user_id, u.name
+				FROM %s.product as p
+				JOIN %s.user AS u ON p.user_id = u.id`
+	stCount := `SELECT COUNT(*) FROM %s.product as p
+				JOIN %s.user AS u ON p.user_id = u.id`
 
-	stSelect = s(stSelect)
-	stCount = s(stCount)
+	stSelect = ss(stSelect)
+	stCount = ss(stCount)
 
 	filter := ``
 
@@ -216,7 +221,7 @@ func (pr *ProductRepo) SelectProducts(barcode,name,description,category,orderBy,
 		}
 
 		if nameAvail {
-			filter +=  ` name LIKE ` + `'%` + name + `%' `
+			filter +=  ` p.name LIKE ` + `'%` + name + `%' `
 
 			if descAvail || catAvail {
 				filter += " AND "
@@ -245,7 +250,7 @@ func (pr *ProductRepo) SelectProducts(barcode,name,description,category,orderBy,
 	if orderByAvail {
 		stSelect +=  orderBy
 	}else{
-		stSelect += ` name `
+		stSelect += ` p.name `
 	}
 	if orderAs == "desc"{
 		stSelect += ` DESC `
@@ -275,8 +280,8 @@ func (pr *ProductRepo) SelectProducts(barcode,name,description,category,orderBy,
 	}
 
 	for rows.Next(){
-		p := &Product{}
-		err = rows.Scan(&p.Id,&p.Barcode,&p.Name,&p.Description,&p.Category,&p.PurchasePrice,&p.SalePrice,&p.RegisterDate)
+		p := &responses.ProductItem{}
+		err = rows.Scan(&p.Id,&p.Barcode,&p.Name,&p.Description,&p.Category,&p.PurchasePrice,&p.SalePrice,&p.RegisterDate,&p.UserId,&p.UserName)
 		if err != nil {
 			LogError(err)
 		}

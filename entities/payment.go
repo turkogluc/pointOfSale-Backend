@@ -8,6 +8,8 @@ type Payment struct {
 	UpdateDate int          `json:"updateDate"`
 	ExpectedDate int        `json:"expectedDate"`
 	Status string           `json:"status"`
+	Summary string 			`json:"summary"`
+	UserId int			`json:"userId"`
 }
 
 type PaymentsItem struct {
@@ -20,4 +22,7 @@ type PaymentsItem struct {
 	Status string            `json:"status"`
 	PersonName string        `json:"personName"`
 	PersonPhone string       `json:"personPhone"`
+	Summary string 			 `json:"summary"`
+	UserId int			`json:"userId"`
+	UserName string			`json:"userName"`
 }

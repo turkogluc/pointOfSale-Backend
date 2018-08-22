@@ -16,7 +16,9 @@ const stTableStock = `CREATE TABLE IF NOT EXISTS %s.stock (
   dealer_id  INT      NOT NULL,
   creation_date       INT NOT NULL,
   update_date INT NOT NULL,
-  FOREIGN KEY (product_id) REFERENCES %s.product (id)
+  user_id 		 INT 	DEFAULT 1,
+  FOREIGN KEY (user_id) REFERENCES %s.user (id) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (product_id) REFERENCES %s.product (id) ON DELETE CASCADE ON UPDATE CASCADE
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;`
 
 
@@ -24,10 +26,10 @@ const stTableStock = `CREATE TABLE IF NOT EXISTS %s.stock (
 const stSelectStockById = `SELECT * FROM %s.stock
 									 WHERE id=?`
 
-const stInsertStock = `INSERT INTO %s.stock (product_id,qty,dealer_id,creation_date,update_date)
-							VALUES (?,?,?,?,?)`
+const stInsertStock = `INSERT INTO %s.stock (product_id,qty,dealer_id,creation_date,update_date,user_id)
+							VALUES (?,?,?,?,?,?)`
 
-const stUpdateStockById = `UPDATE %s.stock SET product_id=?, qty=?, dealer_id=?, update_date=?
+const stUpdateStockById = `UPDATE %s.stock SET product_id=?, qty=?, dealer_id=?, update_date=?,user_id=?
 								WHERE id=?`
 
 const stDeleteStockById = `DELETE FROM %s.stock WHERE id=?`
@@ -42,7 +44,7 @@ func GetStockRepo() *StockRepo{
 		st = &StockRepo{}
 
 		var err error
-		if _, err = DB.Exec(ss(stTableStock)); err != nil {
+		if _, err = DB.Exec(sss(stTableStock)); err != nil {
 			LogError(err)
 		}
 
@@ -72,7 +74,7 @@ func GetStockRepo() *StockRepo{
 func (st *StockRepo) SelectStockById(id int)(*Stock,error){
 	p := &Stock{}
 	row := qSelectStockById.QueryRow(id)
-	err := row.Scan(&p.Id,&p.ProductId,&p.Qty,&p.DealerId,&p.CreationDate,&p.UpdateDate)
+	err := row.Scan(&p.Id,&p.ProductId,&p.Qty,&p.DealerId,&p.CreationDate,&p.UpdateDate,&p.UserId)
 	if err != nil{
 		LogError(err)
 		return nil, err
@@ -83,7 +85,7 @@ func (st *StockRepo) SelectStockById(id int)(*Stock,error){
 
 func (st *StockRepo) InsertStock(p *Stock)(error){
 
-	result,err := qInsertStock.Exec(p.ProductId,p.Qty,p.DealerId,p.CreationDate,p.UpdateDate)
+	result,err := qInsertStock.Exec(p.ProductId,p.Qty,p.DealerId,p.CreationDate,p.UpdateDate,p.UserId)
 	if err != nil{
 		LogError(err)
 		return err
@@ -101,7 +103,7 @@ func (st *StockRepo) InsertStock(p *Stock)(error){
 
 func (st *StockRepo) UpdateStockById(p *Stock, IdToUpdate int)(error){
 
-	_,err := qUpdateStockById.Exec(p.ProductId,p.Qty,p.DealerId,p.UpdateDate,IdToUpdate)
+	_,err := qUpdateStockById.Exec(p.ProductId,p.Qty,p.DealerId,p.UpdateDate,p.UserId,IdToUpdate)
 	if err != nil{
 		LogError(err)
 		return err
@@ -198,17 +200,19 @@ func (st *StockRepo) SelectStocks(barcode,name,description,category,orderBy,orde
 		pageSizeAvail = true
 	}
 
-	stSelect := `SELECT s.id,s.product_id,s.qty,s.dealer_id,s.creation_date,s.update_date,p.barcode,p.name,p.description,p.category,p.purchase_price,p.sale_price,p.register_date,per.id,per.name
+	stSelect := `SELECT s.id,s.product_id,s.qty,s.dealer_id,s.creation_date,s.update_date,p.barcode,p.name,p.description,p.category,p.purchase_price,p.sale_price,p.register_date,IFNULL(per.id,0),IFNULL(per.name,""),s.user_id,u.name
 						FROM %s.stock AS s
 						JOIN %s.product AS p ON s.product_id = p.id 
-						LEFT JOIN %s.person AS per ON s.dealer_id = per.id`
+						LEFT JOIN %s.person AS per ON s.dealer_id = per.id
+						JOIN %s.user AS u ON s.user_id=u.id`
 
 	stCount := `SELECT COUNT(*) FROM %s.stock AS s
 						JOIN %s.product AS p ON s.product_id = p.id 
-						LEFT JOIN %s.person AS per ON s.dealer_id = per.id `
+						LEFT JOIN %s.person AS per ON s.dealer_id = per.id
+						JOIN %s.user AS u ON s.user_id = u.id `
 
-	stSelect = sss(stSelect)
-	stCount = sss(stCount)
+	stSelect = s4(stSelect)
+	stCount = s4(stCount)
 
 	filter := ``
 
@@ -294,7 +298,7 @@ func (st *StockRepo) SelectStocks(barcode,name,description,category,orderBy,orde
 	for rows.Next(){
 		p := &responses.StockItem{}
 		p.Product = &Product{}
-		err = rows.Scan(&p.Id,&p.Product.Id,&p.Qty,&p.DealerId,&p.CreationDate,&p.UpdateDate,&p.Product.Barcode,&p.Product.Name,&p.Product.Description,&p.Product.Category,&p.Product.PurchasePrice,&p.Product.SalePrice,&p.Product.RegisterDate,&p.DealerId,&p.DealerName)
+		err = rows.Scan(&p.Id,&p.Product.Id,&p.Qty,&p.DealerId,&p.CreationDate,&p.UpdateDate,&p.Product.Barcode,&p.Product.Name,&p.Product.Description,&p.Product.Category,&p.Product.PurchasePrice,&p.Product.SalePrice,&p.Product.RegisterDate,&p.DealerId,&p.DealerName,&p.UserId,&p.UserName)
 		if err != nil {
 			LogError(err)
 		}

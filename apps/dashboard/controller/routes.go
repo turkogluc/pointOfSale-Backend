@@ -15,54 +15,57 @@ func InitRoutes(public,private *gin.RouterGroup) {
 
 	public.POST("login", handleLogin)
 	private.GET("me", handleGetMe)
+	private.GET("fillProductTable", fillProductTable)
 
-	public.POST("createProduct", createProduct)
-	public.POST("updateProduct", updateProduct)
-	public.GET("getProductById", getProductById)
-	public.GET("deleteProducts", deleteProducts)
-	public.GET("getProducts",getProducts)
+	private.POST("createProduct", createProduct)
+	private.POST("updateProduct", updateProduct)
+	private.GET("getProductById", getProductById)
+	private.GET("deleteProducts", deleteProducts)
+	private.GET("getProducts",getProducts)
 
-	public.POST("createStock", createStock)
-	public.POST("updateStock", updateStock)
-	public.GET("getStockById", getStockById)
-	public.GET("deleteStocks", deleteStocks)
-	public.GET("getStocks",getStocks)
+	private.POST("createStock", createStock)
+	private.POST("updateStock", updateStock)
+	private.GET("getStockById", getStockById)
+	private.GET("deleteStocks", deleteStocks)
+	private.GET("getStocks",getStocks)
 
-	public.POST("createPerson", createPerson)
-	public.POST("updatePerson", updatePerson)
-	public.GET("getPersonById", getPersonById)
-	public.GET("deletePeople", deletePeople)
-	public.GET("getPeople",getPeople)
+	private.POST("createPerson", createPerson)
+	private.POST("updatePerson", updatePerson)
+	private.GET("getPersonById", getPersonById)
+	private.GET("deletePeople", deletePeople)
+	private.GET("getPeople",getPeople)
 
-	public.POST("createReceiving", createReceiving)
-	public.POST("updateReceiving", updateReceiving)
-	public.GET("getReceivingById", getReceivingById)
-	public.GET("deleteReceivings", deleteReceivings)
-	public.GET("getReceivings",getReceivings)
+	private.POST("createReceiving", createReceiving)
+	private.POST("updateReceiving", updateReceiving)
+	private.GET("getReceivingById", getReceivingById)
+	private.GET("deleteReceivings", deleteReceivings)
+	private.GET("getReceivings",getReceivings)
+	private.GET("setReceivingStatus", setReceivingStatus)
 
-	public.POST("createPayment", createPayment)
-	public.POST("updatePayment", updatePayment)
-	public.GET("getPaymentById", getPaymentById)
-	public.GET("deletePayments", deletePayments)
-	public.GET("getPayments",getPayments)
+	private.POST("createPayment", createPayment)
+	private.POST("updatePayment", updatePayment)
+	private.GET("getPaymentById", getPaymentById)
+	private.GET("deletePayments", deletePayments)
+	private.GET("getPayments",getPayments)
+	private.GET("setPaymentStatus", setPaymentStatus)
 
-	public.POST("createExpense", createExpense)
-	public.POST("updateExpense", updateExpense)
-	public.GET("getExpenseById", getExpenseById)
-	public.GET("deleteExpenses", deleteExpenses)
-	public.GET("getExpenses",getExpenses)
+	private.POST("createExpense", createExpense)
+	private.POST("updateExpense", updateExpense)
+	private.GET("getExpenseById", getExpenseById)
+	private.GET("deleteExpenses", deleteExpenses)
+	private.GET("getExpenses",getExpenses)
 
-	public.POST("createUser", createUser)
-	public.POST("updateUser", updateUser)
-	public.GET("getUserById", getUserById)
-	public.GET("deleteUsers", deleteUsers)
-	public.GET("getUsers",getUsers)
+	private.POST("createUser", createUser)
+	private.POST("updateUser", updateUser)
+	private.GET("getUserById", getUserById)
+	private.GET("deleteUsers", deleteUsers)
+	private.GET("getUsers",getUsers)
 
-	public.POST("createSale", createSale)
-	public.POST("updateSale", updateSale)
-	public.GET("getSaleById", getSaleById)
-	public.GET("deleteSales", deleteSales)
-	public.GET("getSales",getSales)
+	private.POST("createSale", createSale)
+	private.POST("updateSale", updateSale)
+	private.GET("getSaleById", getSaleById)
+	private.GET("deleteSales", deleteSales)
+	private.GET("getSales",getSales)
 
 
 }
@@ -82,6 +85,18 @@ func handleGetMe(c *gin.Context){
 
 }
 
+func fillProductTable(c *gin.Context){
+
+	err := UseCase.FillProductTable()
+	if err != nil{
+		c.JSON(200, generateFailResponse(err))
+		return
+	}
+
+	c.JSON(200, generateSuccessResponse("ok"))
+
+}
+
 func getUserIdFromToken(c *gin.Context) int {
 	v, _ := c.Get("token-claims")
 	LogDebug(v)
@@ -95,6 +110,7 @@ func createProduct (c *gin.Context){
 	p := Product{}
 	c.BindJSON(&p)
 
+	p.UserId = getUserIdFromToken(c)
 	err := UseCase.CreateProduct(&p)
 
 	if err != nil{
@@ -109,6 +125,7 @@ func updateProduct (c *gin.Context){
 	p := Product{}
 	c.BindJSON(&p)
 
+	p.UserId = getUserIdFromToken(c)
 	err := UseCase.UpdateProduct(&p)
 
 	if err != nil{
@@ -192,7 +209,8 @@ func getProducts (c *gin.Context){
 func createStock (c *gin.Context){
 	p := Stock{}
 	c.BindJSON(&p)
-	LogDebug(p)
+
+	p.UserId = getUserIdFromToken(c)
 	err := UseCase.CreateStock(&p)
 
 	if err != nil{
@@ -207,6 +225,7 @@ func updateStock (c *gin.Context){
 	p := Stock{}
 	c.BindJSON(&p)
 
+	p.UserId = getUserIdFromToken(c)
 	err := UseCase.UpdateStock(&p)
 
 	if err != nil{
@@ -279,6 +298,7 @@ func createPerson (c *gin.Context){
 	p := Person{}
 	c.BindJSON(&p)
 
+	p.UserId = getUserIdFromToken(c)
 	err := UseCase.CreatePerson(&p)
 
 	if err != nil{
@@ -293,6 +313,7 @@ func updatePerson (c *gin.Context){
 	p := Person{}
 	c.BindJSON(&p)
 
+	p.UserId = getUserIdFromToken(c)
 	err := UseCase.UpdatePerson(&p)
 
 	if err != nil{
@@ -375,6 +396,7 @@ func createReceiving (c *gin.Context){
 	p := Receiving{}
 	c.BindJSON(&p)
 
+	p.UserId = getUserIdFromToken(c)
 	err := UseCase.CreateReceiving(&p)
 
 	if err != nil{
@@ -389,6 +411,7 @@ func updateReceiving (c *gin.Context){
 	p := Receiving{}
 	c.BindJSON(&p)
 
+	p.UserId = getUserIdFromToken(c)
 	err := UseCase.UpdateReceiving(&p)
 
 	if err != nil{
@@ -451,12 +474,27 @@ func getReceivings (c *gin.Context){
 	c.JSON(200, generateSuccessResponse(p))
 }
 
+func setReceivingStatus (c *gin.Context){
+
+	id,_ := strconv.Atoi(c.Query("id"))
+	status := c.Query("status")
+
+	err := UseCase.SetReceivingStatus(status,id)
+	if err != nil{
+		c.JSON(200, generateFailResponse(err))
+		return
+	}
+
+	c.JSON(200, generateSuccessResponse("ok"))
+}
+
 // #######################################################
 
 func createPayment (c *gin.Context){
 	p := Payment{}
 	c.BindJSON(&p)
 
+	p.UserId = getUserIdFromToken(c)
 	err := UseCase.CreatePayment(&p)
 
 	if err != nil{
@@ -471,6 +509,7 @@ func updatePayment (c *gin.Context){
 	p := Payment{}
 	c.BindJSON(&p)
 
+	p.UserId = getUserIdFromToken(c)
 	err := UseCase.UpdatePayment(&p)
 
 	if err != nil{
@@ -533,6 +572,20 @@ func getPayments (c *gin.Context){
 	c.JSON(200, generateSuccessResponse(p))
 }
 
+func setPaymentStatus (c *gin.Context){
+
+	id,_ := strconv.Atoi(c.Query("id"))
+	status := c.Query("status")
+
+	err := UseCase.SetPaymentStatus(status,id)
+	if err != nil{
+		c.JSON(200, generateFailResponse(err))
+		return
+	}
+
+	c.JSON(200, generateSuccessResponse("ok"))
+}
+
 // ###############################################################
 
 
@@ -540,6 +593,7 @@ func createExpense (c *gin.Context){
 	p := Expense{}
 	c.BindJSON(&p)
 
+	p.UserId = getUserIdFromToken(c)
 	err := UseCase.CreateExpense(&p)
 
 	if err != nil{
@@ -554,6 +608,7 @@ func updateExpense (c *gin.Context){
 	p := Expense{}
 	c.BindJSON(&p)
 
+	p.UserId = getUserIdFromToken(c)
 	err := UseCase.UpdateExpense(&p)
 
 	if err != nil{

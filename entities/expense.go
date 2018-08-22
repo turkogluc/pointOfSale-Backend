@@ -7,4 +7,5 @@ type Expense struct {
 	Price float64 `json:"price"`
 	CreateDate int `json:"createDate"`
 	UpdateDate int `json:"updateDate"`
+	UserId int		`json:"userId"`
 }

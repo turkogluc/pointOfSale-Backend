@@ -17,7 +17,9 @@ const stTablePerson = `CREATE TABLE IF NOT EXISTS %s.person (
   email   VARCHAR(50) DEFAULT '',
   address VARCHAR(200) DEFAULT '',
   p_type    ENUM('Tedarikçi','Müşteri') NOT NULL,
-  creation_date    INT   NOT NULL
+  creation_date    INT   NOT NULL,
+  user_id 		 INT 	DEFAULT 1,
+  FOREIGN KEY (user_id) REFERENCES %s.user (id) ON DELETE CASCADE ON UPDATE CASCADE
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;`
 
 
@@ -25,10 +27,10 @@ const stTablePerson = `CREATE TABLE IF NOT EXISTS %s.person (
 const stSelectPersonById = `SELECT * FROM %s.person
 									 WHERE id=?`
 
-const stInsertPerson = `INSERT INTO %s.person (name,phone,email,address,p_type,creation_date)
-							VALUES (?,?,?,?,?,?)`
+const stInsertPerson = `INSERT INTO %s.person (name,phone,email,address,p_type,creation_date,user_id)
+							VALUES (?,?,?,?,?,?,?)`
 
-const stUpdatePersonById = `UPDATE %s.person SET name=?, phone=?, email=?, address=?, p_type=?, creation_date=?
+const stUpdatePersonById = `UPDATE %s.person SET name=?, phone=?, email=?, address=?, p_type=?, creation_date=?,user_id=?
 								WHERE id=?`
 
 const stDeletePersonById = `DELETE FROM %s.person WHERE id=?`
@@ -43,7 +45,7 @@ func GetPersonRepo() *PersonRepo{
 		prsn = &PersonRepo{}
 
 		var err error
-		if _, err = DB.Exec(s(stTablePerson)); err != nil {
+		if _, err = DB.Exec(ss(stTablePerson)); err != nil {
 			LogError(err)
 		}
 
@@ -73,7 +75,7 @@ func GetPersonRepo() *PersonRepo{
 func (prsn *PersonRepo) SelectPersonById(id int)(*Person,error){
 	p := &Person{}
 	row := qSelectPersonById.QueryRow(id)
-	err := row.Scan(&p.Id,&p.Name,&p.Phone,&p.Email,&p.Address,&p.Type,&p.CreationDate)
+	err := row.Scan(&p.Id,&p.Name,&p.Phone,&p.Email,&p.Address,&p.Type,&p.CreationDate,&p.UserId)
 	if err != nil{
 		LogError(err)
 		return nil, err
@@ -84,7 +86,7 @@ func (prsn *PersonRepo) SelectPersonById(id int)(*Person,error){
 
 func (prsn *PersonRepo) InsertPerson(p *Person)(error){
 
-	result,err := qInsertPerson.Exec(p.Name,p.Phone,p.Email,p.Address,p.Type,p.CreationDate)
+	result,err := qInsertPerson.Exec(p.Name,p.Phone,p.Email,p.Address,p.Type,p.CreationDate,p.UserId)
 	if err != nil{
 		LogError(err)
 		return err
@@ -102,7 +104,7 @@ func (prsn *PersonRepo) InsertPerson(p *Person)(error){
 
 func (prsn *PersonRepo) UpdatePersonById(p *Person, IdToUpdate int)(error){
 
-	_,err := qUpdatePersonById.Exec(p.Name,p.Phone,p.Email,p.Address,p.Type,p.CreationDate,IdToUpdate)
+	_,err := qUpdatePersonById.Exec(p.Name,p.Phone,p.Email,p.Address,p.Type,p.CreationDate,p.UserId,IdToUpdate)
 	if err != nil{
 		LogError(err)
 		return err
@@ -157,7 +159,7 @@ func (prsn *PersonRepo) DeletePersons(ids []int)(error){
 func (prsn *PersonRepo) SelectPeople(name,pType,orderBy,orderAs string,pageNumber, pageSize int) (*responses.PersonResponse,  error) {
 
 	prsnes := &responses.PersonResponse{}
-	items := []*Person{}
+	items := []*responses.PersonItem{}
 
 	var nameAvail bool
 	var typeAvail bool
@@ -185,11 +187,14 @@ func (prsn *PersonRepo) SelectPeople(name,pType,orderBy,orderAs string,pageNumbe
 		pageSizeAvail = true
 	}
 
-	stSelect := `SELECT * FROM %s.person`
-	stCount := `SELECT COUNT(*) FROM %s.person`
+	stSelect := `SELECT p.id,p.name,p.phone,p.email,p.address,p.p_type,p.creation_date,p.user_id,u.name
+					FROM %s.person AS p
+					JOIN %s.user AS u ON p.user_id = u.id`
+	stCount := `SELECT COUNT(*) FROM %s.person AS p
+					JOIN %s.user AS u ON p.user_id = u.id`
 
-	stSelect = s(stSelect)
-	stCount = s(stCount)
+	stSelect = ss(stSelect)
+	stCount = ss(stCount)
 
 	filter := ``
 
@@ -197,7 +202,7 @@ func (prsn *PersonRepo) SelectPeople(name,pType,orderBy,orderAs string,pageNumbe
 		filter += " WHERE "
 
 		if nameAvail {
-			filter +=  ` name LIKE ` + `'%` + name + `%' `
+			filter +=  ` p.name LIKE ` + `'%` + name + `%' `
 
 			if typeAvail {
 				filter += " AND "
@@ -216,7 +221,7 @@ func (prsn *PersonRepo) SelectPeople(name,pType,orderBy,orderAs string,pageNumbe
 	if orderByAvail {
 		stSelect +=  orderBy
 	}else{
-		stSelect += ` name `
+		stSelect += ` p.name `
 	}
 	if orderAs == "desc"{
 		stSelect += ` DESC `
@@ -246,8 +251,8 @@ func (prsn *PersonRepo) SelectPeople(name,pType,orderBy,orderAs string,pageNumbe
 	}
 
 	for rows.Next(){
-		p := &Person{}
-		err = rows.Scan(&p.Id,&p.Name,&p.Phone,&p.Email,&p.Address,&p.Type,&p.CreationDate)
+		p := &responses.PersonItem{}
+		err = rows.Scan(&p.Id,&p.Name,&p.Phone,&p.Email,&p.Address,&p.Type,&p.CreationDate,&p.UserId,&p.UserName)
 		if err != nil {
 			LogError(err)
 		}

@@ -15,18 +15,20 @@ const stTableExpense = `CREATE TABLE IF NOT EXISTS %s.expense (
 						  description    VARCHAR(200) NULL DEFAULT '',
 						  price 		 FLOAT    NOT NULL DEFAULT 0,
 						  creation_date  INT     NOT NULL DEFAULT 0,
-						  update_date    INT     NOT NULL DEFAULT 0	
+						  update_date    INT     NOT NULL DEFAULT 0,
+						  user_id 		 INT 	DEFAULT 1,
+						  FOREIGN KEY (user_id) REFERENCES %s.user (id) ON DELETE CASCADE ON UPDATE CASCADE
 						)ENGINE=InnoDB DEFAULT CHARSET=utf8;`
 
 
 
-const stSelectExpenseById = `SELECT id,name,description,price,creation_date,update_date FROM %s.expense
+const stSelectExpenseById = `SELECT id,name,description,price,creation_date,update_date,user_id FROM %s.expense
 									 WHERE id=?`
 
-const stInsertExpense = `INSERT INTO %s.expense (name, description , price , creation_date , update_date)
-							VALUES (?,?,?,?,?)`
+const stInsertExpense = `INSERT INTO %s.expense (name, description , price , creation_date , update_date,user_id)
+							VALUES (?,?,?,?,?,?)`
 
-const stUpdateExpenseById = `UPDATE %s.expense SET name=? ,description=? ,price=?,update_date=?
+const stUpdateExpenseById = `UPDATE %s.expense SET name=? ,description=? ,price=?,update_date=?,user_id=?
 								WHERE id=?`
 
 const stDeleteExpenseById = `DELETE FROM %s.expense WHERE id=?`
@@ -41,7 +43,7 @@ func GetExpenseRepo() *ExpenseRepo{
 		exp = &ExpenseRepo{}
 
 		var err error
-		if _, err = DB.Exec(s(stTableExpense)); err != nil {
+		if _, err = DB.Exec(ss(stTableExpense)); err != nil {
 			LogError(err)
 		}
 
@@ -71,7 +73,7 @@ func GetExpenseRepo() *ExpenseRepo{
 func (exp *ExpenseRepo) SelectExpenseById(id int)(*Expense,error){
 	p := &Expense{}
 	row := qSelectExpenseById.QueryRow(id)
-	err := row.Scan(&p.Id,&p.Name,&p.Description,&p.Price,&p.CreateDate,&p.UpdateDate)
+	err := row.Scan(&p.Id,&p.Name,&p.Description,&p.Price,&p.CreateDate,&p.UpdateDate,&p.UserId)
 	if err != nil{
 		LogError(err)
 		return nil, err
@@ -82,7 +84,7 @@ func (exp *ExpenseRepo) SelectExpenseById(id int)(*Expense,error){
 
 func (exp *ExpenseRepo) InsertExpense(p *Expense)(error){
 
-	result,err := qInsertExpense.Exec(p.Name,p.Description,p.Price,p.CreateDate,p.UpdateDate)
+	result,err := qInsertExpense.Exec(p.Name,p.Description,p.Price,p.CreateDate,p.UpdateDate,p.UserId)
 	if err != nil{
 		LogError(err)
 		return err
@@ -100,7 +102,7 @@ func (exp *ExpenseRepo) InsertExpense(p *Expense)(error){
 
 func (exp *ExpenseRepo) UpdateExpenseById(p *Expense, IdToUpdate int)(error){
 
-	_,err := qUpdateExpenseById.Exec(p.Name,p.Description,p.Price,p.UpdateDate,IdToUpdate)
+	_,err := qUpdateExpenseById.Exec(p.Name,p.Description,p.Price,p.UpdateDate,p.UserId,IdToUpdate)
 	if err != nil{
 		LogError(err)
 		return err
@@ -155,7 +157,7 @@ func (exp *ExpenseRepo) DeleteExpenses(ids []int)(error){
 func (exp *ExpenseRepo) SelectExpenses(name,description,orderBy,orderAs string,pageNumber, pageSize int) (*responses.ExpenseResponse,  error) {
 
 	expes := &responses.ExpenseResponse{}
-	items := []*Expense{}
+	items := []*responses.ExpenseItem{}
 
 	var nameAvail bool
 	var descAvail bool
@@ -184,11 +186,13 @@ func (exp *ExpenseRepo) SelectExpenses(name,description,orderBy,orderAs string,p
 		pageSizeAvail = true
 	}
 
-	stSelect := `SELECT * FROM %s.expense`
-	stCount := `SELECT COUNT(*) FROM %s.expense`
+	stSelect := `SELECT e.id, e.name, e.description, e.price, e.creation_date, e.update_date, e.user_id, u.name 
+				FROM %s.expense as e JOIN %s.user AS u
+				ON e.user_id = u.id`
+	stCount := `SELECT COUNT(*) FROM %s.expense as e JOIN %s.user AS u ON e.user_id = u.id`
 
-	stSelect = s(stSelect)
-	stCount = s(stCount)
+	stSelect = ss(stSelect)
+	stCount = ss(stCount)
 
 	filter := ``
 
@@ -196,7 +200,7 @@ func (exp *ExpenseRepo) SelectExpenses(name,description,orderBy,orderAs string,p
 		filter += " WHERE "
 
 		if nameAvail {
-			filter +=  ` name LIKE ` + `'%` + name + `%' `
+			filter +=  ` u.name LIKE ` + `'%` + name + `%' `
 
 			if descAvail {
 				filter += " AND "
@@ -215,7 +219,7 @@ func (exp *ExpenseRepo) SelectExpenses(name,description,orderBy,orderAs string,p
 	if orderByAvail {
 		stSelect +=  orderBy
 	}else{
-		stSelect += ` name `
+		stSelect += ` u.name `
 	}
 	if orderAs == "desc"{
 		stSelect += ` DESC `
@@ -245,8 +249,8 @@ func (exp *ExpenseRepo) SelectExpenses(name,description,orderBy,orderAs string,p
 	}
 
 	for rows.Next(){
-		p := &Expense{}
-		err = rows.Scan(&p.Id,&p.Name,&p.Description,&p.Price,&p.CreateDate,&p.UpdateDate)
+		p := &responses.ExpenseItem{}
+		err = rows.Scan(&p.Id,&p.Name,&p.Description,&p.Price,&p.CreateDate,&p.UpdateDate,&p.UserId,&p.UserName)
 		if err != nil {
 			LogError(err)
 		}

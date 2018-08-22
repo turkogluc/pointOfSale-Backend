@@ -26,8 +26,8 @@ func StartApplicationBackend() {
 	public,private := InitRoutesGroups(router)
 
 	UseCase = app.DashboardInteractor{}
-
 	InitRoutes(public,private)
+	app.StartReceivingCheckCronJob()
 
 	// Listen and server on 0.0.0.0:8080
 	http.ListenAndServe(":8091", router)

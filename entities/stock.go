@@ -7,4 +7,5 @@ type Stock struct {
 	DealerId int        `json:"dealerId"`
 	CreationDate int    `json:"creationDate"`
 	UpdateDate int      `json:"updateDate"`
+	UserId int			`json:"userId"`
 }

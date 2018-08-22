@@ -44,6 +44,7 @@ type ReceivingGateway interface {
 	UpdateReceivingById(p *Receiving, IdToUpdate int)(error)
 	DeleteReceivingById(Id int)(error)
 	DeleteReceivings(ids []int)(error)
+	SetStatus(status string, IdToUpdate int)(error)
 	Close()
 }
 
@@ -52,6 +53,7 @@ type PaymentGateway interface {
 	SelectPayments(person,status,orderBy,orderAs string,pageNumber, pageSize int) (*responses.PaymentResponse,  error)
 	InsertPayment(p *Payment)(error)
 	UpdatePaymentById(p *Payment, IdToUpdate int)(error)
+	SetPaymentStatus(status string, IdToUpdate int)(error)
 	DeletePaymentById(Id int)(error)
 	DeletePayments(ids []int)(error)
 	Close()

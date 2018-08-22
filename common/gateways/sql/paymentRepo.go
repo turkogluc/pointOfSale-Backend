@@ -16,19 +16,23 @@ const stTablePayment = `CREATE TABLE IF NOT EXISTS %s.payment (
 		creation_date	INT,
 		update_date		INT,
 		expected_date	INT,
-		status			ENUM('Bekliyor','Bitti'),
-		FOREIGN KEY (person_id) REFERENCES %s.person (id)
+		status			ENUM('Bekliyor','Bitti','Gecikmiş'),
+		summary			VARCHAR(400) DEFAULT '',
+		user_id 		 INT 	DEFAULT 1,
+		FOREIGN KEY (user_id) REFERENCES %s.user (id) ON DELETE CASCADE ON UPDATE CASCADE,
+		FOREIGN KEY (person_id) REFERENCES %s.person (id) ON DELETE CASCADE ON UPDATE CASCADE
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;`
-
-
 
 const stSelectPaymentById = `SELECT * FROM %s.payment
 									 WHERE id=?`
 
-const stInsertPayment = `INSERT INTO %s.payment (person_id,amount,creation_date,update_date,expected_date,status)
-							VALUES (?,?,?,?,?,?)`
+const stInsertPayment = `INSERT INTO %s.payment (person_id,amount,creation_date,update_date,expected_date,status,summary,user_id)
+							VALUES (?,?,?,?,?,?,?,?)`
 
-const stUpdatePaymentById = `UPDATE %s.payment SET person_id=?, amount=?, update_date=?, expected_date=?, status=?
+const stUpdatePaymentById = `UPDATE %s.payment SET person_id=?, amount=?, update_date=?, expected_date=?, status=?, summary=?, user_id=?
+								WHERE id=?`
+
+const stPaymentStatus = `UPDATE %s.payment SET status=?
 								WHERE id=?`
 
 const stDeletePaymentById = `DELETE FROM %s.payment WHERE id=?`
@@ -36,14 +40,14 @@ const stDeletePaymentById = `DELETE FROM %s.payment WHERE id=?`
 type PaymentRepo struct {}
 
 var pym *PaymentRepo
-var qSelectPaymentById,qInsertPayment,qUpdatePaymentById,qDeletePaymentById *sql.Stmt
+var qSelectPaymentById,qInsertPayment,qUpdatePaymentById,qPaymentStatus,qDeletePaymentById *sql.Stmt
 
 func GetPaymentRepo() *PaymentRepo{
 	if pym == nil {
 		pym = &PaymentRepo{}
 
 		var err error
-		if _, err = DB.Exec(ss(stTablePayment)); err != nil {
+		if _, err = DB.Exec(sss(stTablePayment)); err != nil {
 			LogError(err)
 		}
 
@@ -61,6 +65,10 @@ func GetPaymentRepo() *PaymentRepo{
 		if err != nil {
 			LogError(err)
 		}
+		qPaymentStatus, err = DB.Prepare(s(stPaymentStatus))
+		if err != nil {
+			LogError(err)
+		}
 		qDeletePaymentById, err = DB.Prepare(s(stDeletePaymentById))
 		if err != nil {
 			LogError(err)
@@ -73,7 +81,7 @@ func GetPaymentRepo() *PaymentRepo{
 func (pym *PaymentRepo) SelectPaymentById(id int)(*Payment,error){
 	p := &Payment{}
 	row := qSelectPaymentById.QueryRow(id)
-	err := row.Scan(&p.Id,&p.PersonId,&p.Amount,&p.CreationDate,&p.UpdateDate,&p.ExpectedDate,&p.Status)
+	err := row.Scan(&p.Id,&p.PersonId,&p.Amount,&p.CreationDate,&p.UpdateDate,&p.ExpectedDate,&p.Status,&p.Summary,&p.UserId)
 	if err != nil{
 		LogError(err)
 		return nil, err
@@ -84,7 +92,7 @@ func (pym *PaymentRepo) SelectPaymentById(id int)(*Payment,error){
 
 func (pym *PaymentRepo) InsertPayment(p *Payment)(error){
 
-	result,err := qInsertPayment.Exec(p.PersonId,p.Amount,p.CreationDate,p.UpdateDate,p.ExpectedDate,p.Status)
+	result,err := qInsertPayment.Exec(p.PersonId,p.Amount,p.CreationDate,p.UpdateDate,p.ExpectedDate,p.Status,p.Summary,p.UserId)
 	if err != nil{
 		LogError(err)
 		return err
@@ -102,7 +110,18 @@ func (pym *PaymentRepo) InsertPayment(p *Payment)(error){
 
 func (pym *PaymentRepo) UpdatePaymentById(p *Payment, IdToUpdate int)(error){
 
-	_,err := qUpdatePaymentById.Exec(p.PersonId,p.Amount,p.UpdateDate,p.ExpectedDate,p.Status,IdToUpdate)
+	_,err := qUpdatePaymentById.Exec(p.PersonId,p.Amount,p.UpdateDate,p.ExpectedDate,p.Status,p.Summary,p.UserId,IdToUpdate)
+	if err != nil{
+		LogError(err)
+		return err
+	}
+
+	return nil
+}
+
+func (pym *PaymentRepo) SetPaymentStatus(status string, IdToUpdate int)(error){
+
+	_,err := qPaymentStatus.Exec(status,IdToUpdate)
 	if err != nil{
 		LogError(err)
 		return err
@@ -187,15 +206,17 @@ func (pym *PaymentRepo) SelectPayments(person,status,orderBy,orderAs string,page
 		pageSizeAvail = true
 	}
 
-	stSelect := `SELECT r.id,r.person_id,r.amount,r.creation_date,r.update_date,r.expected_date,r.status,p.name,p.phone
+	stSelect := `SELECT r.id,r.person_id,r.amount,r.creation_date,r.update_date,r.expected_date,r.status,p.name,p.phone,r.summary,r.user_id,u.name
 						FROM %s.payment as r
-						JOIN %s.person as p ON r.person_id = p.id`
+						JOIN %s.person as p ON r.person_id = p.id
+						JOIN %s.user as u ON r.user_id = u.id`
 
 	stCount := `SELECT COUNT(*) FROM %s.payment as r
-						JOIN %s.person as p ON r.person_id = p.id`
+						JOIN %s.person as p ON r.person_id = p.id
+						JOIN %s.user as u ON r.user_id = u.id`
 
-	stSelect = ss(stSelect)
-	stCount = ss(stCount)
+	stSelect = sss(stSelect)
+	stCount = sss(stCount)
 
 	filter := ``
 
@@ -255,7 +276,7 @@ func (pym *PaymentRepo) SelectPayments(person,status,orderBy,orderAs string,page
 
 	for rows.Next(){
 		p := &PaymentsItem{}
-		err = rows.Scan(&p.Id,&p.PersonId,&p.Amount,&p.CreationDate,&p.UpdateDate,&p.ExpectedDate,&p.Status,&p.PersonName,&p.PersonPhone)
+		err = rows.Scan(&p.Id,&p.PersonId,&p.Amount,&p.CreationDate,&p.UpdateDate,&p.ExpectedDate,&p.Status,&p.PersonName,&p.PersonPhone,&p.Summary,&p.UserId,&p.UserName)
 		if err != nil {
 			LogError(err)
 		}

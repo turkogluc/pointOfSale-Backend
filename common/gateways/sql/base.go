@@ -74,6 +74,10 @@ func sss(stmt string) string {
 	return fmt.Sprintf(stmt, database, database, database)
 }
 
+func s4(stmt string) string {
+	return fmt.Sprintf(stmt, database, database, database,database)
+}
+
 
 //func ss(stmt string) string {
 //	return fmt.Sprintf(stmt, databaseFleet, databaseFleet)

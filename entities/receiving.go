@@ -7,7 +7,9 @@ type Receiving struct {
 	CreationDate int        `json:"creationDate"`
 	UpdateDate int          `json:"updateDate"`
 	ExpectedDate int        `json:"expectedDate"`
+	ProductIds string		`json:"productIds"`
 	Status string           `json:"status"`
+	UserId int				`json:"userId"`
 }
 
 type ReceivingsItem struct {
@@ -20,4 +22,8 @@ type ReceivingsItem struct {
 	Status string            `json:"status"`
 	PersonName string        `json:"personName"`
 	PersonPhone string       `json:"personPhone"`
+	ProductIds string		 `json:"productIds"`
+	ProductList []*Product	 `json:"productList"`
+	UserId int				`json:"userId"`
+	UserName string			`json:"userName"`
 }

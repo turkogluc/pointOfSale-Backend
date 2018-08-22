@@ -16,8 +16,11 @@ const stTableReceiving = `CREATE TABLE IF NOT EXISTS %s.receiving (
 		creation_date	INT,
 		update_date		INT,
 		expected_date	INT,
-		status			ENUM('Bekliyor','Bitti'),
-		FOREIGN KEY (person_id) REFERENCES %s.person (id)
+		product_ids		VARCHAR(200) DEFAULT '',
+		status			ENUM('Bekliyor','Bitti','Gecikmiş'),
+		user_id 		 INT 	DEFAULT 1,
+  		FOREIGN KEY (user_id) REFERENCES %s.user (id) ON DELETE CASCADE ON UPDATE CASCADE,
+		FOREIGN KEY (person_id) REFERENCES %s.person (id) ON DELETE CASCADE ON UPDATE CASCADE
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;`
 
 
@@ -25,10 +28,13 @@ const stTableReceiving = `CREATE TABLE IF NOT EXISTS %s.receiving (
 const stSelectReceivingById = `SELECT * FROM %s.receiving
 									 WHERE id=?`
 
-const stInsertReceiving = `INSERT INTO %s.receiving (person_id,amount,creation_date,update_date,expected_date,status)
-							VALUES (?,?,?,?,?,?)`
+const stInsertReceiving = `INSERT INTO %s.receiving (person_id,amount,creation_date,update_date,expected_date,product_ids,status,user_id)
+							VALUES (?,?,?,?,?,?,?,?)`
 
-const stUpdateReceivingById = `UPDATE %s.receiving SET person_id=?, amount=?, update_date=?, expected_date=?, status=?
+const stUpdateReceivingById = `UPDATE %s.receiving SET person_id=?, amount=?, update_date=?, expected_date=?,product_ids=?, status=?, user_id=?
+								WHERE id=?`
+
+const stSetStatus = `UPDATE %s.receiving SET status=?
 								WHERE id=?`
 
 const stDeleteReceivingById = `DELETE FROM %s.receiving WHERE id=?`
@@ -36,14 +42,14 @@ const stDeleteReceivingById = `DELETE FROM %s.receiving WHERE id=?`
 type ReceivingRepo struct {}
 
 var rcv *ReceivingRepo
-var qSelectReceivingById,qInsertReceiving,qUpdateReceivingById,qDeleteReceivingById *sql.Stmt
+var qSelectReceivingById,qInsertReceiving,qSetStatus,qUpdateReceivingById,qDeleteReceivingById *sql.Stmt
 
 func GetReceivingRepo() *ReceivingRepo{
 	if rcv == nil {
 		rcv = &ReceivingRepo{}
 
 		var err error
-		if _, err = DB.Exec(ss(stTableReceiving)); err != nil {
+		if _, err = DB.Exec(sss(stTableReceiving)); err != nil {
 			LogError(err)
 		}
 
@@ -61,6 +67,11 @@ func GetReceivingRepo() *ReceivingRepo{
 		if err != nil {
 			LogError(err)
 		}
+
+		qSetStatus, err = DB.Prepare(s(stSetStatus))
+		if err != nil {
+			LogError(err)
+		}
 		qDeleteReceivingById, err = DB.Prepare(s(stDeleteReceivingById))
 		if err != nil {
 			LogError(err)
@@ -73,7 +84,7 @@ func GetReceivingRepo() *ReceivingRepo{
 func (rcv *ReceivingRepo) SelectReceivingById(id int)(*Receiving,error){
 	p := &Receiving{}
 	row := qSelectReceivingById.QueryRow(id)
-	err := row.Scan(&p.Id,&p.PersonId,&p.Amount,&p.CreationDate,&p.UpdateDate,&p.ExpectedDate,&p.Status)
+	err := row.Scan(&p.Id,&p.PersonId,&p.Amount,&p.CreationDate,&p.UpdateDate,&p.ExpectedDate,&p.ProductIds,&p.Status,&p.UserId)
 	if err != nil{
 		LogError(err)
 		return nil, err
@@ -84,7 +95,7 @@ func (rcv *ReceivingRepo) SelectReceivingById(id int)(*Receiving,error){
 
 func (rcv *ReceivingRepo) InsertReceiving(p *Receiving)(error){
 
-	result,err := qInsertReceiving.Exec(p.PersonId,p.Amount,p.CreationDate,p.UpdateDate,p.ExpectedDate,p.Status)
+	result,err := qInsertReceiving.Exec(p.PersonId,p.Amount,p.CreationDate,p.UpdateDate,p.ExpectedDate,p.ProductIds,p.Status,p.UserId)
 	if err != nil{
 		LogError(err)
 		return err
@@ -102,7 +113,18 @@ func (rcv *ReceivingRepo) InsertReceiving(p *Receiving)(error){
 
 func (rcv *ReceivingRepo) UpdateReceivingById(p *Receiving, IdToUpdate int)(error){
 
-	_,err := qUpdateReceivingById.Exec(p.PersonId,p.Amount,p.UpdateDate,p.ExpectedDate,p.Status,IdToUpdate)
+	_,err := qUpdateReceivingById.Exec(p.PersonId,p.Amount,p.UpdateDate,p.ExpectedDate,p.ProductIds,p.Status,p.UserId,IdToUpdate)
+	if err != nil{
+		LogError(err)
+		return err
+	}
+
+	return nil
+}
+
+func (rcv *ReceivingRepo) SetStatus(status string, IdToUpdate int)(error){
+
+	_,err := qSetStatus.Exec(status,IdToUpdate)
 	if err != nil{
 		LogError(err)
 		return err
@@ -187,15 +209,17 @@ func (rcv *ReceivingRepo) SelectReceivings(person,status,orderBy,orderAs string,
 		pageSizeAvail = true
 	}
 
-	stSelect := `SELECT r.id,r.person_id,r.amount,r.creation_date,r.update_date,r.expected_date,r.status,p.name,p.phone
+	stSelect := `SELECT r.id,r.person_id,r.amount,r.creation_date,r.update_date,r.expected_date,r.status,p.name,p.phone,r.product_ids,r.user_id,u.name
 						FROM %s.receiving as r
-						JOIN %s.person as p ON r.person_id = p.id`
+						JOIN %s.person as p ON r.person_id = p.id
+						JOIN %s.user as u ON u.id = r.user_id`
 
 	stCount := `SELECT COUNT(*) FROM %s.receiving as r
-						JOIN %s.person as p ON r.person_id = p.id`
+						JOIN %s.person as p ON r.person_id = p.id
+						JOIN %s.user as u ON u.id = r.user_id`
 
-	stSelect = ss(stSelect)
-	stCount = ss(stCount)
+	stSelect = sss(stSelect)
+	stCount = sss(stCount)
 
 	filter := ``
 
@@ -255,7 +279,7 @@ func (rcv *ReceivingRepo) SelectReceivings(person,status,orderBy,orderAs string,
 
 	for rows.Next(){
 		p := &ReceivingsItem{}
-		err = rows.Scan(&p.Id,&p.PersonId,&p.Amount,&p.CreationDate,&p.UpdateDate,&p.ExpectedDate,&p.Status,&p.PersonName,&p.PersonPhone)
+		err = rows.Scan(&p.Id,&p.PersonId,&p.Amount,&p.CreationDate,&p.UpdateDate,&p.ExpectedDate,&p.Status,&p.PersonName,&p.PersonPhone,&p.ProductIds,&p.UserId,&p.UserName)
 		if err != nil {
 			LogError(err)
 		}
