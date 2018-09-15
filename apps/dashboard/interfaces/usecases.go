@@ -68,8 +68,8 @@ type DashboardUseCases interface {
 	// # Reports As Excel#
 
 	GetSaleSummaryReportDailyAsExcel(tInterval string) (string,  *ErrorType)
-	GetCurrentStockReportAsExcel(name,category,orderBy,orderAs string,pageNumber, pageSize int) (*responses.CurrentStockReportResponse,  *ErrorType)
-	GetPaymentReportAsExcel(tInterval string) (*PaymentReport,  *ErrorType)
+	GetCurrentStockReportAsExcel(name,category,orderBy,orderAs string,pageNumber, pageSize int) (string,  *ErrorType)
+	GetPaymentReportAsExcel(tInterval string) (string,  *ErrorType)
 
 	// # Util #
 
