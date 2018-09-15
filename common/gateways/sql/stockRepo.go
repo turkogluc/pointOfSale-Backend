@@ -156,21 +156,28 @@ func (st *StockRepo) DeleteStocks(ids []int)(error){
 }
 
 
-func (st *StockRepo) SelectStocks(barcode,name,description,category,orderBy,orderAs string,pageNumber, pageSize,dealerId int) (*responses.StockResponse,  error) {
+func (st *StockRepo) SelectStocks(timeInterval []int,barcode,name,description,category,orderBy,orderAs string,pageNumber, pageSize,dealerId int,creatorId int) (*responses.StockResponse,  error) {
 
 	stes := &responses.StockResponse{}
 	items := []*responses.StockItem{}
+
+	var timeAvail bool
 
 	var barAvail bool
 	var nameAvail bool
 	var descAvail bool
 	var catAvail bool
 	var dealerAvail bool
+	var crtAvail bool
 
 	var orderByAvail bool
 	var pageNumberAvail bool
 	var pageSizeAvail bool
 
+
+	if len(timeInterval) > 1{
+		timeAvail = true
+	}
 
 	if len(barcode) > 0{
 		barAvail = true
@@ -186,6 +193,9 @@ func (st *StockRepo) SelectStocks(barcode,name,description,category,orderBy,orde
 	}
 	if dealerId > 0 {
 		dealerAvail = true
+	}
+	if creatorId > 0 {
+		crtAvail = true
 	}
 
 	if len(orderBy) != 0{
@@ -216,9 +226,25 @@ func (st *StockRepo) SelectStocks(barcode,name,description,category,orderBy,orde
 
 	filter := ``
 
-	if  barAvail || nameAvail || descAvail || catAvail || dealerAvail{
+	if  crtAvail || timeAvail || barAvail || nameAvail || descAvail || catAvail || dealerAvail{
 		filter += " WHERE "
 
+		if crtAvail {
+			filter +=  ` s.user_id = ` + strconv.FormatInt(int64(creatorId),10)
+
+			if timeAvail || barAvail || nameAvail || descAvail || catAvail || dealerAvail{
+				filter += " AND "
+			}
+		}
+
+		if timeAvail{
+			filter += " s.update_date > " + strconv.FormatInt(int64(timeInterval[0]),10)
+			filter += " AND s.update_date < " + strconv.FormatInt(int64(timeInterval[1]),10)
+
+			if barAvail || nameAvail || descAvail || catAvail || dealerAvail{
+				filter += " AND "
+			}
+		}
 
 		if barAvail {
 			filter +=  ` p.barcode LIKE ` + `'%` + barcode + `%' `
@@ -322,6 +348,131 @@ func (st *StockRepo) SelectStocks(barcode,name,description,category,orderBy,orde
 
 	return stes,nil
 }
+
+func (st *StockRepo) SelectCurrentStockReport(name,category,orderBy,orderAs string,pageNumber, pageSize int) (*responses.CurrentStockReportResponse,  error) {
+
+	stes := &responses.CurrentStockReportResponse{}
+	items := []*responses.CurrentStockReportItem{}
+
+	var nameAvail bool
+	var catAvail bool
+
+	var orderByAvail bool
+	var pageNumberAvail bool
+	var pageSizeAvail bool
+
+
+	if len(name) > 0{
+		nameAvail = true
+	}
+
+	if len(category) > 0 {
+		catAvail = true
+	}
+
+	if len(orderBy) != 0{
+		if orderBy != "8" {  // order by (s.qty*p.sale_price)
+			orderByAvail = true
+		}
+	}
+	if pageNumber > 0 {
+		pageNumberAvail = true
+	}
+	if pageSize > 0 {
+		pageSizeAvail = true
+	}
+
+	stSelect := `select p.id,p.name,p.category,s.qty,p.purchase_price,p.sale_price,(s.qty*p.purchase_price),(s.qty*p.sale_price),(s.qty*p.sale_price)-(s.qty*p.purchase_price)
+    FROM %s.stock as s
+    JOIN %s.product p ON s.product_id = p.id `
+
+	stCount := `select COUNT(*)
+    FROM %s.stock as s
+    JOIN %s.product p ON s.product_id = p.id `
+
+	stSelect = ss(stSelect)
+	stCount = ss(stCount)
+
+	filter := ``
+
+	if  nameAvail || catAvail {
+		filter += " WHERE "
+
+		if nameAvail {
+			filter +=  ` ( p.name LIKE ` + `'%` + name + `%' OR p.barcode LIKE ` + `'%` + name + `%' OR p.category LIKE '%` + name + `%' )`
+
+			if catAvail {
+				filter += ` AND `
+			}
+		}
+		if catAvail{
+			filter += ` p.category = '` + category + `' `
+		}
+	}
+
+	stSelect += filter
+	stCount += filter
+
+	stSelect += ` ORDER BY `
+	if orderByAvail {
+		stSelect +=  orderBy
+	}else{
+		stSelect += ` 8 `
+	}
+	if orderAs == "asc"{
+		stSelect += ` ASC `
+	}else{
+		stSelect += ` DESC `
+	}
+	if pageNumberAvail && pageSizeAvail {
+		offset := strconv.FormatInt(int64((pageNumber-1)*pageSize),10)
+		pageSizeStr := strconv.FormatInt(int64(pageSize),10)
+		stSelect += ` LIMIT ` + offset + `,` + pageSizeStr
+	}
+
+	LogDebug(stSelect)
+
+	qSelect, err := DB.Prepare(stSelect)
+	defer qSelect.Close()
+
+	if err != nil{
+		LogError(err)
+		return nil, err
+	}
+
+	rows, err := qSelect.Query()
+	if err != nil{
+		LogError(err)
+		return nil, err
+	}
+
+	for rows.Next(){
+		p := &responses.CurrentStockReportItem{}
+		err = rows.Scan(&p.Id,&p.Name,&p.Category,&p.Qty,&p.PurchasePrice,&p.SalePrice,&p.GrossValue,&p.NetValue,&p.TotalProfit)
+		if err != nil {
+			LogError(err)
+		}
+		items = append(items, p)
+	}
+
+	stes.Items = items
+
+	qCount, err := DB.Prepare(stCount)
+	defer qCount.Close()
+	if err != nil{
+		LogError(err)
+		return nil, err
+	}
+	count := qCount.QueryRow()
+	if err != nil{
+		LogError(err)
+		return nil, err
+	}
+	count.Scan(&stes.Count)
+
+	return stes,nil
+}
+
 
 func (st *StockRepo) Close() {
 	qSelectStockById.Close()

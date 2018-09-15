@@ -10,4 +10,6 @@ type Sale struct {
 	CreationDate int `json:"creationDate"`
 	Items []*SaleItem `json:"items"`
 	ItemsStr string   `json:"itemStr"`
+	UserId int 		`json:"userId"`
+	UserName string  `json:"userName"`
 }

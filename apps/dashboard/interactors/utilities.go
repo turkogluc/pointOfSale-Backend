@@ -40,7 +40,7 @@ func StartReceivingCheckCronJob(){
 	c := cron.New()
 	c.AddFunc("@every 1h", func() {
 		fmt.Println("StartReceivingCheckCronJob ...")
-		receivings,err := interactors.ReceivingRepo.SelectReceivings("","","","",0,0)
+		receivings,err := interactors.ReceivingRepo.SelectReceivings([]int{},"","","","",0,0,0)
 		if err != nil {
 			LogError(err)
 			return

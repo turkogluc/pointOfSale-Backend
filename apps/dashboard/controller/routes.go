@@ -22,6 +22,7 @@ func InitRoutes(public,private *gin.RouterGroup) {
 	private.GET("getProductById", getProductById)
 	private.GET("deleteProducts", deleteProducts)
 	private.GET("getProducts",getProducts)
+	private.GET("retrieveCategories",retrieveCategories)
 
 	private.POST("createStock", createStock)
 	private.POST("updateStock", updateStock)
@@ -55,7 +56,7 @@ func InitRoutes(public,private *gin.RouterGroup) {
 	private.GET("deleteExpenses", deleteExpenses)
 	private.GET("getExpenses",getExpenses)
 
-	private.POST("createUser", createUser)
+	public.POST("createUser", createUser)
 	private.POST("updateUser", updateUser)
 	private.GET("getUserById", getUserById)
 	private.GET("deleteUsers", deleteUsers)
@@ -67,6 +68,12 @@ func InitRoutes(public,private *gin.RouterGroup) {
 	private.GET("deleteSales", deleteSales)
 	private.GET("getSales",getSales)
 
+	// # Reports #
+
+	private.GET("getSaleSummaryReportDaily",getSaleSummaryReportDaily)
+	private.GET("getCurrentStockReport",getCurrentStockReport)
+	private.GET("retrieveActivityLog",getActivityLog)
+	private.GET("getPaymentReport",getPaymentReport)
 
 }
 
@@ -204,6 +211,18 @@ func getProducts (c *gin.Context){
 	c.JSON(200, generateSuccessResponse(p))
 }
 
+func retrieveCategories (c *gin.Context){
+
+	res,err := UseCase.RetrieveCategories()
+	if err != nil{
+		c.JSON(200, generateFailResponse(err))
+		return
+	}
+
+	c.JSON(200, generateSuccessResponse(res))
+
+}
+
 // ########################################################
 
 func createStock (c *gin.Context){
@@ -270,11 +289,14 @@ func deleteStocks(c *gin.Context){
 
 func getStocks (c *gin.Context){
 
+	tInterval := c.Query("timeInterval")
+
 	barcode := c.Query("barcode")
 	name := c.Query("name")
 	description := c.Query("description")
 	category := c.Query("category")
 	dealerId,_ := strconv.Atoi(c.Query("dealerId"))
+	creator,_ := strconv.Atoi(c.Query("creatorId"))
 
 	pageNumber,_ := strconv.Atoi(c.Query("pageNumber"))
 	pageSize,_ := strconv.Atoi(c.Query("pageSize"))
@@ -283,7 +305,7 @@ func getStocks (c *gin.Context){
 	orderAs := c.Query("orderAs")
 	//isDropdown,_ := strconv.ParseBool(c.Query("isDropdown"))
 
-	p, err := UseCase.GetStocks(barcode,name,description,category,orderBy,orderAs,pageNumber, pageSize,dealerId)
+	p, err := UseCase.GetStocks(tInterval,barcode,name,description,category,orderBy,orderAs,pageNumber, pageSize,dealerId,creator)
 	if err != nil{
 		c.JSON(200, generateFailResponse(err))
 		return
@@ -459,13 +481,16 @@ func getReceivings (c *gin.Context){
 	person := c.Query("person")
 	status := c.Query("status")
 
+	tInterval := c.Query("timeInterval")
+	creator,_ := strconv.Atoi(c.Query("creatorId"))
+
 	pageNumber,_ := strconv.Atoi(c.Query("pageNumber"))
 	pageSize,_ := strconv.Atoi(c.Query("pageSize"))
 
 	orderBy := c.Query("orderBy")
 	orderAs := c.Query("orderAs")
 
-	p, err := UseCase.GetReceivings(person,status,orderBy,orderAs,pageNumber, pageSize)
+	p, err := UseCase.GetReceivings(tInterval,person,status,orderBy,orderAs,pageNumber, pageSize,creator)
 	if err != nil{
 		c.JSON(200, generateFailResponse(err))
 		return
@@ -557,13 +582,16 @@ func getPayments (c *gin.Context){
 	person := c.Query("person")
 	status := c.Query("status")
 
+	tInterval := c.Query("timeInterval")
+	creator,_ := strconv.Atoi(c.Query("creatorId"))
+
 	pageNumber,_ := strconv.Atoi(c.Query("pageNumber"))
 	pageSize,_ := strconv.Atoi(c.Query("pageSize"))
 
 	orderBy := c.Query("orderBy")
 	orderAs := c.Query("orderAs")
 
-	p, err := UseCase.GetPayments(person,status,orderBy,orderAs,pageNumber, pageSize)
+	p, err := UseCase.GetPayments(tInterval,person,status,orderBy,orderAs,pageNumber, pageSize,creator)
 	if err != nil{
 		c.JSON(200, generateFailResponse(err))
 		return
@@ -656,6 +684,9 @@ func getExpenses (c *gin.Context){
 	name := c.Query("name")
 	description := c.Query("description")
 
+	tInterval := c.Query("timeInterval")
+	creator,_ := strconv.Atoi(c.Query("creatorId"))
+
 	pageNumber,_ := strconv.Atoi(c.Query("pageNumber"))
 	pageSize,_ := strconv.Atoi(c.Query("pageSize"))
 
@@ -663,7 +694,7 @@ func getExpenses (c *gin.Context){
 	orderAs := c.Query("orderAs")
 	//isDropdown,_ := strconv.ParseBool(c.Query("isDropdown"))
 
-	p, err := UseCase.GetExpenses(name,description,orderBy,orderAs,pageNumber, pageSize)
+	p, err := UseCase.GetExpenses(tInterval,name,description,orderBy,orderAs,pageNumber, pageSize,creator)
 	if err != nil{
 		c.JSON(200, generateFailResponse(err))
 		return
@@ -775,6 +806,7 @@ func createSale (c *gin.Context){
 	p := Sale{}
 	c.BindJSON(&p)
 
+	p.UserId = getUserIdFromToken(c)
 	err := UseCase.CreateSale(&p)
 
 	if err != nil{
@@ -789,6 +821,7 @@ func updateSale (c *gin.Context){
 	p := Sale{}
 	c.BindJSON(&p)
 
+	p.UserId = getUserIdFromToken(c)
 	err := UseCase.UpdateSale(&p)
 
 	if err != nil{
@@ -834,6 +867,7 @@ func deleteSales(c *gin.Context){
 func getSales (c *gin.Context){
 
 	tInterval := c.Query("timeInterval")
+	userId,_ := strconv.Atoi(c.Query("userId"))
 
 	pageNumber,_ := strconv.Atoi(c.Query("pageNumber"))
 	pageSize,_ := strconv.Atoi(c.Query("pageSize"))
@@ -842,7 +876,7 @@ func getSales (c *gin.Context){
 	orderAs := c.Query("orderAs")
 	//isDropdown,_ := strconv.ParseBool(c.Query("isDropdown"))
 
-	p, err := UseCase.GetSales(tInterval,orderBy,orderAs,pageNumber, pageSize)
+	p, err := UseCase.GetSales(tInterval,userId,orderBy,orderAs,pageNumber, pageSize)
 	if err != nil{
 		c.JSON(200, generateFailResponse(err))
 		return
@@ -853,6 +887,73 @@ func getSales (c *gin.Context){
 
 // ###############################################################
 
+// # reports #
+
+func getSaleSummaryReportDaily (c *gin.Context){
+
+	tInterval := c.Query("timeInterval")
+
+	p, err := UseCase.GetSaleSummaryReportDaily(tInterval)
+	if err != nil{
+		c.JSON(200, generateFailResponse(err))
+		return
+	}
+
+	c.JSON(200, generateSuccessResponse(p))
+}
+
+func getCurrentStockReport(c *gin.Context){
+
+	//barcode := c.Query("barcode")
+	name := c.Query("name")
+	category := c.Query("category")
+
+	pageNumber,_ := strconv.Atoi(c.Query("pageNumber"))
+	pageSize,_ := strconv.Atoi(c.Query("pageSize"))
+
+	orderBy := c.Query("orderBy")
+	orderAs := c.Query("orderAs")
+
+	p, err := UseCase.GetCurrentStockReport(name,category,orderBy,orderAs,pageNumber, pageSize)
+	if err != nil{	
+		c.JSON(200, generateFailResponse(err))
+		return
+	}
+
+	c.JSON(200, generateSuccessResponse(p))
+}
+
+func getActivityLog (c *gin.Context){
+
+	tInterval := c.Query("timeInterval")
+	userId,_ := strconv.Atoi(c.Query("userId"))
+
+	p, err := UseCase.GetActivityLog(tInterval,userId)
+	if err != nil{
+		c.JSON(200, generateFailResponse(err))
+		return
+	}
+
+	c.JSON(200, generateSuccessResponse(p))
+}
+
+func getPaymentReport (c *gin.Context){
+
+	tInterval := c.Query("timeInterval")
+
+	p, err := UseCase.GetPaymentReport(tInterval)
+	if err != nil{
+		c.JSON(200, generateFailResponse(err))
+		return
+	}
+
+	c.JSON(200, generateSuccessResponse(p))
+}
+
+
+// ####################################################################
+
+// # utils #
 
 func handleLogin (c *gin.Context){
 	p := LoginParams{}

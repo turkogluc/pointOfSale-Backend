@@ -70,11 +70,6 @@ func main() {
 	sql.Init(s.SqlHost,s.SqlPort,s.SqlDB, s.SqlUser,s.SqlPass)
 	defer sql.Close()
 
-	//email := mail.GetInstance()
-	//if email.Init(viper.GetString("app.mail.user"), viper.GetString("app.mail.password"), viper.GetString("app.mail.templateFilePathPrefix"), viper.GetString("app.mail.smtpAddress"), viper.GetString("app.mail.smtpPort")); err != nil {
-	//	log.Fatal(err)
-	//}
-
 
 	common.ProductRepo = sql.GetProductRepo()
 	common.PersonRepo = sql.GetPersonRepo()
@@ -84,6 +79,7 @@ func main() {
 	common.ExpenseRepo = sql.GetExpenseRepo()
 	common.UserRepo = sql.GetUserRepo()
 	common.SaleRepo = sql.GetSaleRepo()
+	common.SaleSummaryReportDailyRepo = sql.GetSaleSummaryReportDailyRepo()
 
 	controllers.StartApplicationBackend()
 }

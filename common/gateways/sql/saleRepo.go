@@ -13,18 +13,20 @@ import (
 const stTableSale = `CREATE TABLE IF NOT EXISTS %s.sale (
 						  id             INT AUTO_INCREMENT PRIMARY KEY,
 						  creation_date  INT     NOT NULL DEFAULT 0,
-						  items			 TEXT
+						  items			 TEXT,
+						  user_id 		 INT 	DEFAULT 1,
+						  FOREIGN KEY (user_id) REFERENCES %s.user (id) ON DELETE CASCADE ON UPDATE CASCADE	
 						)ENGINE=InnoDB DEFAULT CHARSET=utf8;`
 
 
 
-const stSelectSaleById = `SELECT id,creation_date,items FROM %s.sale
+const stSelectSaleById = `SELECT id,creation_date,items,user_id FROM %s.sale
 									 WHERE id=?`
 
-const stInsertSale = `INSERT INTO %s.sale (creation_date,items)
-							VALUES (?,?)`
+const stInsertSale = `INSERT INTO %s.sale (creation_date,items,user_id)
+							VALUES (?,?,?)`
 
-const stUpdateSaleById = `UPDATE %s.sale SET creation_date=?,items=?
+const stUpdateSaleById = `UPDATE %s.sale SET creation_date=?,items=?,user_id=?
 								WHERE id=?`
 
 const stDeleteSaleById = `DELETE FROM %s.sale WHERE id=?`
@@ -39,7 +41,7 @@ func GetSaleRepo() *SaleRepo{
 		sl = &SaleRepo{}
 
 		var err error
-		if _, err = DB.Exec(s(stTableSale)); err != nil {
+		if _, err = DB.Exec(ss(stTableSale)); err != nil {
 			LogError(err)
 		}
 
@@ -69,7 +71,7 @@ func GetSaleRepo() *SaleRepo{
 func (sl *SaleRepo) SelectSaleById(id int)(*Sale,error){
 	p := &Sale{}
 	row := qSelectSaleById.QueryRow(id)
-	err := row.Scan(&p.Id,&p.CreationDate,&p.ItemsStr)
+	err := row.Scan(&p.Id,&p.CreationDate,&p.ItemsStr,&p.UserId)
 	if err != nil{
 		LogError(err)
 		return nil, err
@@ -81,7 +83,7 @@ func (sl *SaleRepo) SelectSaleById(id int)(*Sale,error){
 func (sl *SaleRepo) InsertSale(p *Sale)(error){
 
 	timeNOW := int(time.Now().Unix())
-	result,err := qInsertSale.Exec(timeNOW,p.ItemsStr)
+	result,err := qInsertSale.Exec(timeNOW,p.ItemsStr,p.UserId)
 	if err != nil{
 		LogError(err)
 		return err
@@ -100,7 +102,7 @@ func (sl *SaleRepo) InsertSale(p *Sale)(error){
 func (sl *SaleRepo) UpdateSaleById(p *Sale, IdToUpdate int)(error){
 
 	timeNOW := int(time.Now().Unix())
-	_,err := qUpdateSaleById.Exec(timeNOW,p.ItemsStr,IdToUpdate)
+	_,err := qUpdateSaleById.Exec(timeNOW,p.ItemsStr,p.UserId,IdToUpdate)
 	if err != nil{
 		LogError(err)
 		return err
@@ -152,12 +154,13 @@ func (sl *SaleRepo) DeleteSales(ids []int)(error){
 	return nil
 }
 
-func (sl *SaleRepo) SelectSales(timeInterval []int,orderBy,orderAs string,pageNumber, pageSize int) (*responses.SaleResponse,  error) {
+func (sl *SaleRepo) SelectSales(timeInterval []int,userId int,orderBy,orderAs string,pageNumber, pageSize int) (*responses.SaleResponse,  error) {
 
 	response := &responses.SaleResponse{}
 	items := []*Sale{}
 
 	var timeAvail bool
+	var userAvail bool
 
 	var orderByAvail bool
 	var pageNumberAvail bool
@@ -166,6 +169,10 @@ func (sl *SaleRepo) SelectSales(timeInterval []int,orderBy,orderAs string,pageNu
 
 	if len(timeInterval) > 0{
 		timeAvail = true
+	}
+
+	if userId > 0 {
+		userAvail = true
 	}
 
 	if len(orderBy) != 0{
@@ -180,19 +187,35 @@ func (sl *SaleRepo) SelectSales(timeInterval []int,orderBy,orderAs string,pageNu
 		pageSizeAvail = true
 	}
 
-	stSelect := `SELECT * FROM %s.sale`
-	stCount := `SELECT COUNT(*) FROM %s.sale`
+	stSelect := `SELECT s.id,s.creation_date,s.items,s.user_id,u.name 
+						FROM %s.sale AS s
+						JOIN %s.user AS u ON u.id=s.user_id`
+	stCount := `SELECT COUNT(*) FROM %s.sale AS s
+						JOIN %s.user AS u ON u.id=s.user_id`
 
-	stSelect = s(stSelect)
-	stCount = s(stCount)
+	stSelect = ss(stSelect)
+	stCount = ss(stCount)
 
 	filter := ``
 
-	if  timeAvail {
+	if  timeAvail || userAvail{
 		filter += " WHERE "
 
-		filter += " creation_date > " + strconv.FormatInt(int64(timeInterval[0]),10)
-		filter += " AND creation_date < " + strconv.FormatInt(int64(timeInterval[1]),10)
+
+		if timeAvail{
+			filter += " s.creation_date > " + strconv.FormatInt(int64(timeInterval[0]),10)
+			filter += " AND s.creation_date < " + strconv.FormatInt(int64(timeInterval[1]),10)
+
+			if userAvail{
+				filter += ` AND `
+			}
+		}
+
+		if userAvail{
+			filter += ` s.user_id = ` + strconv.FormatInt(int64(userId),10)
+		}
+
+
 	}
 
 	stSelect += filter
@@ -202,7 +225,7 @@ func (sl *SaleRepo) SelectSales(timeInterval []int,orderBy,orderAs string,pageNu
 	if orderByAvail {
 		stSelect +=  orderBy
 	}else{
-		stSelect += ` id `
+		stSelect += ` s.id `
 	}
 	if orderAs == "asc"{
 		stSelect += ` ASC `
@@ -233,7 +256,7 @@ func (sl *SaleRepo) SelectSales(timeInterval []int,orderBy,orderAs string,pageNu
 
 	for rows.Next(){
 		p := &Sale{}
-		err = rows.Scan(&p.Id,&p.CreationDate,&p.ItemsStr)
+		err = rows.Scan(&p.Id,&p.CreationDate,&p.ItemsStr,&p.UserId,&p.UserName)
 		if err != nil {
 			LogError(err)
 		}

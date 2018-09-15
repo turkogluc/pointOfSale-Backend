@@ -154,10 +154,13 @@ func (exp *ExpenseRepo) DeleteExpenses(ids []int)(error){
 	return nil
 }
 
-func (exp *ExpenseRepo) SelectExpenses(name,description,orderBy,orderAs string,pageNumber, pageSize int) (*responses.ExpenseResponse,  error) {
+func (exp *ExpenseRepo) SelectExpenses(timeInterval []int,name,description,orderBy,orderAs string,pageNumber, pageSize,creatorId int) (*responses.ExpenseResponse,  error) {
 
 	expes := &responses.ExpenseResponse{}
 	items := []*responses.ExpenseItem{}
+
+	var timeAvail bool
+	var crtAvail bool
 
 	var nameAvail bool
 	var descAvail bool
@@ -166,6 +169,13 @@ func (exp *ExpenseRepo) SelectExpenses(name,description,orderBy,orderAs string,p
 	var pageNumberAvail bool
 	var pageSizeAvail bool
 
+
+	if len(timeInterval) > 1{
+		timeAvail = true
+	}
+	if creatorId > 0 {
+		crtAvail = true
+	}
 
 	if len(name) > 0{
 		nameAvail = true
@@ -196,8 +206,25 @@ func (exp *ExpenseRepo) SelectExpenses(name,description,orderBy,orderAs string,p
 
 	filter := ``
 
-	if  nameAvail || descAvail {
+	if  timeAvail || crtAvail || nameAvail || descAvail {
 		filter += " WHERE "
+
+		if crtAvail {
+			filter +=  ` e.user_id = ` + strconv.FormatInt(int64(creatorId),10)
+
+			if timeAvail || nameAvail || descAvail {
+				filter += " AND "
+			}
+		}
+
+		if timeAvail{
+			filter += " e.update_date > " + strconv.FormatInt(int64(timeInterval[0]),10)
+			filter += " AND e.update_date < " + strconv.FormatInt(int64(timeInterval[1]),10)
+
+			if nameAvail || descAvail{
+				filter += " AND "
+			}
+		}
 
 		if nameAvail {
 			filter +=  ` u.name LIKE ` + `'%` + name + `%' `

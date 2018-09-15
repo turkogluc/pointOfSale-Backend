@@ -176,10 +176,13 @@ func (rcv *ReceivingRepo) DeleteReceivings(ids []int)(error){
 	return nil
 }
 
-func (rcv *ReceivingRepo) SelectReceivings(person,status,orderBy,orderAs string,pageNumber, pageSize int) (*responses.ReceivingResponse,  error) {
+func (rcv *ReceivingRepo) SelectReceivings(timeInterval []int,person,status,orderBy,orderAs string,pageNumber, pageSize,creatorId int) (*responses.ReceivingResponse,  error) {
 
 	rcves := &responses.ReceivingResponse{}
 	items := []*ReceivingsItem{}
+
+	var timeAvail bool
+	var crtAvail bool
 
 	var personAvail bool
 	var statusAvail bool
@@ -188,6 +191,13 @@ func (rcv *ReceivingRepo) SelectReceivings(person,status,orderBy,orderAs string,
 	var pageNumberAvail bool
 	var pageSizeAvail bool
 
+
+	if len(timeInterval) > 1{
+		timeAvail = true
+	}
+	if creatorId > 0 {
+		crtAvail = true
+	}
 
 
 	if len(person) > 0{
@@ -223,8 +233,25 @@ func (rcv *ReceivingRepo) SelectReceivings(person,status,orderBy,orderAs string,
 
 	filter := ``
 
-	if  personAvail || statusAvail {
+	if  timeAvail || crtAvail || personAvail || statusAvail {
 		filter += " WHERE "
+
+		if crtAvail {
+			filter +=  ` r.user_id = ` + strconv.FormatInt(int64(creatorId),10)
+
+			if timeAvail || personAvail || statusAvail {
+				filter += " AND "
+			}
+		}
+
+		if timeAvail{
+			filter += " r.update_date > " + strconv.FormatInt(int64(timeInterval[0]),10)
+			filter += " AND r.update_date < " + strconv.FormatInt(int64(timeInterval[1]),10)
+
+			if personAvail || statusAvail{
+				filter += " AND "
+			}
+		}
 
 
 		if personAvail {

@@ -9,6 +9,7 @@ import (
 
 type ProductGateway interface {
 	SelectProductById(id int)(*Product,error)
+	SelectProductCategories()([]string,error)
 	SelectProducts(barcode,name,description,category,orderBy,orderAs string,pageNumber, pageSize int) (*responses.ProductResponse,  error)
 	InsertProduct(p *Product)(error)
 	UpdateProductById(p *Product, IdToUpdate int)(error)
@@ -19,7 +20,8 @@ type ProductGateway interface {
 
 type StockGateway interface {
 	SelectStockById(id int)(*Stock,error)
-	SelectStocks(barcode,name,description,category,orderBy,orderAs string,pageNumber, pageSize,dealerId int) (*responses.StockResponse,  error)
+	SelectStocks(timeInterval []int,barcode,name,description,category,orderBy,orderAs string,pageNumber, pageSize,dealerId int,creatorId int) (*responses.StockResponse,  error)
+	SelectCurrentStockReport(name,category,orderBy,orderAs string,pageNumber, pageSize int) (*responses.CurrentStockReportResponse,  error)
 	InsertStock(p *Stock)(error)
 	UpdateStockById(p *Stock, IdToUpdate int)(error)
 	DeleteStockById(Id int)(error)
@@ -39,7 +41,7 @@ type PersonGateway interface {
 
 type ReceivingGateway interface {
 	SelectReceivingById(id int)(*Receiving,error)
-	SelectReceivings(person,status,orderBy,orderAs string,pageNumber, pageSize int) (*responses.ReceivingResponse,  error)
+	SelectReceivings(timeInterval []int,person,status,orderBy,orderAs string,pageNumber, pageSize,creator int) (*responses.ReceivingResponse,  error)
 	InsertReceiving(p *Receiving)(error)
 	UpdateReceivingById(p *Receiving, IdToUpdate int)(error)
 	DeleteReceivingById(Id int)(error)
@@ -50,7 +52,7 @@ type ReceivingGateway interface {
 
 type PaymentGateway interface {
 	SelectPaymentById(id int)(*Payment,error)
-	SelectPayments(person,status,orderBy,orderAs string,pageNumber, pageSize int) (*responses.PaymentResponse,  error)
+	SelectPayments(timeInterval []int,person,status,orderBy,orderAs string,pageNumber, pageSize,creator int) (*responses.PaymentResponse,  error)
 	InsertPayment(p *Payment)(error)
 	UpdatePaymentById(p *Payment, IdToUpdate int)(error)
 	SetPaymentStatus(status string, IdToUpdate int)(error)
@@ -61,7 +63,7 @@ type PaymentGateway interface {
 
 type ExpenseGateway interface {
 	SelectExpenseById(id int)(*Expense,error)
-	SelectExpenses(name,description,orderBy,orderAs string,pageNumber, pageSize int) (*responses.ExpenseResponse,  error)
+	SelectExpenses(timeInterval []int,name,description,orderBy,orderAs string,pageNumber, pageSize,creator int) (*responses.ExpenseResponse,  error)
 	InsertExpense(p *Expense)(error)
 	UpdateExpenseById(p *Expense, IdToUpdate int)(error)
 	DeleteExpenseById(Id int)(error)
@@ -82,10 +84,20 @@ type UserGateway interface {
 
 type SaleGateway interface {
 	SelectSaleById(id int)(*Sale,error)
-	SelectSales(timeInterval []int,orderBy,orderAs string,pageNumber, pageSize int) (*responses.SaleResponse,  error)
+	SelectSales(timeInterval []int,userId int,orderBy,orderAs string,pageNumber, pageSize int) (*responses.SaleResponse,  error)
 	InsertSale(p *Sale)(error)
 	UpdateSaleById(p *Sale, IdToUpdate int)(error)
 	DeleteSaleById(Id int)(error)
 	DeleteSales(ids []int)(error)
+	Close()
+}
+
+type SaleSummaryReportDailyGateway interface {
+	SelectSaleSummaryReportDailyById(id int)(*SaleSummaryReportDaily,error)
+	InsertSaleSummaryReportDaily(p *SaleSummaryReportDaily)(error)
+	UpdateSaleSummaryReportDailyById(p *SaleSummaryReportDaily, IdToUpdate int)(error)
+	DeleteSaleSummaryReportDailyById(Id int)(error)
+	DeleteSaleSummaryReportDaily(ids []int)(error)
+	SelectSaleSummaryReportDaily(timeInterval []int) (*SaleSummaryReportDaily,  error)
 	Close()
 }

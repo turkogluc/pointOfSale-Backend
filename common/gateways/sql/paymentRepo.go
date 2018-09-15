@@ -173,10 +173,13 @@ func (pym *PaymentRepo) DeletePayments(ids []int)(error){
 	return nil
 }
 
-func (pym *PaymentRepo) SelectPayments(person,status,orderBy,orderAs string,pageNumber, pageSize int) (*responses.PaymentResponse,  error) {
+func (pym *PaymentRepo) SelectPayments(timeInterval []int,person,status,orderBy,orderAs string,pageNumber, pageSize,creatorId int) (*responses.PaymentResponse,  error) {
 
 	pymes := &responses.PaymentResponse{}
 	items := []*PaymentsItem{}
+
+	var timeAvail bool
+	var crtAvail bool
 
 	var personAvail bool
 	var statusAvail bool
@@ -185,7 +188,12 @@ func (pym *PaymentRepo) SelectPayments(person,status,orderBy,orderAs string,page
 	var pageNumberAvail bool
 	var pageSizeAvail bool
 
-
+	if len(timeInterval) > 1{
+		timeAvail = true
+	}
+	if creatorId > 0 {
+		crtAvail = true
+	}
 
 	if len(person) > 0{
 		personAvail = true
@@ -220,9 +228,25 @@ func (pym *PaymentRepo) SelectPayments(person,status,orderBy,orderAs string,page
 
 	filter := ``
 
-	if  personAvail || statusAvail {
+	if  timeAvail || crtAvail || personAvail || statusAvail {
 		filter += " WHERE "
 
+		if crtAvail {
+			filter +=  ` r.user_id = ` + strconv.FormatInt(int64(creatorId),10)
+
+			if timeAvail || personAvail || statusAvail {
+				filter += " AND "
+			}
+		}
+
+		if timeAvail{
+			filter += " r.update_date > " + strconv.FormatInt(int64(timeInterval[0]),10)
+			filter += " AND r.update_date < " + strconv.FormatInt(int64(timeInterval[1]),10)
+
+			if personAvail || statusAvail{
+				filter += " AND "
+			}
+		}
 
 		if personAvail {
 			filter +=  ` p.name LIKE ` + `'%` + person + `%' `

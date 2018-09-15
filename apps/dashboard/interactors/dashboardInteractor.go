@@ -11,6 +11,8 @@ import(
 	"strconv"
 	"fmt"
 	"github.com/360EntSecGroup-Skylar/excelize"
+	"sort"
+	"encoding/json"
 )
 
 var errorMap map[string]map[int]string
@@ -154,6 +156,17 @@ func (DashboardInteractor) DeleteProducts(ids []int) *ErrorType{
 	return nil
 }
 
+func (DashboardInteractor) RetrieveCategories()([]string,*ErrorType){
+
+	p,err := interactors.ProductRepo.SelectProductCategories()
+	if err != nil{
+		LogError(err)
+		return nil,GetError(0)
+	}
+	return p,nil
+
+}
+
 // ########################################################################
 
 func (DashboardInteractor) CreateStock(p *Stock) *ErrorType{
@@ -192,9 +205,16 @@ func (DashboardInteractor) GetStockById(id int) (*Stock,*ErrorType){
 
 }
 
-func (DashboardInteractor) GetStocks(barcode,name,description,category,orderBy,orderAs string,pageNumber, pageSize,dealerId int) (*responses.StockResponse,  *ErrorType){
+func (DashboardInteractor) GetStocks(tInterval string,barcode,name,description,category,orderBy,orderAs string,pageNumber, pageSize,dealerId, userId int) (*responses.StockResponse,  *ErrorType){
 
-	p,err := interactors.StockRepo.SelectStocks(barcode,name,description,category,orderBy,orderAs,pageNumber, pageSize,dealerId)
+	strInter := strings.Split(tInterval,",")
+	intInter := []int{}
+	for _,str := range strInter{
+		i,_ := strconv.Atoi(str)
+		intInter = append(intInter,i)
+	}
+
+	p,err := interactors.StockRepo.SelectStocks(intInter,barcode,name,description,category,orderBy,orderAs,pageNumber, pageSize,dealerId,userId)
 	if err != nil{
 		LogError(err)
 		return nil,GetError(0)
@@ -308,9 +328,16 @@ func (DashboardInteractor) GetReceivingById(id int) (*Receiving,*ErrorType){
 
 }
 
-func (DashboardInteractor) GetReceivings(person,status,orderBy,orderAs string,pageNumber, pageSize int) (*responses.ReceivingResponse,  *ErrorType){
+func (DashboardInteractor) GetReceivings(tInterval string,person,status,orderBy,orderAs string,pageNumber, pageSize int,creator int) (*responses.ReceivingResponse,  *ErrorType){
 
-	p,err := interactors.ReceivingRepo.SelectReceivings(person,status,orderBy,orderAs,pageNumber, pageSize)
+	strInter := strings.Split(tInterval,",")
+	intInter := []int{}
+	for _,str := range strInter{
+		i,_ := strconv.Atoi(str)
+		intInter = append(intInter,i)
+	}
+
+	p,err := interactors.ReceivingRepo.SelectReceivings(intInter,person,status,orderBy,orderAs,pageNumber, pageSize,creator)
 	if err != nil{
 		LogError(err)
 		return nil,GetError(0)
@@ -399,9 +426,15 @@ func (DashboardInteractor) GetPaymentById(id int) (*Payment,*ErrorType){
 
 }
 
-func (DashboardInteractor) GetPayments(person,status,orderBy,orderAs string,pageNumber, pageSize int) (*responses.PaymentResponse,  *ErrorType){
+func (DashboardInteractor) GetPayments(tInterval string,person,status,orderBy,orderAs string,pageNumber, pageSize,creator int) (*responses.PaymentResponse,  *ErrorType){
 
-	p,err := interactors.PaymentRepo.SelectPayments(person,status,orderBy,orderAs,pageNumber, pageSize)
+	strInter := strings.Split(tInterval,",")
+	intInter := []int{}
+	for _,str := range strInter{
+		i,_ := strconv.Atoi(str)
+		intInter = append(intInter,i)
+	}
+	p,err := interactors.PaymentRepo.SelectPayments(intInter,person,status,orderBy,orderAs,pageNumber, pageSize,creator)
 	if err != nil{
 		LogError(err)
 		return nil,GetError(0)
@@ -469,9 +502,16 @@ func (DashboardInteractor) GetExpenseById(id int) (*Expense,*ErrorType){
 
 }
 
-func (DashboardInteractor) GetExpenses(name,description,orderBy,orderAs string,pageNumber, pageSize int) (*responses.ExpenseResponse,  *ErrorType){
+func (DashboardInteractor) GetExpenses(tInterval string,name,description,orderBy,orderAs string,pageNumber, pageSize int,creator int) (*responses.ExpenseResponse,  *ErrorType){
 
-	p,err := interactors.ExpenseRepo.SelectExpenses(name,description,orderBy,orderAs,pageNumber, pageSize)
+	strInter := strings.Split(tInterval,",")
+	intInter := []int{}
+	for _,str := range strInter{
+		i,_ := strconv.Atoi(str)
+		intInter = append(intInter,i)
+	}
+
+	p,err := interactors.ExpenseRepo.SelectExpenses(intInter,name,description,orderBy,orderAs,pageNumber, pageSize,creator)
 	if err != nil{
 		LogError(err)
 		return nil,GetError(0)
@@ -591,7 +631,7 @@ func (DashboardInteractor) GetSaleById(id int) (*Sale,*ErrorType){
 
 }
 
-func (DashboardInteractor) GetSales(tInterval,orderBy,orderAs string,pageNumber, pageSize int) (*responses.SaleResponse,  *ErrorType){
+func (DashboardInteractor) GetSales(tInterval string,userId int,orderBy,orderAs string,pageNumber, pageSize int) (*responses.SaleResponse,  *ErrorType){
 
 	strInter := strings.Split(tInterval,",")
 	intInter := []int{}
@@ -600,7 +640,7 @@ func (DashboardInteractor) GetSales(tInterval,orderBy,orderAs string,pageNumber,
 		intInter = append(intInter,i)
 	}
 
-	p,err := interactors.SaleRepo.SelectSales(intInter,orderBy,orderAs,pageNumber, pageSize)
+	p,err := interactors.SaleRepo.SelectSales(intInter,userId,orderBy,orderAs,pageNumber, pageSize)
 	if err != nil{
 		LogError(err)
 		return nil,GetError(0)
@@ -620,6 +660,384 @@ func (DashboardInteractor) DeleteSales(ids []int) *ErrorType{
 }
 
 // ###################################################################
+
+// # Reports #
+
+func (DashboardInteractor) GetSaleSummaryReportDaily(tInterval string) (*SaleSummaryReportDaily,  *ErrorType){
+
+	strInter := strings.Split(tInterval,",")
+	intInter := []int{}
+	for _,str := range strInter{
+		i,_ := strconv.Atoi(str)
+		intInter = append(intInter,i)
+	}
+
+	p,err := interactors.SaleSummaryReportDailyRepo.SelectSaleSummaryReportDaily(intInter)
+	if err != nil{
+		LogError(err)
+		return nil,GetError(0)
+	}
+
+	//receivings,err := interactors.ReceivingRepo.SelectReceivings(intInter,"","","","",0,0,0)
+	//if err != nil{
+	//	LogError(err)
+	//	return nil,GetError(0)
+	//}
+	//
+	//for _,v := range receivings.Items{
+	//	p.Receivings = append(p.Receivings,v.Amount)
+	//}
+
+	return p,nil
+}
+
+func (DashboardInteractor) GetCurrentStockReport(name,category,orderBy,orderAs string,pageNumber, pageSize int) (*responses.CurrentStockReportResponse,  *ErrorType){
+
+	p,err := interactors.StockRepo.SelectCurrentStockReport(name,category,orderBy,orderAs,pageNumber, pageSize)
+	if err != nil{
+		LogError(err)
+		return nil,GetError(0)
+	}
+
+	p.Total.Name = "Total"
+	for _,v := range p.Items {
+		p.Total.Qty += v.Qty
+		p.Total.PurchasePrice += v.PurchasePrice
+		p.Total.SalePrice += v.SalePrice
+		p.Total.GrossValue += v.GrossValue
+		p.Total.NetValue += v.NetValue
+		p.Total.TotalProfit += v.TotalProfit
+	}
+
+	return p,nil
+}
+
+type saleInstance struct {
+	Barcode string `json:"barcode"`
+	Qty int			`json:"qty"`
+}
+
+func (DashboardInteractor) GetActivityLog(tInterval string,userId int)(*ActivityLogs,*ErrorType){
+
+	res := []*ActivityLogItem{}
+
+	strInter := strings.Split(tInterval,",")
+	intInter := []int{}
+	for _,str := range strInter{
+		i,_ := strconv.Atoi(str)
+		intInter = append(intInter,i)
+	}
+
+	// # get sales
+	sales,err := interactors.SaleRepo.SelectSales(intInter,userId,"","",0,0)
+	if err != nil {
+		LogError(err)
+		return nil,GetError(0)
+	}
+
+
+
+
+	for _,v := range sales.Items {
+
+		text := ``
+
+		var saleInst []saleInstance
+		err := json.Unmarshal([]byte(v.ItemsStr),&saleInst)
+		if err != nil {
+			LogError(err)
+		}
+
+		for _,vv := range saleInst{
+			product,err := interactors.ProductRepo.SelectProducts(vv.Barcode,"","","","","",0,0)
+			if err != nil {
+				LogError(err)
+			}
+			text += product.Items[0].Name + `: ` + strconv.Itoa(vv.Qty) + ` adet `
+			text += ` `
+
+		}
+
+		temp := &ActivityLogItem{
+			User:v.UserName,
+			Date:v.CreationDate,
+			ActivityType:"Sale",
+			Description:text,
+			Title: "Satış",
+		}
+
+		res = append(res,temp)
+
+	}
+
+	// # get stock entries
+	stocks ,err := interactors.StockRepo.SelectStocks(intInter,"","","","","","",0,0,0,userId)
+	if err != nil {
+		LogError(err)
+		return nil,GetError(0)
+	}
+
+	for _,v := range stocks.Items {
+
+		text := strconv.Itoa(v.Qty) + ` adet ` + v.Product.Name
+		detail := "Toptancı:" + v.DealerName
+		temp := &ActivityLogItem{
+			User:v.UserName,
+			Date:v.UpdateDate,
+			ActivityType:"Stock",
+			Description:text,
+			Detail:detail,
+			Title: "Stok Girişi",
+
+		}
+
+		res = append(res,temp)
+
+	}
+
+	// # getPayments
+	payments,err := interactors.PaymentRepo.SelectPayments(intInter,"","","","",0,0,userId)
+	if err != nil {
+		LogError(err)
+		return nil,GetError(0)
+	}
+
+	for _,v := range payments.Items{
+		text := v.PersonName + ` adlı sahıs, ` + strconv.FormatFloat(v.Amount,'f',2,64) + ` miktarınca.`
+		detail := `Ödenme Tarihi: ` + time.Unix(int64(v.ExpectedDate),0).Format("2016-01-02 15:04:05")
+		temp := &ActivityLogItem{
+			User:v.UserName,
+			Date:v.UpdateDate,
+			ActivityType:"Payment",
+			Description:text,
+			Detail:detail,
+			Title: "Ödeme Girişi",
+
+		}
+
+		res = append(res,temp)
+	}
+
+	// # getReceivings
+	receivings,err := interactors.ReceivingRepo.SelectReceivings(intInter,"","","","",0,0,userId)
+	if err != nil {
+		LogError(err)
+		return nil,GetError(0)
+	}
+
+	for _,v := range receivings.Items{
+
+		text := v.PersonName + ` adlı şahıs, ` + strconv.FormatFloat(v.Amount,'f',2,64) + ` miktarınca.`
+		detail := `Ödenme Tarihi: ` + time.Unix(int64(v.ExpectedDate),0).Format("2016-01-02 15:04:05")
+		temp := &ActivityLogItem{
+			User:v.UserName,
+			Date:v.UpdateDate,
+			ActivityType:"Receiving",
+			Description:text,
+			Detail:detail,
+			Title: "Tahsilat Girişi",
+
+		}
+
+		res = append(res,temp)
+
+	}
+
+	// getExpense
+	expenses,err := interactors.ExpenseRepo.SelectExpenses(intInter,"","","","",0,0,userId)
+	if err != nil {
+		LogError(err)
+		return nil,GetError(0)
+	}
+
+	for _,v := range expenses.Items{
+
+		text := `'` + v.Name + ` adlı harcama,` + strconv.FormatFloat(v.Price,'f',2,64) + ` miktarınca.`
+		//detail := `Ödenme Tarihi: ` + time.Unix(int64(v.ExpectedDate),0).Format("2016-01-02 15:04:05")
+		temp := &ActivityLogItem{
+			User:v.UserName,
+			Date:v.UpdateDate,
+			ActivityType:"Expense",
+			Description:text,
+			Title: "Harcama Girişi",
+			//Detail:detail,
+		}
+
+		res = append(res,temp)
+
+
+	}
+
+	// # sort by date ASC
+	sort.Slice(res,func(i,j int) bool {
+		return res[i].Date < res[j].Date
+	})
+
+	result := &ActivityLogs{
+		Items:res,
+	}
+	result.Count = len(res)
+
+	return result,nil
+}
+
+func (DashboardInteractor) GetPaymentReport(tInterval string) (*PaymentReport,  *ErrorType){
+
+	strInter := strings.Split(tInterval,",")
+	intInter := []int{}
+	for _,str := range strInter{
+		i,_ := strconv.Atoi(str)
+		intInter = append(intInter,i)
+	}
+
+	var timestamp []string
+	firstDay := intInter[0]
+	lastDay := intInter[1]
+
+	firstDayTimeFormat := time.Unix(int64(firstDay),0)
+	//lastDayTimeFormat := time.Unix(int64(lastDay),0)
+
+	for timeIterator:= firstDayTimeFormat ; timeIterator.Unix() < int64(lastDay) ; {
+		timeIteratorStr := timeIterator.Format("02/01") // DD/MM format
+		timestamp = append(timestamp,timeIteratorStr)
+		timeIterator = timeIterator.Add(24 *time.Hour)
+	}
+
+	result := &PaymentReport{}
+	result.Timestamps = timestamp
+
+	paymentsList := make([]float64, len(timestamp))
+	expensesList := make([]float64, len(timestamp))
+	receivingsList := make([]float64, len(timestamp))
+
+	// # check payments
+	payments,err := interactors.PaymentRepo.SelectPayments(intInter,"","","","",0,0,0)
+	if err != nil {
+		LogError(err)
+		return nil,GetError(0)
+	}
+
+	for _,v := range payments.Items{
+
+		if v.Status == "Bitti"{
+
+			// find the index number
+			expectedTimeStr := time.Unix(int64(v.ExpectedDate),0).Format("02/01")
+			var index int
+			for k,v := range timestamp {
+				if v == expectedTimeStr{
+					index = k
+				}
+			}
+
+			result.TotalPayments += v.Amount
+			paymentsList[index] += v.Amount
+
+		}else if v.Status == "Gecikmiş" {
+			result.OverduePayments += 1
+		}
+
+		paymentItem := &PaymentList{
+			Person:v.PersonName,
+			Amount:v.Amount,
+			Timestamp:v.ExpectedDate,
+			Status:v.Status,
+			Detail:v.Summary,
+		}
+
+		result.ItemsAsObject = append(result.ItemsAsObject,paymentItem)
+
+	}
+
+	//result.Payments = append(result.Payments,paymentsList...)
+	result.Payments = paymentsList
+
+
+	// # Receivings
+	receivings,err := interactors.ReceivingRepo.SelectReceivings(intInter,"","","","",0,0,0)
+	if err != nil {
+		LogError(err)
+		return nil,GetError(0)
+	}
+
+	for _,v := range receivings.Items{
+
+		if v.Status == "Bitti"{
+			// find the index number
+			expectedTimeStr := time.Unix(int64(v.ExpectedDate),0).Format("02/01")
+			var index2 int
+			for k,v := range timestamp {
+				if v == expectedTimeStr{
+					index2 = k
+				}
+			}
+
+			result.TotalReceivings += v.Amount
+			receivingsList[index2] += v.Amount
+
+		}else if v.Status == "Gecikmiş" {
+			result.OverdueReceivings += 1
+		}
+
+		paymentItem := &PaymentList{
+			Person:v.PersonName,
+			Amount:v.Amount,
+			Timestamp:v.ExpectedDate,
+			Status:v.Status,
+			Detail:"Tahsilat",
+		}
+
+		result.ItemsAsObject = append(result.ItemsAsObject,paymentItem)
+	}
+
+	result.Receivings = receivingsList
+
+
+	// # expenses
+	expenses,err := interactors.ExpenseRepo.SelectExpenses(intInter,"","","","",0,0,0)
+	if err != nil {
+		LogError(err)
+		return nil,GetError(0)
+	}
+
+	for _,v := range expenses.Items{
+
+		// find the index number
+		expectedTimeStr := time.Unix(int64(v.UpdateDate),0).Format("02/01")
+		var index3 int
+		for k,v := range timestamp {
+			if v == expectedTimeStr{
+				index3 = k
+			}
+		}
+
+		result.TotalExpenses += v.Price
+		expensesList[index3] += v.Price
+
+		paymentItem := &PaymentList{
+			Person:v.UserName,
+			Amount:v.Price,
+			Timestamp:v.UpdateDate,
+			Status:"Bitti",
+			Detail:v.Name,
+		}
+
+		result.ItemsAsObject = append(result.ItemsAsObject,paymentItem)
+	}
+
+	sort.Slice(result.ItemsAsObject, func(i, j int) bool {
+		return result.ItemsAsObject[i].Timestamp < result.ItemsAsObject[j].Timestamp
+	})
+
+	result.Expenses = expensesList
+
+	return result,nil
+}
+
+
+// #########################################################################
+
+// # Utils #
 
 func GetError(code int) (*ErrorType){
 	return &ErrorType{Code: code, Message: errorMap["tr"][code]}

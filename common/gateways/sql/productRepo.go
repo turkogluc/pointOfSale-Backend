@@ -27,6 +27,9 @@ const stTableProduct = `CREATE TABLE IF NOT EXISTS %s.product (
 const stSelectProductById = `SELECT id,barcode,name,description,category,purchase_price,sale_price,register_date,user_id FROM %s.product
 									 WHERE id=?`
 
+const stSelectProductCategories = `SELECT category FROM %s.product
+									GROUP BY category`
+
 const stInsertProduct = `INSERT INTO %s.product (barcode,name,description,category,purchase_price,sale_price,register_date,user_id)
 							VALUES (?,?,?,?,?,?,?,?)`
 
@@ -38,7 +41,7 @@ const stDeleteProductById = `DELETE FROM %s.product WHERE id=?`
 type ProductRepo struct {}
 
 var pr *ProductRepo
-var qSelectProductById,qInsertProduct,qUpdateProductById,qDeleteProductById *sql.Stmt
+var qSelectProductById,qSelectProductCategories,qInsertProduct,qUpdateProductById,qDeleteProductById *sql.Stmt
 
 func GetProductRepo() *ProductRepo{
 	if pr == nil {
@@ -50,6 +53,11 @@ func GetProductRepo() *ProductRepo{
 		}
 
 		qSelectProductById, err = DB.Prepare(s(stSelectProductById))
+		if err != nil {
+			LogError(err)
+		}
+
+		qSelectProductCategories, err = DB.Prepare(s(stSelectProductCategories))
 		if err != nil {
 			LogError(err)
 		}
@@ -81,6 +89,29 @@ func (pr *ProductRepo) SelectProductById(id int)(*Product,error){
 		return nil, err
 	}
 	return p,nil
+}
+
+func (pr *ProductRepo) SelectProductCategories()([]string,error){
+
+	var resp []string
+	rows,err := qSelectProductCategories.Query()
+	if err != nil{
+		LogError(err)
+		return nil, err
+	}
+
+	for rows.Next(){
+		var temp string
+		err = rows.Scan(&temp)
+		if err != nil {
+			LogError(err)
+			return nil, err
+		}
+		resp = append(resp, temp)
+	}
+
+	return resp,nil
+
 }
 
 

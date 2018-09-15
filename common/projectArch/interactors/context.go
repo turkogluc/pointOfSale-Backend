@@ -15,6 +15,7 @@ var (
 	ExpenseRepo			interfaces.ExpenseGateway
 	UserRepo			interfaces.UserGateway
 	SaleRepo			interfaces.SaleGateway
+	SaleSummaryReportDailyRepo	interfaces.SaleSummaryReportDailyGateway
 
 )
 
