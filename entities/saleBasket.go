@@ -1,9 +1,9 @@
 package entities
 
 type SaleBasketItem struct {
-	id int 	`json:"barcode"`
-	qty int			`json:"qty"`
-	discount float64	`json:"discount"`
+	Id int 	`json:"id"`
+	Qty int			`json:"qty"`
+	Discount float64	`json:"discount"`
 }
 
 type SaleBasket struct {
@@ -15,4 +15,8 @@ type SaleBasket struct {
 	UserName string  `json:"userName"`
 	TotalDiscount float64 `json:"totalDiscount"`
 	TotalPrice	float64		`json:"totalPrice"`
+}
+
+type SaleBasketItems struct {
+	Items	[]*SaleBasketItem	`json:"items"`
 }

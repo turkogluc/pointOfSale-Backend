@@ -100,7 +100,8 @@ func handleGetMe(c *gin.Context){
 
 func fillProductTable(c *gin.Context){
 
-	err := UseCase.FillProductTable()
+	userId := getUserIdFromToken(c)
+	err := UseCase.FillProductTable(userId)
 	if err != nil{
 		c.JSON(200, generateFailResponse(err))
 		return

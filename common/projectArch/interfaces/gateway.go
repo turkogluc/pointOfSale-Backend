@@ -24,6 +24,7 @@ type StockGateway interface {
 	SelectCurrentStockReport(name,category,orderBy,orderAs string,pageNumber, pageSize int) (*responses.CurrentStockReportResponse,  error)
 	InsertStock(p *Stock)(error)
 	UpdateStockById(p *Stock, IdToUpdate int)(error)
+	DecrementProductFromStock(productId,count int)(error)
 	DeleteStockById(Id int)(error)
 	DeleteStocks(ids []int)(error)
 	Close()

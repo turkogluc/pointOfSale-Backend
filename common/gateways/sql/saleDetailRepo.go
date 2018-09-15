@@ -17,7 +17,8 @@ const stTableSaleDetail = `CREATE TABLE IF NOT EXISTS %s.sale_detail (
 						  qty			 INT	DEFAULT 0,
 						  discount		 INT	DEFAULT 0,
 						  user_id 		 INT 	DEFAULT 1,
-						  FOREIGN KEY (user_id) REFERENCES %s.user (id) ON DELETE CASCADE ON UPDATE CASCADE	
+						  FOREIGN KEY (user_id) REFERENCES %s.user (id) ON DELETE CASCADE ON UPDATE CASCADE,
+						  FOREIGN KEY (basket_id) REFERENCES %s.sale_basket (id) ON DELETE CASCADE ON UPDATE CASCADE	
 						)ENGINE=InnoDB DEFAULT CHARSET=utf8;`
 
 
@@ -43,7 +44,7 @@ func GetSaleDetailRepo() *SaleDetailRepo{
 		sldt = &SaleDetailRepo{}
 
 		var err error
-		if _, err = DB.Exec(ss(stTableSaleDetail)); err != nil {
+		if _, err = DB.Exec(sss(stTableSaleDetail)); err != nil {
 			LogError(err)
 		}
 

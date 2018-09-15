@@ -74,5 +74,5 @@ type DashboardUseCases interface {
 	// # Util #
 
 	Login(email, password string, secret string) (*User, string, *ErrorType)
-	FillProductTable() *ErrorType
+	FillProductTable(userId int) *ErrorType
 }

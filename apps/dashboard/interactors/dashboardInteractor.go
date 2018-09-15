@@ -73,7 +73,7 @@ func (DashboardInteractor) Login(email, password string, secret string) (*User, 
 }
 
 
-func (DashboardInteractor) FillProductTable() *ErrorType{
+func (DashboardInteractor) FillProductTable(userId int) *ErrorType{
 
 	xlsx, err := excelize.OpenFile("./list.xlsx")
 	if err != nil {
@@ -87,6 +87,7 @@ func (DashboardInteractor) FillProductTable() *ErrorType{
 			Barcode:row[0],
 			Name:row[1],
 			RegisterDate:timeNow,
+			UserId:userId,
 		}
 
 		err := interactors.ProductRepo.InsertProduct(p)
@@ -596,7 +597,7 @@ func (DashboardInteractor) DeleteUsers(ids []int) *ErrorType{
 
 // ###########################################################
 
-func (DashboardInteractor) CreateSaleBasket(p *SaleBasket) *ErrorType{
+func (d DashboardInteractor) CreateSaleBasket(p *SaleBasket) *ErrorType{
 
 	p.CreationDate = int(time.Now().Unix())
 	err := interactors.SaleBasketRepo.InsertSaleBasket(p)
@@ -604,7 +605,45 @@ func (DashboardInteractor) CreateSaleBasket(p *SaleBasket) *ErrorType{
 		LogError(err)
 		return GetError(0)
 	}
+
+	go d.CreateSaleDetail(p) // go routine
+
 	return nil
+
+}
+
+func (DashboardInteractor) CreateSaleDetail(p *SaleBasket) {
+
+	ItemStr := p.ItemsStr
+
+	var basket []SaleBasketItem
+	timeNow := int(time.Now().Unix())
+
+	if err := json.Unmarshal([]byte(ItemStr),&basket); err != nil{
+		LogError(err)
+	}
+
+	for _,v := range basket{
+
+		sDetail := &SaleDetail{
+			CreationDate:timeNow,
+			BasketId:p.Id,
+			ProductId:v.Id,
+			Qty:v.Qty,
+			Discount:v.Discount,
+			UserId:p.UserId,
+		}
+
+		if err := interactors.SaleDetailRepo.InsertSaleDetail(sDetail); err != nil{
+			LogError(err)
+			// TODO: rollback
+		}
+
+		if err := interactors.StockRepo.DecrementProductFromStock(v.Id,v.Qty); err != nil{
+			LogError(err)
+			// TODO: rollback
+		}
+	}
 
 }
 
@@ -768,18 +807,18 @@ func (DashboardInteractor) GetActivityLog(tInterval string,userId int)(*Activity
 
 		text := ``
 
-		var saleInst []saleInstance
+		var saleInst []SaleBasketItem
 		err := json.Unmarshal([]byte(v.ItemsStr),&saleInst)
 		if err != nil {
 			LogError(err)
 		}
 
 		for _,vv := range saleInst{
-			product,err := interactors.ProductRepo.SelectProducts(vv.Barcode,"","","","","",0,0)
+			product,err := interactors.ProductRepo.SelectProductById(vv.Id)
 			if err != nil {
 				LogError(err)
 			}
-			text += product.Items[0].Name + `: ` + strconv.Itoa(vv.Qty) + ` adet `
+			text += product.Name + `: ` + strconv.Itoa(vv.Qty) + ` adet `
 			text += ` `
 
 		}

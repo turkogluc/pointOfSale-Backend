@@ -32,12 +32,15 @@ const stInsertStock = `INSERT INTO %s.stock (product_id,qty,dealer_id,creation_d
 const stUpdateStockById = `UPDATE %s.stock SET product_id=?, qty=?, dealer_id=?, update_date=?,user_id=?
 								WHERE id=?`
 
+const stDecrementProductFromStock = `UPDATE %s.stock SET qty = qty - ?
+								WHERE product_id=?`
+
 const stDeleteStockById = `DELETE FROM %s.stock WHERE id=?`
 
 type StockRepo struct {}
 
 var st *StockRepo
-var qSelectStockById,qInsertStock,qUpdateStockById,qDeleteStockById *sql.Stmt
+var qSelectStockById,qInsertStock,qUpdateStockById,qDecrementProductFromStock,qDeleteStockById *sql.Stmt
 
 func GetStockRepo() *StockRepo{
 	if st == nil {
@@ -62,6 +65,12 @@ func GetStockRepo() *StockRepo{
 		if err != nil {
 			LogError(err)
 		}
+
+		qDecrementProductFromStock, err = DB.Prepare(s(stDecrementProductFromStock))
+		if err != nil {
+			LogError(err)
+		}
+
 		qDeleteStockById, err = DB.Prepare(s(stDeleteStockById))
 		if err != nil {
 			LogError(err)
@@ -104,6 +113,17 @@ func (st *StockRepo) InsertStock(p *Stock)(error){
 func (st *StockRepo) UpdateStockById(p *Stock, IdToUpdate int)(error){
 
 	_,err := qUpdateStockById.Exec(p.ProductId,p.Qty,p.DealerId,p.UpdateDate,p.UserId,IdToUpdate)
+	if err != nil{
+		LogError(err)
+		return err
+	}
+
+	return nil
+}
+
+func (st *StockRepo) DecrementProductFromStock(productId,count int)(error){
+
+	_,err := qDecrementProductFromStock.Exec(count,productId)
 	if err != nil{
 		LogError(err)
 		return err
