@@ -51,11 +51,11 @@ type DashboardUseCases interface {
 	GetUsers(name,email,orderBy,orderAs string,pageNumber, pageSize int) (*responses.UserResponse,  *ErrorType)
 	DeleteUsers(ids []int) *ErrorType
 
-	CreateSale(p *Sale) *ErrorType
-	UpdateSale(p *Sale) *ErrorType
-	GetSaleById(id int) (*Sale,*ErrorType)
-	GetSales(timeInterval string,userId int,orderBy,orderAs string,pageNumber, pageSize int) (*responses.SaleResponse,  *ErrorType)
-	DeleteSales(ids []int) *ErrorType
+	CreateSaleBasket(p *SaleBasket) *ErrorType
+	UpdateSaleBasket(p *SaleBasket) *ErrorType
+	GetSaleBasketById(id int) (*SaleBasket,*ErrorType)
+	GetSaleBaskets(timeInterval string,userId int,orderBy,orderAs string,pageNumber, pageSize int) (*responses.SaleBasketResponse,  *ErrorType)
+	DeleteSaleBaskets(ids []int) *ErrorType
 
 	// # Reports #
 

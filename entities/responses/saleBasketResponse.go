@@ -2,7 +2,7 @@ package responses
 
 import . "stock/entities"
 
-type SaleResponse struct {
+type SaleBasketResponse struct {
 	Count int `json:"count"`
-	Items []*Sale `json:"items"`
+	Items []*SaleBasket `json:"items"`
 }

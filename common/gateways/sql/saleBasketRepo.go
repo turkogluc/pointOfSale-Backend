@@ -10,56 +10,58 @@ import (
 	"time"
 )
 
-const stTableSale = `CREATE TABLE IF NOT EXISTS %s.sale (
+const stTableSaleBasket = `CREATE TABLE IF NOT EXISTS %s.sale_basket (
 						  id             INT AUTO_INCREMENT PRIMARY KEY,
 						  creation_date  INT     NOT NULL DEFAULT 0,
 						  items			 TEXT,
 						  user_id 		 INT 	DEFAULT 1,
+						  total_price	 FLOAT	DEFAULT 0,
+						  total_discount FLOAT 	DEFAULT 0,
 						  FOREIGN KEY (user_id) REFERENCES %s.user (id) ON DELETE CASCADE ON UPDATE CASCADE	
 						)ENGINE=InnoDB DEFAULT CHARSET=utf8;`
 
 
 
-const stSelectSaleById = `SELECT id,creation_date,items,user_id FROM %s.sale
+const stSelectSaleBasketById = `SELECT id,creation_date,items,user_id,total_price,total_discount FROM %s.sale_basket
 									 WHERE id=?`
 
-const stInsertSale = `INSERT INTO %s.sale (creation_date,items,user_id)
-							VALUES (?,?,?)`
+const stInsertSaleBasket = `INSERT INTO %s.sale_basket (creation_date,items,user_id,total_price,total_discount)
+							VALUES (?,?,?,?,?)`
 
-const stUpdateSaleById = `UPDATE %s.sale SET creation_date=?,items=?,user_id=?
+const stUpdateSaleBasketById = `UPDATE %s.sale_basket SET creation_date=?,items=?,user_id=?,total_price=?,total_discount=?
 								WHERE id=?`
 
-const stDeleteSaleById = `DELETE FROM %s.sale WHERE id=?`
+const stDeleteSaleBasketById = `DELETE FROM %s.sale_basket WHERE id=?`
 
-type SaleRepo struct {}
+type SaleBasketRepo struct {}
 
-var sl *SaleRepo
-var qSelectSaleById,qInsertSale,qUpdateSaleById,qDeleteSaleById *sql.Stmt
+var sl *SaleBasketRepo
+var qSelectSaleBasketById,qInsertSaleBasket,qUpdateSaleBasketById,qDeleteSaleBasketById *sql.Stmt
 
-func GetSaleRepo() *SaleRepo{
+func GetSaleBasketRepo() *SaleBasketRepo{
 	if sl == nil {
-		sl = &SaleRepo{}
+		sl = &SaleBasketRepo{}
 
 		var err error
-		if _, err = DB.Exec(ss(stTableSale)); err != nil {
+		if _, err = DB.Exec(ss(stTableSaleBasket)); err != nil {
 			LogError(err)
 		}
 
-		qSelectSaleById, err = DB.Prepare(s(stSelectSaleById))
+		qSelectSaleBasketById, err = DB.Prepare(s(stSelectSaleBasketById))
 		if err != nil {
 			LogError(err)
 		}
 
-		qInsertSale, err = DB.Prepare(s(stInsertSale))
+		qInsertSaleBasket, err = DB.Prepare(s(stInsertSaleBasket))
 		if err != nil {
 			LogError(err)
 		}
 
-		qUpdateSaleById, err = DB.Prepare(s(stUpdateSaleById))
+		qUpdateSaleBasketById, err = DB.Prepare(s(stUpdateSaleBasketById))
 		if err != nil {
 			LogError(err)
 		}
-		qDeleteSaleById, err = DB.Prepare(s(stDeleteSaleById))
+		qDeleteSaleBasketById, err = DB.Prepare(s(stDeleteSaleBasketById))
 		if err != nil {
 			LogError(err)
 		}
@@ -68,10 +70,10 @@ func GetSaleRepo() *SaleRepo{
 	return sl
 }
 
-func (sl *SaleRepo) SelectSaleById(id int)(*Sale,error){
-	p := &Sale{}
-	row := qSelectSaleById.QueryRow(id)
-	err := row.Scan(&p.Id,&p.CreationDate,&p.ItemsStr,&p.UserId)
+func (sl *SaleBasketRepo) SelectSaleBasketById(id int)(*SaleBasket,error){
+	p := &SaleBasket{}
+	row := qSelectSaleBasketById.QueryRow(id)
+	err := row.Scan(&p.Id,&p.CreationDate,&p.ItemsStr,&p.UserId,&p.TotalPrice,&p.TotalDiscount)
 	if err != nil{
 		LogError(err)
 		return nil, err
@@ -80,10 +82,10 @@ func (sl *SaleRepo) SelectSaleById(id int)(*Sale,error){
 }
 
 
-func (sl *SaleRepo) InsertSale(p *Sale)(error){
+func (sl *SaleBasketRepo) InsertSaleBasket(p *SaleBasket)(error){
 
 	timeNOW := int(time.Now().Unix())
-	result,err := qInsertSale.Exec(timeNOW,p.ItemsStr,p.UserId)
+	result,err := qInsertSaleBasket.Exec(timeNOW,p.ItemsStr,p.UserId,p.TotalPrice,p.TotalDiscount)
 	if err != nil{
 		LogError(err)
 		return err
@@ -99,10 +101,10 @@ func (sl *SaleRepo) InsertSale(p *Sale)(error){
 	return nil
 }
 
-func (sl *SaleRepo) UpdateSaleById(p *Sale, IdToUpdate int)(error){
+func (sl *SaleBasketRepo) UpdateSaleBasketById(p *SaleBasket, IdToUpdate int)(error){
 
 	timeNOW := int(time.Now().Unix())
-	_,err := qUpdateSaleById.Exec(timeNOW,p.ItemsStr,p.UserId,IdToUpdate)
+	_,err := qUpdateSaleBasketById.Exec(timeNOW,p.ItemsStr,p.UserId,p.TotalPrice,p.TotalDiscount,IdToUpdate)
 	if err != nil{
 		LogError(err)
 		return err
@@ -111,9 +113,9 @@ func (sl *SaleRepo) UpdateSaleById(p *Sale, IdToUpdate int)(error){
 	return nil
 }
 
-func (sl *SaleRepo) DeleteSaleById(Id int)(error){
+func (sl *SaleBasketRepo) DeleteSaleBasketById(Id int)(error){
 
-	_,err := qDeleteSaleById.Exec(Id)
+	_,err := qDeleteSaleBasketById.Exec(Id)
 	if err != nil{
 		LogError(err)
 		return err
@@ -122,10 +124,10 @@ func (sl *SaleRepo) DeleteSaleById(Id int)(error){
 	return nil
 }
 
-func (sl *SaleRepo) DeleteSales(ids []int)(error){
+func (sl *SaleBasketRepo) DeleteSaleBaskets(ids []int)(error){
 
 
-	stDelete := `DELETE FROM %s.sale WHERE id in (`
+	stDelete := `DELETE FROM %s.sale_basket WHERE id in (`
 
 	for k,v := range ids{
 		stDelete += strconv.FormatInt(int64(v),10)
@@ -154,10 +156,10 @@ func (sl *SaleRepo) DeleteSales(ids []int)(error){
 	return nil
 }
 
-func (sl *SaleRepo) SelectSales(timeInterval []int,userId int,orderBy,orderAs string,pageNumber, pageSize int) (*responses.SaleResponse,  error) {
+func (sl *SaleBasketRepo) SelectSaleBaskets(timeInterval []int,userId int,orderBy,orderAs string,pageNumber, pageSize int) (*responses.SaleBasketResponse,  error) {
 
-	response := &responses.SaleResponse{}
-	items := []*Sale{}
+	response := &responses.SaleBasketResponse{}
+	items := []*SaleBasket{}
 
 	var timeAvail bool
 	var userAvail bool
@@ -187,10 +189,10 @@ func (sl *SaleRepo) SelectSales(timeInterval []int,userId int,orderBy,orderAs st
 		pageSizeAvail = true
 	}
 
-	stSelect := `SELECT s.id,s.creation_date,s.items,s.user_id,u.name 
-						FROM %s.sale AS s
+	stSelect := `SELECT s.id,s.creation_date,s.items,s.user_id,u.name, s.total_price, s.total_discount 
+						FROM %s.sale_basket AS s
 						JOIN %s.user AS u ON u.id=s.user_id`
-	stCount := `SELECT COUNT(*) FROM %s.sale AS s
+	stCount := `SELECT COUNT(*) FROM %s.sale_basket AS s
 						JOIN %s.user AS u ON u.id=s.user_id`
 
 	stSelect = ss(stSelect)
@@ -255,8 +257,8 @@ func (sl *SaleRepo) SelectSales(timeInterval []int,userId int,orderBy,orderAs st
 	}
 
 	for rows.Next(){
-		p := &Sale{}
-		err = rows.Scan(&p.Id,&p.CreationDate,&p.ItemsStr,&p.UserId,&p.UserName)
+		p := &SaleBasket{}
+		err = rows.Scan(&p.Id,&p.CreationDate,&p.ItemsStr,&p.UserId,&p.UserName,&p.TotalPrice,&p.TotalDiscount)
 		if err != nil {
 			LogError(err)
 		}
@@ -281,9 +283,9 @@ func (sl *SaleRepo) SelectSales(timeInterval []int,userId int,orderBy,orderAs st
 	return response,nil
 }
 
-func (sl *SaleRepo) Close() {
-	qSelectSaleById.Close()
-	qInsertSale.Close()
-	qUpdateSaleById.Close()
-	qDeleteSaleById.Close()
+func (sl *SaleBasketRepo) Close() {
+	qSelectSaleBasketById.Close()
+	qInsertSaleBasket.Close()
+	qUpdateSaleBasketById.Close()
+	qDeleteSaleBasketById.Close()
 }

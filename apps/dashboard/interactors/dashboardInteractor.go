@@ -596,10 +596,10 @@ func (DashboardInteractor) DeleteUsers(ids []int) *ErrorType{
 
 // ###########################################################
 
-func (DashboardInteractor) CreateSale(p *Sale) *ErrorType{
+func (DashboardInteractor) CreateSaleBasket(p *SaleBasket) *ErrorType{
 
 	p.CreationDate = int(time.Now().Unix())
-	err := interactors.SaleRepo.InsertSale(p)
+	err := interactors.SaleBasketRepo.InsertSaleBasket(p)
 	if err != nil{
 		LogError(err)
 		return GetError(0)
@@ -608,10 +608,10 @@ func (DashboardInteractor) CreateSale(p *Sale) *ErrorType{
 
 }
 
-func (DashboardInteractor) UpdateSale(p *Sale) *ErrorType{
+func (DashboardInteractor) UpdateSaleBasket(p *SaleBasket) *ErrorType{
 
 	p.CreationDate = int(time.Now().Unix())
-	err := interactors.SaleRepo.UpdateSaleById(p,p.Id)
+	err := interactors.SaleBasketRepo.UpdateSaleBasketById(p,p.Id)
 	if err != nil{
 		LogError(err)
 		return GetError(0)
@@ -620,9 +620,9 @@ func (DashboardInteractor) UpdateSale(p *Sale) *ErrorType{
 
 }
 
-func (DashboardInteractor) GetSaleById(id int) (*Sale,*ErrorType){
+func (DashboardInteractor) GetSaleBasketById(id int) (*SaleBasket,*ErrorType){
 
-	p,err := interactors.SaleRepo.SelectSaleById(id)
+	p,err := interactors.SaleBasketRepo.SelectSaleBasketById(id)
 	if err != nil{
 		LogError(err)
 		return nil,GetError(0)
@@ -631,7 +631,7 @@ func (DashboardInteractor) GetSaleById(id int) (*Sale,*ErrorType){
 
 }
 
-func (DashboardInteractor) GetSales(tInterval string,userId int,orderBy,orderAs string,pageNumber, pageSize int) (*responses.SaleResponse,  *ErrorType){
+func (DashboardInteractor) GetSaleBaskets(tInterval string,userId int,orderBy,orderAs string,pageNumber, pageSize int) (*responses.SaleBasketResponse,  *ErrorType){
 
 	strInter := strings.Split(tInterval,",")
 	intInter := []int{}
@@ -640,7 +640,7 @@ func (DashboardInteractor) GetSales(tInterval string,userId int,orderBy,orderAs 
 		intInter = append(intInter,i)
 	}
 
-	p,err := interactors.SaleRepo.SelectSales(intInter,userId,orderBy,orderAs,pageNumber, pageSize)
+	p,err := interactors.SaleBasketRepo.SelectSaleBaskets(intInter,userId,orderBy,orderAs,pageNumber, pageSize)
 	if err != nil{
 		LogError(err)
 		return nil,GetError(0)
@@ -649,9 +649,9 @@ func (DashboardInteractor) GetSales(tInterval string,userId int,orderBy,orderAs 
 
 }
 
-func (DashboardInteractor) DeleteSales(ids []int) *ErrorType{
+func (DashboardInteractor) DeleteSaleBaskets(ids []int) *ErrorType{
 
-	err := interactors.SaleRepo.DeleteSales(ids)
+	err := interactors.SaleBasketRepo.DeleteSaleBaskets(ids)
 	if err != nil{
 		LogError(err)
 		return GetError(0)
@@ -729,7 +729,7 @@ func (DashboardInteractor) GetActivityLog(tInterval string,userId int)(*Activity
 	}
 
 	// # get sales
-	sales,err := interactors.SaleRepo.SelectSales(intInter,userId,"","",0,0)
+	sales,err := interactors.SaleBasketRepo.SelectSaleBaskets(intInter,userId,"","",0,0)
 	if err != nil {
 		LogError(err)
 		return nil,GetError(0)

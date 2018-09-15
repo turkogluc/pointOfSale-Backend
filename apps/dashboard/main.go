@@ -78,7 +78,8 @@ func main() {
 	common.PaymentRepo = sql.GetPaymentRepo()
 	common.ExpenseRepo = sql.GetExpenseRepo()
 	common.UserRepo = sql.GetUserRepo()
-	common.SaleRepo = sql.GetSaleRepo()
+	common.SaleBasketRepo = sql.GetSaleBasketRepo()
+	common.SaleDetailRepo = sql.GetSaleDetailRepo()
 	common.SaleSummaryReportDailyRepo = sql.GetSaleSummaryReportDailyRepo()
 
 	controllers.StartApplicationBackend()

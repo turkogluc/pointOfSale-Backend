@@ -803,11 +803,11 @@ func getUsers (c *gin.Context){
 // #########################################################
 
 func createSale (c *gin.Context){
-	p := Sale{}
+	p := SaleBasket{}
 	c.BindJSON(&p)
 
 	p.UserId = getUserIdFromToken(c)
-	err := UseCase.CreateSale(&p)
+	err := UseCase.CreateSaleBasket(&p)
 
 	if err != nil{
 		c.JSON(200, generateFailResponse(err))
@@ -818,11 +818,11 @@ func createSale (c *gin.Context){
 }
 
 func updateSale (c *gin.Context){
-	p := Sale{}
+	p := SaleBasket{}
 	c.BindJSON(&p)
 
 	p.UserId = getUserIdFromToken(c)
-	err := UseCase.UpdateSale(&p)
+	err := UseCase.UpdateSaleBasket(&p)
 
 	if err != nil{
 		c.JSON(200, generateFailResponse(err))
@@ -835,7 +835,7 @@ func updateSale (c *gin.Context){
 func getSaleById (c *gin.Context){
 	id,_ := strconv.Atoi(c.Query("id"))
 
-	p, err := UseCase.GetSaleById(id)
+	p, err := UseCase.GetSaleBasketById(id)
 
 	if err != nil{
 		c.JSON(200, generateFailResponse(err))
@@ -855,7 +855,7 @@ func deleteSales(c *gin.Context){
 		ids = append(ids,i)
 	}
 
-	err := UseCase.DeleteSales(ids)
+	err := UseCase.DeleteSaleBaskets(ids)
 	if err != nil {
 		c.JSON(200, generateFailResponse(err))
 		return
@@ -876,7 +876,7 @@ func getSales (c *gin.Context){
 	orderAs := c.Query("orderAs")
 	//isDropdown,_ := strconv.ParseBool(c.Query("isDropdown"))
 
-	p, err := UseCase.GetSales(tInterval,userId,orderBy,orderAs,pageNumber, pageSize)
+	p, err := UseCase.GetSaleBaskets(tInterval,userId,orderBy,orderAs,pageNumber, pageSize)
 	if err != nil{
 		c.JSON(200, generateFailResponse(err))
 		return

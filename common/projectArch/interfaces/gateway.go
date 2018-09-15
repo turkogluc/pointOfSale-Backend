@@ -82,14 +82,23 @@ type UserGateway interface {
 	Close()
 }
 
-type SaleGateway interface {
-	SelectSaleById(id int)(*Sale,error)
-	SelectSales(timeInterval []int,userId int,orderBy,orderAs string,pageNumber, pageSize int) (*responses.SaleResponse,  error)
-	InsertSale(p *Sale)(error)
-	UpdateSaleById(p *Sale, IdToUpdate int)(error)
-	DeleteSaleById(Id int)(error)
-	DeleteSales(ids []int)(error)
+type SaleBasketGateway interface {
+	SelectSaleBasketById(id int)(*SaleBasket,error)
+	SelectSaleBaskets(timeInterval []int,userId int,orderBy,orderAs string,pageNumber, pageSize int) (*responses.SaleBasketResponse,  error)
+	InsertSaleBasket(p *SaleBasket)(error)
+	UpdateSaleBasketById(p *SaleBasket, IdToUpdate int)(error)
+	DeleteSaleBasketById(Id int)(error)
+	DeleteSaleBaskets(ids []int)(error)
 	Close()
+}
+
+type SaleDetailGateway interface {
+	SelectSaleDetailById(id int)(*SaleDetail,error)
+	InsertSaleDetail(p *SaleDetail)(error)
+	UpdateSaleDetailById(p *SaleDetail, IdToUpdate int)(error)
+	DeleteSaleDetailById(Id int)(error)
+	DeleteSaleDetails(ids []int)(error)
+	SelectSaleDetails(timeInterval []int,productId, userId int,orderBy,orderAs string,pageNumber, pageSize int)
 }
 
 type SaleSummaryReportDailyGateway interface {

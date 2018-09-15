@@ -40714,3 +40714,603 @@ DEBUG: 2018/09/14 21:23:20 [SELECT SUM(gross_profit),SUM(net_profit),SUM(sale_co
 DEBUG: 2018/09/14 21:23:20 [SELECT gross_profit,net_profit,sale_count,item_count,customer_count,discount,basket_value,basket_size,timestamp 
 						FROM stock_demo.sale_summary_report_daily WHERE  timestamp > 1534357400 AND timestamp < 1536949400]
 INFO: 2018/09/14 21:23:20 [200 GET /api/getSaleSummaryReportDaily 3.813761ms]
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] POST   /login                    --> stock/apps/dashboard/controller.handleLogin (5 handlers)
+[GIN-debug] GET    /api/me                   --> stock/apps/dashboard/controller.handleGetMe (6 handlers)
+[GIN-debug] GET    /api/fillProductTable     --> stock/apps/dashboard/controller.fillProductTable (6 handlers)
+[GIN-debug] POST   /api/createProduct        --> stock/apps/dashboard/controller.createProduct (6 handlers)
+[GIN-debug] POST   /api/updateProduct        --> stock/apps/dashboard/controller.updateProduct (6 handlers)
+[GIN-debug] GET    /api/getProductById       --> stock/apps/dashboard/controller.getProductById (6 handlers)
+[GIN-debug] GET    /api/deleteProducts       --> stock/apps/dashboard/controller.deleteProducts (6 handlers)
+[GIN-debug] GET    /api/getProducts          --> stock/apps/dashboard/controller.getProducts (6 handlers)
+[GIN-debug] GET    /api/retrieveCategories   --> stock/apps/dashboard/controller.retrieveCategories (6 handlers)
+[GIN-debug] POST   /api/createStock          --> stock/apps/dashboard/controller.createStock (6 handlers)
+[GIN-debug] POST   /api/updateStock          --> stock/apps/dashboard/controller.updateStock (6 handlers)
+[GIN-debug] GET    /api/getStockById         --> stock/apps/dashboard/controller.getStockById (6 handlers)
+[GIN-debug] GET    /api/deleteStocks         --> stock/apps/dashboard/controller.deleteStocks (6 handlers)
+[GIN-debug] GET    /api/getStocks            --> stock/apps/dashboard/controller.getStocks (6 handlers)
+[GIN-debug] POST   /api/createPerson         --> stock/apps/dashboard/controller.createPerson (6 handlers)
+[GIN-debug] POST   /api/updatePerson         --> stock/apps/dashboard/controller.updatePerson (6 handlers)
+[GIN-debug] GET    /api/getPersonById        --> stock/apps/dashboard/controller.getPersonById (6 handlers)
+[GIN-debug] GET    /api/deletePeople         --> stock/apps/dashboard/controller.deletePeople (6 handlers)
+[GIN-debug] GET    /api/getPeople            --> stock/apps/dashboard/controller.getPeople (6 handlers)
+[GIN-debug] POST   /api/createReceiving      --> stock/apps/dashboard/controller.createReceiving (6 handlers)
+[GIN-debug] POST   /api/updateReceiving      --> stock/apps/dashboard/controller.updateReceiving (6 handlers)
+[GIN-debug] GET    /api/getReceivingById     --> stock/apps/dashboard/controller.getReceivingById (6 handlers)
+[GIN-debug] GET    /api/deleteReceivings     --> stock/apps/dashboard/controller.deleteReceivings (6 handlers)
+[GIN-debug] GET    /api/getReceivings        --> stock/apps/dashboard/controller.getReceivings (6 handlers)
+[GIN-debug] GET    /api/setReceivingStatus   --> stock/apps/dashboard/controller.setReceivingStatus (6 handlers)
+[GIN-debug] POST   /api/createPayment        --> stock/apps/dashboard/controller.createPayment (6 handlers)
+[GIN-debug] POST   /api/updatePayment        --> stock/apps/dashboard/controller.updatePayment (6 handlers)
+[GIN-debug] GET    /api/getPaymentById       --> stock/apps/dashboard/controller.getPaymentById (6 handlers)
+[GIN-debug] GET    /api/deletePayments       --> stock/apps/dashboard/controller.deletePayments (6 handlers)
+[GIN-debug] GET    /api/getPayments          --> stock/apps/dashboard/controller.getPayments (6 handlers)
+[GIN-debug] GET    /api/setPaymentStatus     --> stock/apps/dashboard/controller.setPaymentStatus (6 handlers)
+[GIN-debug] POST   /api/createExpense        --> stock/apps/dashboard/controller.createExpense (6 handlers)
+[GIN-debug] POST   /api/updateExpense        --> stock/apps/dashboard/controller.updateExpense (6 handlers)
+[GIN-debug] GET    /api/getExpenseById       --> stock/apps/dashboard/controller.getExpenseById (6 handlers)
+[GIN-debug] GET    /api/deleteExpenses       --> stock/apps/dashboard/controller.deleteExpenses (6 handlers)
+[GIN-debug] GET    /api/getExpenses          --> stock/apps/dashboard/controller.getExpenses (6 handlers)
+[GIN-debug] POST   /createUser               --> stock/apps/dashboard/controller.createUser (5 handlers)
+[GIN-debug] POST   /api/updateUser           --> stock/apps/dashboard/controller.updateUser (6 handlers)
+[GIN-debug] GET    /api/getUserById          --> stock/apps/dashboard/controller.getUserById (6 handlers)
+[GIN-debug] GET    /api/deleteUsers          --> stock/apps/dashboard/controller.deleteUsers (6 handlers)
+[GIN-debug] GET    /api/getUsers             --> stock/apps/dashboard/controller.getUsers (6 handlers)
+[GIN-debug] POST   /api/createSale           --> stock/apps/dashboard/controller.createSale (6 handlers)
+[GIN-debug] POST   /api/updateSale           --> stock/apps/dashboard/controller.updateSale (6 handlers)
+[GIN-debug] GET    /api/getSaleById          --> stock/apps/dashboard/controller.getSaleById (6 handlers)
+[GIN-debug] GET    /api/deleteSales          --> stock/apps/dashboard/controller.deleteSales (6 handlers)
+[GIN-debug] GET    /api/getSales             --> stock/apps/dashboard/controller.getSales (6 handlers)
+[GIN-debug] GET    /api/getSaleSummaryReportDaily --> stock/apps/dashboard/controller.getSaleSummaryReportDaily (6 handlers)
+[GIN-debug] GET    /api/getCurrentStockReport --> stock/apps/dashboard/controller.getCurrentStockReport (6 handlers)
+[GIN-debug] GET    /api/retrieveActivityLog  --> stock/apps/dashboard/controller.getActivityLog (6 handlers)
+[GIN-debug] GET    /api/getPaymentReport     --> stock/apps/dashboard/controller.getPaymentReport (6 handlers)
+INFO: 2018/09/15 13:23:53 [200 POST /login 23.111326ms]
+DEBUG: 2018/09/15 13:23:54 [SELECT s.id,s.product_id,s.qty,s.dealer_id,s.creation_date,s.update_date,p.barcode,p.name,p.description,p.category,p.purchase_price,p.sale_price,p.register_date,IFNULL(per.id,0),IFNULL(per.name,""),s.user_id,u.name
+						FROM stock_demo.stock AS s
+						JOIN stock_demo.product AS p ON s.product_id = p.id 
+						LEFT JOIN stock_demo.person AS per ON s.dealer_id = per.id
+						JOIN stock_demo.user AS u ON s.user_id=u.id ORDER BY  p.name  ASC  LIMIT 0,10]
+INFO: 2018/09/15 13:23:54 [200 GET /api/getStocks 9.896874ms]
+INFO: 2018/09/15 13:23:54 [200 GET /api/retrieveCategories 7.844602ms]
+DEBUG: 2018/09/15 13:23:58 [SELECT SUM(gross_profit),SUM(net_profit),SUM(sale_count),SUM(item_count),SUM(customer_count),SUM(discount),SUM(basket_value),SUM(basket_size) 
+						FROM stock_demo.sale_summary_report_daily WHERE  timestamp > 1534415038 AND timestamp < 1537007038]
+DEBUG: 2018/09/15 13:23:58 [SELECT gross_profit,net_profit,sale_count,item_count,customer_count,discount,basket_value,basket_size,timestamp 
+						FROM stock_demo.sale_summary_report_daily WHERE  timestamp > 1534415038 AND timestamp < 1537007038]
+INFO: 2018/09/15 13:23:58 [200 GET /api/getSaleSummaryReportDaily 3.153617ms]
+INFO: 2018/09/15 13:24:38 [200 POST /login 3.005844ms]
+DEBUG: 2018/09/15 13:24:46 [SELECT SUM(gross_profit),SUM(net_profit),SUM(sale_count),SUM(item_count),SUM(customer_count),SUM(discount),SUM(basket_value),SUM(basket_size) 
+						FROM stock_demo.sale_summary_report_daily WHERE  timestamp > 0 AND timestamp < 1536509321]
+DEBUG: 2018/09/15 13:24:46 [SELECT gross_profit,net_profit,sale_count,item_count,customer_count,discount,basket_value,basket_size,timestamp 
+						FROM stock_demo.sale_summary_report_daily WHERE  timestamp > 0 AND timestamp < 1536509321]
+INFO: 2018/09/15 13:24:46 [200 GET /api/getSaleSummaryReportDaily 3.652575ms]
+INFO: 2018/09/15 13:31:01 [200 GET /api/retrieveCategories 2.351053ms]
+DEBUG: 2018/09/15 13:31:01 [select p.id,p.name,p.category,s.qty,p.purchase_price,p.sale_price,(s.qty*p.purchase_price),(s.qty*p.sale_price),(s.qty*p.sale_price)-(s.qty*p.purchase_price)
+    FROM stock_demo.stock as s
+    JOIN stock_demo.product p ON s.product_id = p.id  ORDER BY  8  DESC  LIMIT 0,10]
+INFO: 2018/09/15 13:31:01 [200 GET /api/getCurrentStockReport 15.014122ms]
+DEBUG: 2018/09/15 13:31:10 [SELECT r.id,r.person_id,r.amount,r.creation_date,r.update_date,r.expected_date,r.status,p.name,p.phone,r.summary,r.user_id,u.name
+						FROM stock_demo.payment as r
+						JOIN stock_demo.person as p ON r.person_id = p.id
+						JOIN stock_demo.user as u ON r.user_id = u.id WHERE  r.update_date > 1534415038 AND r.update_date < 1537007038 ORDER BY  r.expected_date  ASC ]
+DEBUG: 2018/09/15 13:31:10 [SELECT r.id,r.person_id,r.amount,r.creation_date,r.update_date,r.expected_date,r.status,p.name,p.phone,r.product_ids,r.user_id,u.name
+						FROM stock_demo.receiving as r
+						JOIN stock_demo.person as p ON r.person_id = p.id
+						JOIN stock_demo.user as u ON u.id = r.user_id WHERE  r.update_date > 1534415038 AND r.update_date < 1537007038 ORDER BY  r.expected_date  ASC ]
+DEBUG: 2018/09/15 13:31:10 [SELECT e.id, e.name, e.description, e.price, e.creation_date, e.update_date, e.user_id, u.name 
+				FROM stock_demo.expense as e JOIN stock_demo.user AS u
+				ON e.user_id = u.id WHERE  e.update_date > 1534415038 AND e.update_date < 1537007038 ORDER BY  u.name  ASC ]
+INFO: 2018/09/15 13:31:10 [200 GET /api/getPaymentReport 7.866298ms]
+DEBUG: 2018/09/15 13:31:13 [SELECT s.id,s.creation_date,s.items,s.user_id,u.name 
+						FROM stock_demo.sale AS s
+						JOIN stock_demo.user AS u ON u.id=s.user_id WHERE  s.creation_date > 1534415473 AND s.creation_date < 1537007473 ORDER BY  s.id  DESC ]
+DEBUG: 2018/09/15 13:31:13 [SELECT p.id, p.barcode, p.name, p.description, p.category, p.purchase_price, p.sale_price, p.register_date, p.user_id, u.name
+				FROM stock_demo.product as p
+				JOIN stock_demo.user AS u ON p.user_id = u.id WHERE  barcode LIKE '%8690504096009%'  ORDER BY  p.name  ASC ]
+DEBUG: 2018/09/15 13:31:13 [SELECT p.id, p.barcode, p.name, p.description, p.category, p.purchase_price, p.sale_price, p.register_date, p.user_id, u.name
+				FROM stock_demo.product as p
+				JOIN stock_demo.user AS u ON p.user_id = u.id WHERE  barcode LIKE '%123456789012%'  ORDER BY  p.name  ASC ]
+DEBUG: 2018/09/15 13:31:13 [SELECT p.id, p.barcode, p.name, p.description, p.category, p.purchase_price, p.sale_price, p.register_date, p.user_id, u.name
+				FROM stock_demo.product as p
+				JOIN stock_demo.user AS u ON p.user_id = u.id WHERE  barcode LIKE '%8690504024224%'  ORDER BY  p.name  ASC ]
+DEBUG: 2018/09/15 13:31:13 [SELECT s.id,s.product_id,s.qty,s.dealer_id,s.creation_date,s.update_date,p.barcode,p.name,p.description,p.category,p.purchase_price,p.sale_price,p.register_date,IFNULL(per.id,0),IFNULL(per.name,""),s.user_id,u.name
+						FROM stock_demo.stock AS s
+						JOIN stock_demo.product AS p ON s.product_id = p.id 
+						LEFT JOIN stock_demo.person AS per ON s.dealer_id = per.id
+						JOIN stock_demo.user AS u ON s.user_id=u.id WHERE  s.update_date > 1534415473 AND s.update_date < 1537007473 ORDER BY  p.name  ASC ]
+DEBUG: 2018/09/15 13:31:13 [SELECT r.id,r.person_id,r.amount,r.creation_date,r.update_date,r.expected_date,r.status,p.name,p.phone,r.summary,r.user_id,u.name
+						FROM stock_demo.payment as r
+						JOIN stock_demo.person as p ON r.person_id = p.id
+						JOIN stock_demo.user as u ON r.user_id = u.id WHERE  r.update_date > 1534415473 AND r.update_date < 1537007473 ORDER BY  r.expected_date  ASC ]
+DEBUG: 2018/09/15 13:31:13 [SELECT r.id,r.person_id,r.amount,r.creation_date,r.update_date,r.expected_date,r.status,p.name,p.phone,r.product_ids,r.user_id,u.name
+						FROM stock_demo.receiving as r
+						JOIN stock_demo.person as p ON r.person_id = p.id
+						JOIN stock_demo.user as u ON u.id = r.user_id WHERE  r.update_date > 1534415473 AND r.update_date < 1537007473 ORDER BY  r.expected_date  ASC ]
+DEBUG: 2018/09/15 13:31:13 [SELECT e.id, e.name, e.description, e.price, e.creation_date, e.update_date, e.user_id, u.name 
+				FROM stock_demo.expense as e JOIN stock_demo.user AS u
+				ON e.user_id = u.id WHERE  e.update_date > 1534415473 AND e.update_date < 1537007473 ORDER BY  u.name  ASC ]
+INFO: 2018/09/15 13:31:13 [200 GET /api/retrieveActivityLog 46.856424ms]
+DEBUG: 2018/09/15 13:31:15 [SELECT s.id,s.creation_date,s.items,s.user_id,u.name 
+						FROM stock_demo.sale AS s
+						JOIN stock_demo.user AS u ON u.id=s.user_id WHERE  s.creation_date > 1534415475 AND s.creation_date < 1537007475 ORDER BY  s.id  DESC ]
+DEBUG: 2018/09/15 13:31:15 [SELECT p.id, p.barcode, p.name, p.description, p.category, p.purchase_price, p.sale_price, p.register_date, p.user_id, u.name
+				FROM stock_demo.product as p
+				JOIN stock_demo.user AS u ON p.user_id = u.id WHERE  barcode LIKE '%8690504096009%'  ORDER BY  p.name  ASC ]
+DEBUG: 2018/09/15 13:31:15 [SELECT p.id, p.barcode, p.name, p.description, p.category, p.purchase_price, p.sale_price, p.register_date, p.user_id, u.name
+				FROM stock_demo.product as p
+				JOIN stock_demo.user AS u ON p.user_id = u.id WHERE  barcode LIKE '%123456789012%'  ORDER BY  p.name  ASC ]
+DEBUG: 2018/09/15 13:31:15 [SELECT p.id, p.barcode, p.name, p.description, p.category, p.purchase_price, p.sale_price, p.register_date, p.user_id, u.name
+				FROM stock_demo.product as p
+				JOIN stock_demo.user AS u ON p.user_id = u.id WHERE  barcode LIKE '%8690504024224%'  ORDER BY  p.name  ASC ]
+DEBUG: 2018/09/15 13:31:15 [SELECT s.id,s.product_id,s.qty,s.dealer_id,s.creation_date,s.update_date,p.barcode,p.name,p.description,p.category,p.purchase_price,p.sale_price,p.register_date,IFNULL(per.id,0),IFNULL(per.name,""),s.user_id,u.name
+						FROM stock_demo.stock AS s
+						JOIN stock_demo.product AS p ON s.product_id = p.id 
+						LEFT JOIN stock_demo.person AS per ON s.dealer_id = per.id
+						JOIN stock_demo.user AS u ON s.user_id=u.id WHERE  s.update_date > 1534415475 AND s.update_date < 1537007475 ORDER BY  p.name  ASC ]
+DEBUG: 2018/09/15 13:31:15 [SELECT r.id,r.person_id,r.amount,r.creation_date,r.update_date,r.expected_date,r.status,p.name,p.phone,r.summary,r.user_id,u.name
+						FROM stock_demo.payment as r
+						JOIN stock_demo.person as p ON r.person_id = p.id
+						JOIN stock_demo.user as u ON r.user_id = u.id WHERE  r.update_date > 1534415475 AND r.update_date < 1537007475 ORDER BY  r.expected_date  ASC ]
+DEBUG: 2018/09/15 13:31:15 [SELECT r.id,r.person_id,r.amount,r.creation_date,r.update_date,r.expected_date,r.status,p.name,p.phone,r.product_ids,r.user_id,u.name
+						FROM stock_demo.receiving as r
+						JOIN stock_demo.person as p ON r.person_id = p.id
+						JOIN stock_demo.user as u ON u.id = r.user_id WHERE  r.update_date > 1534415475 AND r.update_date < 1537007475 ORDER BY  r.expected_date  ASC ]
+DEBUG: 2018/09/15 13:31:15 [SELECT e.id, e.name, e.description, e.price, e.creation_date, e.update_date, e.user_id, u.name 
+				FROM stock_demo.expense as e JOIN stock_demo.user AS u
+				ON e.user_id = u.id WHERE  e.update_date > 1534415475 AND e.update_date < 1537007475 ORDER BY  u.name  ASC ]
+INFO: 2018/09/15 13:31:15 [200 GET /api/retrieveActivityLog 44.763434ms]
+DEBUG: 2018/09/15 13:31:16 [SELECT SUM(gross_profit),SUM(net_profit),SUM(sale_count),SUM(item_count),SUM(customer_count),SUM(discount),SUM(basket_value),SUM(basket_size) 
+						FROM stock_demo.sale_summary_report_daily WHERE  timestamp > 1534415038 AND timestamp < 1537007038]
+DEBUG: 2018/09/15 13:31:16 [SELECT gross_profit,net_profit,sale_count,item_count,customer_count,discount,basket_value,basket_size,timestamp 
+						FROM stock_demo.sale_summary_report_daily WHERE  timestamp > 1534415038 AND timestamp < 1537007038]
+INFO: 2018/09/15 13:31:16 [200 GET /api/getSaleSummaryReportDaily 5.194437ms]
+DEBUG: 2018/09/15 13:31:17 [SELECT s.id,s.creation_date,s.items,s.user_id,u.name 
+						FROM stock_demo.sale AS s
+						JOIN stock_demo.user AS u ON u.id=s.user_id WHERE  s.creation_date > 1534415477 AND s.creation_date < 1537007477 ORDER BY  s.id  DESC ]
+DEBUG: 2018/09/15 13:31:17 [SELECT p.id, p.barcode, p.name, p.description, p.category, p.purchase_price, p.sale_price, p.register_date, p.user_id, u.name
+				FROM stock_demo.product as p
+				JOIN stock_demo.user AS u ON p.user_id = u.id WHERE  barcode LIKE '%8690504096009%'  ORDER BY  p.name  ASC ]
+DEBUG: 2018/09/15 13:31:17 [SELECT p.id, p.barcode, p.name, p.description, p.category, p.purchase_price, p.sale_price, p.register_date, p.user_id, u.name
+				FROM stock_demo.product as p
+				JOIN stock_demo.user AS u ON p.user_id = u.id WHERE  barcode LIKE '%123456789012%'  ORDER BY  p.name  ASC ]
+DEBUG: 2018/09/15 13:31:17 [SELECT p.id, p.barcode, p.name, p.description, p.category, p.purchase_price, p.sale_price, p.register_date, p.user_id, u.name
+				FROM stock_demo.product as p
+				JOIN stock_demo.user AS u ON p.user_id = u.id WHERE  barcode LIKE '%8690504024224%'  ORDER BY  p.name  ASC ]
+DEBUG: 2018/09/15 13:31:17 [SELECT s.id,s.product_id,s.qty,s.dealer_id,s.creation_date,s.update_date,p.barcode,p.name,p.description,p.category,p.purchase_price,p.sale_price,p.register_date,IFNULL(per.id,0),IFNULL(per.name,""),s.user_id,u.name
+						FROM stock_demo.stock AS s
+						JOIN stock_demo.product AS p ON s.product_id = p.id 
+						LEFT JOIN stock_demo.person AS per ON s.dealer_id = per.id
+						JOIN stock_demo.user AS u ON s.user_id=u.id WHERE  s.update_date > 1534415477 AND s.update_date < 1537007477 ORDER BY  p.name  ASC ]
+DEBUG: 2018/09/15 13:31:17 [SELECT r.id,r.person_id,r.amount,r.creation_date,r.update_date,r.expected_date,r.status,p.name,p.phone,r.summary,r.user_id,u.name
+						FROM stock_demo.payment as r
+						JOIN stock_demo.person as p ON r.person_id = p.id
+						JOIN stock_demo.user as u ON r.user_id = u.id WHERE  r.update_date > 1534415477 AND r.update_date < 1537007477 ORDER BY  r.expected_date  ASC ]
+DEBUG: 2018/09/15 13:31:17 [SELECT r.id,r.person_id,r.amount,r.creation_date,r.update_date,r.expected_date,r.status,p.name,p.phone,r.product_ids,r.user_id,u.name
+						FROM stock_demo.receiving as r
+						JOIN stock_demo.person as p ON r.person_id = p.id
+						JOIN stock_demo.user as u ON u.id = r.user_id WHERE  r.update_date > 1534415477 AND r.update_date < 1537007477 ORDER BY  r.expected_date  ASC ]
+DEBUG: 2018/09/15 13:31:17 [SELECT e.id, e.name, e.description, e.price, e.creation_date, e.update_date, e.user_id, u.name 
+				FROM stock_demo.expense as e JOIN stock_demo.user AS u
+				ON e.user_id = u.id WHERE  e.update_date > 1534415477 AND e.update_date < 1537007477 ORDER BY  u.name  ASC ]
+INFO: 2018/09/15 13:31:17 [200 GET /api/retrieveActivityLog 31.182945ms]
+DEBUG: 2018/09/15 13:31:18 [SELECT r.id,r.person_id,r.amount,r.creation_date,r.update_date,r.expected_date,r.status,p.name,p.phone,r.summary,r.user_id,u.name
+						FROM stock_demo.payment as r
+						JOIN stock_demo.person as p ON r.person_id = p.id
+						JOIN stock_demo.user as u ON r.user_id = u.id WHERE  r.update_date > 1534415038 AND r.update_date < 1537007038 ORDER BY  r.expected_date  ASC ]
+DEBUG: 2018/09/15 13:31:18 [SELECT r.id,r.person_id,r.amount,r.creation_date,r.update_date,r.expected_date,r.status,p.name,p.phone,r.product_ids,r.user_id,u.name
+						FROM stock_demo.receiving as r
+						JOIN stock_demo.person as p ON r.person_id = p.id
+						JOIN stock_demo.user as u ON u.id = r.user_id WHERE  r.update_date > 1534415038 AND r.update_date < 1537007038 ORDER BY  r.expected_date  ASC ]
+DEBUG: 2018/09/15 13:31:18 [SELECT e.id, e.name, e.description, e.price, e.creation_date, e.update_date, e.user_id, u.name 
+				FROM stock_demo.expense as e JOIN stock_demo.user AS u
+				ON e.user_id = u.id WHERE  e.update_date > 1534415038 AND e.update_date < 1537007038 ORDER BY  u.name  ASC ]
+INFO: 2018/09/15 13:31:18 [200 GET /api/getPaymentReport 7.257434ms]
+DEBUG: 2018/09/15 13:31:24 [SELECT SUM(gross_profit),SUM(net_profit),SUM(sale_count),SUM(item_count),SUM(customer_count),SUM(discount),SUM(basket_value),SUM(basket_size) 
+						FROM stock_demo.sale_summary_report_daily WHERE  timestamp > 1534415038 AND timestamp < 1537007038]
+DEBUG: 2018/09/15 13:31:24 [SELECT gross_profit,net_profit,sale_count,item_count,customer_count,discount,basket_value,basket_size,timestamp 
+						FROM stock_demo.sale_summary_report_daily WHERE  timestamp > 1534415038 AND timestamp < 1537007038]
+INFO: 2018/09/15 13:31:24 [200 GET /api/getSaleSummaryReportDaily 2.959536ms]
+DEBUG: 2018/09/15 13:31:24 [select p.id,p.name,p.category,s.qty,p.purchase_price,p.sale_price,(s.qty*p.purchase_price),(s.qty*p.sale_price),(s.qty*p.sale_price)-(s.qty*p.purchase_price)
+    FROM stock_demo.stock as s
+    JOIN stock_demo.product p ON s.product_id = p.id  ORDER BY  8  DESC  LIMIT 0,10]
+INFO: 2018/09/15 13:31:24 [200 GET /api/getCurrentStockReport 3.689338ms]
+INFO: 2018/09/15 13:31:24 [200 GET /api/retrieveCategories 2.057644ms]
+DEBUG: 2018/09/15 13:31:25 [SELECT r.id,r.person_id,r.amount,r.creation_date,r.update_date,r.expected_date,r.status,p.name,p.phone,r.summary,r.user_id,u.name
+						FROM stock_demo.payment as r
+						JOIN stock_demo.person as p ON r.person_id = p.id
+						JOIN stock_demo.user as u ON r.user_id = u.id WHERE  r.update_date > 1534415038 AND r.update_date < 1537007038 ORDER BY  r.expected_date  ASC ]
+DEBUG: 2018/09/15 13:31:25 [SELECT r.id,r.person_id,r.amount,r.creation_date,r.update_date,r.expected_date,r.status,p.name,p.phone,r.product_ids,r.user_id,u.name
+						FROM stock_demo.receiving as r
+						JOIN stock_demo.person as p ON r.person_id = p.id
+						JOIN stock_demo.user as u ON u.id = r.user_id WHERE  r.update_date > 1534415038 AND r.update_date < 1537007038 ORDER BY  r.expected_date  ASC ]
+DEBUG: 2018/09/15 13:31:25 [SELECT e.id, e.name, e.description, e.price, e.creation_date, e.update_date, e.user_id, u.name 
+				FROM stock_demo.expense as e JOIN stock_demo.user AS u
+				ON e.user_id = u.id WHERE  e.update_date > 1534415038 AND e.update_date < 1537007038 ORDER BY  u.name  ASC ]
+INFO: 2018/09/15 13:31:25 [200 GET /api/getPaymentReport 7.100975ms]
+DEBUG: 2018/09/15 13:31:30 [select p.id,p.name,p.category,s.qty,p.purchase_price,p.sale_price,(s.qty*p.purchase_price),(s.qty*p.sale_price),(s.qty*p.sale_price)-(s.qty*p.purchase_price)
+    FROM stock_demo.stock as s
+    JOIN stock_demo.product p ON s.product_id = p.id  ORDER BY  8  DESC  LIMIT 0,10]
+INFO: 2018/09/15 13:31:30 [200 GET /api/retrieveCategories 1.929649ms]
+INFO: 2018/09/15 13:31:30 [200 GET /api/getCurrentStockReport 4.976676ms]
+DEBUG: 2018/09/15 14:21:31 [SELECT s.id,s.creation_date,s.items,s.user_id,u.name 
+						FROM stock_demo.sale AS s
+						JOIN stock_demo.user AS u ON u.id=s.user_id WHERE  s.creation_date > 1534418491 AND s.creation_date < 1537010491 ORDER BY  s.id  DESC ]
+DEBUG: 2018/09/15 14:21:31 [SELECT p.id, p.barcode, p.name, p.description, p.category, p.purchase_price, p.sale_price, p.register_date, p.user_id, u.name
+				FROM stock_demo.product as p
+				JOIN stock_demo.user AS u ON p.user_id = u.id WHERE  barcode LIKE '%8690504096009%'  ORDER BY  p.name  ASC ]
+DEBUG: 2018/09/15 14:21:31 [SELECT p.id, p.barcode, p.name, p.description, p.category, p.purchase_price, p.sale_price, p.register_date, p.user_id, u.name
+				FROM stock_demo.product as p
+				JOIN stock_demo.user AS u ON p.user_id = u.id WHERE  barcode LIKE '%123456789012%'  ORDER BY  p.name  ASC ]
+DEBUG: 2018/09/15 14:21:31 [SELECT p.id, p.barcode, p.name, p.description, p.category, p.purchase_price, p.sale_price, p.register_date, p.user_id, u.name
+				FROM stock_demo.product as p
+				JOIN stock_demo.user AS u ON p.user_id = u.id WHERE  barcode LIKE '%8690504024224%'  ORDER BY  p.name  ASC ]
+DEBUG: 2018/09/15 14:21:31 [SELECT s.id,s.product_id,s.qty,s.dealer_id,s.creation_date,s.update_date,p.barcode,p.name,p.description,p.category,p.purchase_price,p.sale_price,p.register_date,IFNULL(per.id,0),IFNULL(per.name,""),s.user_id,u.name
+						FROM stock_demo.stock AS s
+						JOIN stock_demo.product AS p ON s.product_id = p.id 
+						LEFT JOIN stock_demo.person AS per ON s.dealer_id = per.id
+						JOIN stock_demo.user AS u ON s.user_id=u.id WHERE  s.update_date > 1534418491 AND s.update_date < 1537010491 ORDER BY  p.name  ASC ]
+DEBUG: 2018/09/15 14:21:31 [SELECT r.id,r.person_id,r.amount,r.creation_date,r.update_date,r.expected_date,r.status,p.name,p.phone,r.summary,r.user_id,u.name
+						FROM stock_demo.payment as r
+						JOIN stock_demo.person as p ON r.person_id = p.id
+						JOIN stock_demo.user as u ON r.user_id = u.id WHERE  r.update_date > 1534418491 AND r.update_date < 1537010491 ORDER BY  r.expected_date  ASC ]
+DEBUG: 2018/09/15 14:21:31 [SELECT r.id,r.person_id,r.amount,r.creation_date,r.update_date,r.expected_date,r.status,p.name,p.phone,r.product_ids,r.user_id,u.name
+						FROM stock_demo.receiving as r
+						JOIN stock_demo.person as p ON r.person_id = p.id
+						JOIN stock_demo.user as u ON u.id = r.user_id WHERE  r.update_date > 1534418491 AND r.update_date < 1537010491 ORDER BY  r.expected_date  ASC ]
+DEBUG: 2018/09/15 14:21:31 [SELECT e.id, e.name, e.description, e.price, e.creation_date, e.update_date, e.user_id, u.name 
+				FROM stock_demo.expense as e JOIN stock_demo.user AS u
+				ON e.user_id = u.id WHERE  e.update_date > 1534418491 AND e.update_date < 1537010491 ORDER BY  u.name  ASC ]
+INFO: 2018/09/15 14:21:31 [200 GET /api/retrieveActivityLog 42.751164ms]
+DEBUG: 2018/09/15 14:22:29 [SELECT r.id,r.person_id,r.amount,r.creation_date,r.update_date,r.expected_date,r.status,p.name,p.phone,r.summary,r.user_id,u.name
+						FROM stock_demo.payment as r
+						JOIN stock_demo.person as p ON r.person_id = p.id
+						JOIN stock_demo.user as u ON r.user_id = u.id WHERE  r.update_date > 1537352638 AND r.update_date < 1539080638 ORDER BY  r.expected_date  ASC ]
+DEBUG: 2018/09/15 14:22:29 [SELECT r.id,r.person_id,r.amount,r.creation_date,r.update_date,r.expected_date,r.status,p.name,p.phone,r.product_ids,r.user_id,u.name
+						FROM stock_demo.receiving as r
+						JOIN stock_demo.person as p ON r.person_id = p.id
+						JOIN stock_demo.user as u ON u.id = r.user_id WHERE  r.update_date > 1537352638 AND r.update_date < 1539080638 ORDER BY  r.expected_date  ASC ]
+DEBUG: 2018/09/15 14:22:29 [SELECT e.id, e.name, e.description, e.price, e.creation_date, e.update_date, e.user_id, u.name 
+				FROM stock_demo.expense as e JOIN stock_demo.user AS u
+				ON e.user_id = u.id WHERE  e.update_date > 1537352638 AND e.update_date < 1539080638 ORDER BY  u.name  ASC ]
+INFO: 2018/09/15 14:22:29 [200 GET /api/getPaymentReport 6.733235ms]
+DEBUG: 2018/09/15 14:23:07 [map[email:1@1.com exp:1.537093433e+09 userId:1]]
+INFO: 2018/09/15 14:23:07 [200 GET /api/me 1.801627ms]
+DEBUG: 2018/09/15 14:23:08 [SELECT r.id,r.person_id,r.amount,r.creation_date,r.update_date,r.expected_date,r.status,p.name,p.phone,r.summary,r.user_id,u.name
+						FROM stock_demo.payment as r
+						JOIN stock_demo.person as p ON r.person_id = p.id
+						JOIN stock_demo.user as u ON r.user_id = u.id WHERE  r.update_date > 1534418587 AND r.update_date < 1537010587 ORDER BY  r.expected_date  ASC ]
+DEBUG: 2018/09/15 14:23:08 [SELECT r.id,r.person_id,r.amount,r.creation_date,r.update_date,r.expected_date,r.status,p.name,p.phone,r.product_ids,r.user_id,u.name
+						FROM stock_demo.receiving as r
+						JOIN stock_demo.person as p ON r.person_id = p.id
+						JOIN stock_demo.user as u ON u.id = r.user_id WHERE  r.update_date > 1534418587 AND r.update_date < 1537010587 ORDER BY  r.expected_date  ASC ]
+DEBUG: 2018/09/15 14:23:08 [SELECT e.id, e.name, e.description, e.price, e.creation_date, e.update_date, e.user_id, u.name 
+				FROM stock_demo.expense as e JOIN stock_demo.user AS u
+				ON e.user_id = u.id WHERE  e.update_date > 1534418587 AND e.update_date < 1537010587 ORDER BY  u.name  ASC ]
+INFO: 2018/09/15 14:23:08 [200 GET /api/getPaymentReport 15.479404ms]
+DEBUG: 2018/09/15 14:23:16 [select p.id,p.name,p.category,s.qty,p.purchase_price,p.sale_price,(s.qty*p.purchase_price),(s.qty*p.sale_price),(s.qty*p.sale_price)-(s.qty*p.purchase_price)
+    FROM stock_demo.stock as s
+    JOIN stock_demo.product p ON s.product_id = p.id  ORDER BY  8  DESC  LIMIT 0,10]
+INFO: 2018/09/15 14:23:16 [200 GET /api/retrieveCategories 4.582508ms]
+INFO: 2018/09/15 14:23:16 [200 GET /api/getCurrentStockReport 8.848876ms]
+DEBUG: 2018/09/15 14:23:18 [SELECT SUM(gross_profit),SUM(net_profit),SUM(sale_count),SUM(item_count),SUM(customer_count),SUM(discount),SUM(basket_value),SUM(basket_size) 
+						FROM stock_demo.sale_summary_report_daily WHERE  timestamp > 1534418587 AND timestamp < 1537010587]
+DEBUG: 2018/09/15 14:23:18 [SELECT gross_profit,net_profit,sale_count,item_count,customer_count,discount,basket_value,basket_size,timestamp 
+						FROM stock_demo.sale_summary_report_daily WHERE  timestamp > 1534418587 AND timestamp < 1537010587]
+INFO: 2018/09/15 14:23:18 [200 GET /api/getSaleSummaryReportDaily 3.267141ms]
+DEBUG: 2018/09/15 14:23:20 [SELECT s.id,s.creation_date,s.items,s.user_id,u.name 
+						FROM stock_demo.sale AS s
+						JOIN stock_demo.user AS u ON u.id=s.user_id WHERE  s.creation_date > 1534418600 AND s.creation_date < 1537010600 ORDER BY  s.id  DESC ]
+DEBUG: 2018/09/15 14:23:20 [SELECT p.id, p.barcode, p.name, p.description, p.category, p.purchase_price, p.sale_price, p.register_date, p.user_id, u.name
+				FROM stock_demo.product as p
+				JOIN stock_demo.user AS u ON p.user_id = u.id WHERE  barcode LIKE '%8690504096009%'  ORDER BY  p.name  ASC ]
+DEBUG: 2018/09/15 14:23:20 [SELECT p.id, p.barcode, p.name, p.description, p.category, p.purchase_price, p.sale_price, p.register_date, p.user_id, u.name
+				FROM stock_demo.product as p
+				JOIN stock_demo.user AS u ON p.user_id = u.id WHERE  barcode LIKE '%123456789012%'  ORDER BY  p.name  ASC ]
+DEBUG: 2018/09/15 14:23:20 [SELECT p.id, p.barcode, p.name, p.description, p.category, p.purchase_price, p.sale_price, p.register_date, p.user_id, u.name
+				FROM stock_demo.product as p
+				JOIN stock_demo.user AS u ON p.user_id = u.id WHERE  barcode LIKE '%8690504024224%'  ORDER BY  p.name  ASC ]
+DEBUG: 2018/09/15 14:23:20 [SELECT s.id,s.product_id,s.qty,s.dealer_id,s.creation_date,s.update_date,p.barcode,p.name,p.description,p.category,p.purchase_price,p.sale_price,p.register_date,IFNULL(per.id,0),IFNULL(per.name,""),s.user_id,u.name
+						FROM stock_demo.stock AS s
+						JOIN stock_demo.product AS p ON s.product_id = p.id 
+						LEFT JOIN stock_demo.person AS per ON s.dealer_id = per.id
+						JOIN stock_demo.user AS u ON s.user_id=u.id WHERE  s.update_date > 1534418600 AND s.update_date < 1537010600 ORDER BY  p.name  ASC ]
+DEBUG: 2018/09/15 14:23:20 [SELECT r.id,r.person_id,r.amount,r.creation_date,r.update_date,r.expected_date,r.status,p.name,p.phone,r.summary,r.user_id,u.name
+						FROM stock_demo.payment as r
+						JOIN stock_demo.person as p ON r.person_id = p.id
+						JOIN stock_demo.user as u ON r.user_id = u.id WHERE  r.update_date > 1534418600 AND r.update_date < 1537010600 ORDER BY  r.expected_date  ASC ]
+DEBUG: 2018/09/15 14:23:20 [SELECT r.id,r.person_id,r.amount,r.creation_date,r.update_date,r.expected_date,r.status,p.name,p.phone,r.product_ids,r.user_id,u.name
+						FROM stock_demo.receiving as r
+						JOIN stock_demo.person as p ON r.person_id = p.id
+						JOIN stock_demo.user as u ON u.id = r.user_id WHERE  r.update_date > 1534418600 AND r.update_date < 1537010600 ORDER BY  r.expected_date  ASC ]
+DEBUG: 2018/09/15 14:23:20 [SELECT e.id, e.name, e.description, e.price, e.creation_date, e.update_date, e.user_id, u.name 
+				FROM stock_demo.expense as e JOIN stock_demo.user AS u
+				ON e.user_id = u.id WHERE  e.update_date > 1534418600 AND e.update_date < 1537010600 ORDER BY  u.name  ASC ]
+INFO: 2018/09/15 14:23:20 [200 GET /api/retrieveActivityLog 66.83398ms]
+DEBUG: 2018/09/15 14:23:34 [SELECT r.id,r.person_id,r.amount,r.creation_date,r.update_date,r.expected_date,r.status,p.name,p.phone,r.product_ids,r.user_id,u.name
+						FROM stock_demo.receiving as r
+						JOIN stock_demo.person as p ON r.person_id = p.id
+						JOIN stock_demo.user as u ON u.id = r.user_id ORDER BY  r.expected_date  ASC ]
+DEBUG: 2018/09/15 14:24:01 [SELECT s.id,s.creation_date,s.items,s.user_id,u.name 
+						FROM stock_demo.sale AS s
+						JOIN stock_demo.user AS u ON u.id=s.user_id WHERE  s.creation_date > 1534418641 AND s.creation_date < 1537010641 ORDER BY  s.id  DESC ]
+DEBUG: 2018/09/15 14:24:01 [SELECT p.id, p.barcode, p.name, p.description, p.category, p.purchase_price, p.sale_price, p.register_date, p.user_id, u.name
+				FROM stock_demo.product as p
+				JOIN stock_demo.user AS u ON p.user_id = u.id WHERE  barcode LIKE '%8690504096009%'  ORDER BY  p.name  ASC ]
+DEBUG: 2018/09/15 14:24:01 [SELECT p.id, p.barcode, p.name, p.description, p.category, p.purchase_price, p.sale_price, p.register_date, p.user_id, u.name
+				FROM stock_demo.product as p
+				JOIN stock_demo.user AS u ON p.user_id = u.id WHERE  barcode LIKE '%123456789012%'  ORDER BY  p.name  ASC ]
+DEBUG: 2018/09/15 14:24:01 [SELECT p.id, p.barcode, p.name, p.description, p.category, p.purchase_price, p.sale_price, p.register_date, p.user_id, u.name
+				FROM stock_demo.product as p
+				JOIN stock_demo.user AS u ON p.user_id = u.id WHERE  barcode LIKE '%8690504024224%'  ORDER BY  p.name  ASC ]
+DEBUG: 2018/09/15 14:24:01 [SELECT s.id,s.product_id,s.qty,s.dealer_id,s.creation_date,s.update_date,p.barcode,p.name,p.description,p.category,p.purchase_price,p.sale_price,p.register_date,IFNULL(per.id,0),IFNULL(per.name,""),s.user_id,u.name
+						FROM stock_demo.stock AS s
+						JOIN stock_demo.product AS p ON s.product_id = p.id 
+						LEFT JOIN stock_demo.person AS per ON s.dealer_id = per.id
+						JOIN stock_demo.user AS u ON s.user_id=u.id WHERE  s.update_date > 1534418641 AND s.update_date < 1537010641 ORDER BY  p.name  ASC ]
+DEBUG: 2018/09/15 14:24:01 [SELECT r.id,r.person_id,r.amount,r.creation_date,r.update_date,r.expected_date,r.status,p.name,p.phone,r.summary,r.user_id,u.name
+						FROM stock_demo.payment as r
+						JOIN stock_demo.person as p ON r.person_id = p.id
+						JOIN stock_demo.user as u ON r.user_id = u.id WHERE  r.update_date > 1534418641 AND r.update_date < 1537010641 ORDER BY  r.expected_date  ASC ]
+DEBUG: 2018/09/15 14:24:01 [SELECT r.id,r.person_id,r.amount,r.creation_date,r.update_date,r.expected_date,r.status,p.name,p.phone,r.product_ids,r.user_id,u.name
+						FROM stock_demo.receiving as r
+						JOIN stock_demo.person as p ON r.person_id = p.id
+						JOIN stock_demo.user as u ON u.id = r.user_id WHERE  r.update_date > 1534418641 AND r.update_date < 1537010641 ORDER BY  r.expected_date  ASC ]
+DEBUG: 2018/09/15 14:24:01 [SELECT e.id, e.name, e.description, e.price, e.creation_date, e.update_date, e.user_id, u.name 
+				FROM stock_demo.expense as e JOIN stock_demo.user AS u
+				ON e.user_id = u.id WHERE  e.update_date > 1534418641 AND e.update_date < 1537010641 ORDER BY  u.name  ASC ]
+INFO: 2018/09/15 14:24:01 [200 GET /api/retrieveActivityLog 36.466865ms]
+DEBUG: 2018/09/15 14:24:02 [SELECT s.id,s.creation_date,s.items,s.user_id,u.name 
+						FROM stock_demo.sale AS s
+						JOIN stock_demo.user AS u ON u.id=s.user_id WHERE  s.creation_date > 1534418642 AND s.creation_date < 1537010642 ORDER BY  s.id  DESC ]
+DEBUG: 2018/09/15 14:24:02 [SELECT p.id, p.barcode, p.name, p.description, p.category, p.purchase_price, p.sale_price, p.register_date, p.user_id, u.name
+				FROM stock_demo.product as p
+				JOIN stock_demo.user AS u ON p.user_id = u.id WHERE  barcode LIKE '%8690504096009%'  ORDER BY  p.name  ASC ]
+DEBUG: 2018/09/15 14:24:02 [SELECT p.id, p.barcode, p.name, p.description, p.category, p.purchase_price, p.sale_price, p.register_date, p.user_id, u.name
+				FROM stock_demo.product as p
+				JOIN stock_demo.user AS u ON p.user_id = u.id WHERE  barcode LIKE '%123456789012%'  ORDER BY  p.name  ASC ]
+DEBUG: 2018/09/15 14:24:02 [SELECT p.id, p.barcode, p.name, p.description, p.category, p.purchase_price, p.sale_price, p.register_date, p.user_id, u.name
+				FROM stock_demo.product as p
+				JOIN stock_demo.user AS u ON p.user_id = u.id WHERE  barcode LIKE '%8690504024224%'  ORDER BY  p.name  ASC ]
+DEBUG: 2018/09/15 14:24:02 [SELECT s.id,s.product_id,s.qty,s.dealer_id,s.creation_date,s.update_date,p.barcode,p.name,p.description,p.category,p.purchase_price,p.sale_price,p.register_date,IFNULL(per.id,0),IFNULL(per.name,""),s.user_id,u.name
+						FROM stock_demo.stock AS s
+						JOIN stock_demo.product AS p ON s.product_id = p.id 
+						LEFT JOIN stock_demo.person AS per ON s.dealer_id = per.id
+						JOIN stock_demo.user AS u ON s.user_id=u.id WHERE  s.update_date > 1534418642 AND s.update_date < 1537010642 ORDER BY  p.name  ASC ]
+DEBUG: 2018/09/15 14:24:02 [SELECT r.id,r.person_id,r.amount,r.creation_date,r.update_date,r.expected_date,r.status,p.name,p.phone,r.summary,r.user_id,u.name
+						FROM stock_demo.payment as r
+						JOIN stock_demo.person as p ON r.person_id = p.id
+						JOIN stock_demo.user as u ON r.user_id = u.id WHERE  r.update_date > 1534418642 AND r.update_date < 1537010642 ORDER BY  r.expected_date  ASC ]
+DEBUG: 2018/09/15 14:24:02 [SELECT r.id,r.person_id,r.amount,r.creation_date,r.update_date,r.expected_date,r.status,p.name,p.phone,r.product_ids,r.user_id,u.name
+						FROM stock_demo.receiving as r
+						JOIN stock_demo.person as p ON r.person_id = p.id
+						JOIN stock_demo.user as u ON u.id = r.user_id WHERE  r.update_date > 1534418642 AND r.update_date < 1537010642 ORDER BY  r.expected_date  ASC ]
+DEBUG: 2018/09/15 14:24:02 [SELECT e.id, e.name, e.description, e.price, e.creation_date, e.update_date, e.user_id, u.name 
+				FROM stock_demo.expense as e JOIN stock_demo.user AS u
+				ON e.user_id = u.id WHERE  e.update_date > 1534418642 AND e.update_date < 1537010642 ORDER BY  u.name  ASC ]
+INFO: 2018/09/15 14:24:02 [200 GET /api/retrieveActivityLog 30.639172ms]
+DEBUG: 2018/09/15 14:29:26 [SELECT p.id, p.barcode, p.name, p.description, p.category, p.purchase_price, p.sale_price, p.register_date, p.user_id, u.name
+				FROM stock_demo.product as p
+				JOIN stock_demo.user AS u ON p.user_id = u.id ORDER BY  p.name  ASC  LIMIT 0,10]
+INFO: 2018/09/15 14:29:26 [200 GET /api/getProducts 7.729673ms]
+DEBUG: 2018/09/15 14:29:46 [SELECT p.id,p.name,p.phone,p.email,p.address,p.p_type,p.creation_date,p.user_id,u.name
+					FROM stock_demo.person AS p
+					JOIN stock_demo.user AS u ON p.user_id = u.id WHERE  p_type LIKE '%Müşteri%'  ORDER BY  p.name  ASC  LIMIT 0,10]
+INFO: 2018/09/15 14:29:46 [200 GET /api/getPeople 10.09422ms]
+DEBUG: 2018/09/15 14:29:47 [SELECT p.id, p.barcode, p.name, p.description, p.category, p.purchase_price, p.sale_price, p.register_date, p.user_id, u.name
+				FROM stock_demo.product as p
+				JOIN stock_demo.user AS u ON p.user_id = u.id ORDER BY  p.name  ASC  LIMIT 0,10]
+INFO: 2018/09/15 14:29:47 [200 GET /api/getProducts 8.273033ms]
+DEBUG: 2018/09/15 14:29:47 [SELECT s.id,s.product_id,s.qty,s.dealer_id,s.creation_date,s.update_date,p.barcode,p.name,p.description,p.category,p.purchase_price,p.sale_price,p.register_date,IFNULL(per.id,0),IFNULL(per.name,""),s.user_id,u.name
+						FROM stock_demo.stock AS s
+						JOIN stock_demo.product AS p ON s.product_id = p.id 
+						LEFT JOIN stock_demo.person AS per ON s.dealer_id = per.id
+						JOIN stock_demo.user AS u ON s.user_id=u.id ORDER BY  p.name  ASC  LIMIT 0,10]
+INFO: 2018/09/15 14:29:47 [200 GET /api/retrieveCategories 6.605084ms]
+INFO: 2018/09/15 14:29:47 [200 GET /api/getStocks 10.135924ms]
+DEBUG: 2018/09/15 15:23:34 [SELECT r.id,r.person_id,r.amount,r.creation_date,r.update_date,r.expected_date,r.status,p.name,p.phone,r.product_ids,r.user_id,u.name
+						FROM stock_demo.receiving as r
+						JOIN stock_demo.person as p ON r.person_id = p.id
+						JOIN stock_demo.user as u ON u.id = r.user_id ORDER BY  r.expected_date  ASC ]
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] POST   /login                    --> stock/apps/dashboard/controller.handleLogin (5 handlers)
+[GIN-debug] GET    /api/me                   --> stock/apps/dashboard/controller.handleGetMe (6 handlers)
+[GIN-debug] GET    /api/fillProductTable     --> stock/apps/dashboard/controller.fillProductTable (6 handlers)
+[GIN-debug] POST   /api/createProduct        --> stock/apps/dashboard/controller.createProduct (6 handlers)
+[GIN-debug] POST   /api/updateProduct        --> stock/apps/dashboard/controller.updateProduct (6 handlers)
+[GIN-debug] GET    /api/getProductById       --> stock/apps/dashboard/controller.getProductById (6 handlers)
+[GIN-debug] GET    /api/deleteProducts       --> stock/apps/dashboard/controller.deleteProducts (6 handlers)
+[GIN-debug] GET    /api/getProducts          --> stock/apps/dashboard/controller.getProducts (6 handlers)
+[GIN-debug] GET    /api/retrieveCategories   --> stock/apps/dashboard/controller.retrieveCategories (6 handlers)
+[GIN-debug] POST   /api/createStock          --> stock/apps/dashboard/controller.createStock (6 handlers)
+[GIN-debug] POST   /api/updateStock          --> stock/apps/dashboard/controller.updateStock (6 handlers)
+[GIN-debug] GET    /api/getStockById         --> stock/apps/dashboard/controller.getStockById (6 handlers)
+[GIN-debug] GET    /api/deleteStocks         --> stock/apps/dashboard/controller.deleteStocks (6 handlers)
+[GIN-debug] GET    /api/getStocks            --> stock/apps/dashboard/controller.getStocks (6 handlers)
+[GIN-debug] POST   /api/createPerson         --> stock/apps/dashboard/controller.createPerson (6 handlers)
+[GIN-debug] POST   /api/updatePerson         --> stock/apps/dashboard/controller.updatePerson (6 handlers)
+[GIN-debug] GET    /api/getPersonById        --> stock/apps/dashboard/controller.getPersonById (6 handlers)
+[GIN-debug] GET    /api/deletePeople         --> stock/apps/dashboard/controller.deletePeople (6 handlers)
+[GIN-debug] GET    /api/getPeople            --> stock/apps/dashboard/controller.getPeople (6 handlers)
+[GIN-debug] POST   /api/createReceiving      --> stock/apps/dashboard/controller.createReceiving (6 handlers)
+[GIN-debug] POST   /api/updateReceiving      --> stock/apps/dashboard/controller.updateReceiving (6 handlers)
+[GIN-debug] GET    /api/getReceivingById     --> stock/apps/dashboard/controller.getReceivingById (6 handlers)
+[GIN-debug] GET    /api/deleteReceivings     --> stock/apps/dashboard/controller.deleteReceivings (6 handlers)
+[GIN-debug] GET    /api/getReceivings        --> stock/apps/dashboard/controller.getReceivings (6 handlers)
+[GIN-debug] GET    /api/setReceivingStatus   --> stock/apps/dashboard/controller.setReceivingStatus (6 handlers)
+[GIN-debug] POST   /api/createPayment        --> stock/apps/dashboard/controller.createPayment (6 handlers)
+[GIN-debug] POST   /api/updatePayment        --> stock/apps/dashboard/controller.updatePayment (6 handlers)
+[GIN-debug] GET    /api/getPaymentById       --> stock/apps/dashboard/controller.getPaymentById (6 handlers)
+[GIN-debug] GET    /api/deletePayments       --> stock/apps/dashboard/controller.deletePayments (6 handlers)
+[GIN-debug] GET    /api/getPayments          --> stock/apps/dashboard/controller.getPayments (6 handlers)
+[GIN-debug] GET    /api/setPaymentStatus     --> stock/apps/dashboard/controller.setPaymentStatus (6 handlers)
+[GIN-debug] POST   /api/createExpense        --> stock/apps/dashboard/controller.createExpense (6 handlers)
+[GIN-debug] POST   /api/updateExpense        --> stock/apps/dashboard/controller.updateExpense (6 handlers)
+[GIN-debug] GET    /api/getExpenseById       --> stock/apps/dashboard/controller.getExpenseById (6 handlers)
+[GIN-debug] GET    /api/deleteExpenses       --> stock/apps/dashboard/controller.deleteExpenses (6 handlers)
+[GIN-debug] GET    /api/getExpenses          --> stock/apps/dashboard/controller.getExpenses (6 handlers)
+[GIN-debug] POST   /createUser               --> stock/apps/dashboard/controller.createUser (5 handlers)
+[GIN-debug] POST   /api/updateUser           --> stock/apps/dashboard/controller.updateUser (6 handlers)
+[GIN-debug] GET    /api/getUserById          --> stock/apps/dashboard/controller.getUserById (6 handlers)
+[GIN-debug] GET    /api/deleteUsers          --> stock/apps/dashboard/controller.deleteUsers (6 handlers)
+[GIN-debug] GET    /api/getUsers             --> stock/apps/dashboard/controller.getUsers (6 handlers)
+[GIN-debug] POST   /api/createSale           --> stock/apps/dashboard/controller.createSale (6 handlers)
+[GIN-debug] POST   /api/updateSale           --> stock/apps/dashboard/controller.updateSale (6 handlers)
+[GIN-debug] GET    /api/getSaleById          --> stock/apps/dashboard/controller.getSaleById (6 handlers)
+[GIN-debug] GET    /api/deleteSales          --> stock/apps/dashboard/controller.deleteSales (6 handlers)
+[GIN-debug] GET    /api/getSales             --> stock/apps/dashboard/controller.getSales (6 handlers)
+[GIN-debug] GET    /api/getSaleSummaryReportDaily --> stock/apps/dashboard/controller.getSaleSummaryReportDaily (6 handlers)
+[GIN-debug] GET    /api/getCurrentStockReport --> stock/apps/dashboard/controller.getCurrentStockReport (6 handlers)
+[GIN-debug] GET    /api/retrieveActivityLog  --> stock/apps/dashboard/controller.getActivityLog (6 handlers)
+[GIN-debug] GET    /api/getPaymentReport     --> stock/apps/dashboard/controller.getPaymentReport (6 handlers)
+DEBUG: 2018/09/15 15:41:04 [SELECT SUM(gross_profit),SUM(net_profit),SUM(sale_count),SUM(item_count),SUM(customer_count),SUM(discount),SUM(basket_value),SUM(basket_size) 
+						FROM stock_demo.sale_summary_report_daily WHERE  timestamp > 1534423263 AND timestamp < 1537015263]
+DEBUG: 2018/09/15 15:41:04 [SELECT gross_profit,net_profit,sale_count,item_count,customer_count,discount,basket_value,basket_size,timestamp 
+						FROM stock_demo.sale_summary_report_daily WHERE  timestamp > 1534423263 AND timestamp < 1537015263]
+INFO: 2018/09/15 15:41:04 [200 GET /api/getSaleSummaryReportDaily 5.309548ms]
+DEBUG: 2018/09/15 15:41:05 [SELECT s.id,s.creation_date,s.items,s.user_id,u.name 
+						FROM stock_demo.sale_basket AS s
+						JOIN stock_demo.user AS u ON u.id=s.user_id WHERE  s.creation_date > 1534423265 AND s.creation_date < 1537015265 ORDER BY  s.id  DESC ]
+DEBUG: 2018/09/15 15:41:05 [SELECT p.id, p.barcode, p.name, p.description, p.category, p.purchase_price, p.sale_price, p.register_date, p.user_id, u.name
+				FROM stock_demo.product as p
+				JOIN stock_demo.user AS u ON p.user_id = u.id WHERE  barcode LIKE '%8690504096009%'  ORDER BY  p.name  ASC ]
+DEBUG: 2018/09/15 15:41:05 [SELECT p.id, p.barcode, p.name, p.description, p.category, p.purchase_price, p.sale_price, p.register_date, p.user_id, u.name
+				FROM stock_demo.product as p
+				JOIN stock_demo.user AS u ON p.user_id = u.id WHERE  barcode LIKE '%123456789012%'  ORDER BY  p.name  ASC ]
+DEBUG: 2018/09/15 15:41:05 [SELECT p.id, p.barcode, p.name, p.description, p.category, p.purchase_price, p.sale_price, p.register_date, p.user_id, u.name
+				FROM stock_demo.product as p
+				JOIN stock_demo.user AS u ON p.user_id = u.id WHERE  barcode LIKE '%8690504024224%'  ORDER BY  p.name  ASC ]
+DEBUG: 2018/09/15 15:41:05 [SELECT s.id,s.product_id,s.qty,s.dealer_id,s.creation_date,s.update_date,p.barcode,p.name,p.description,p.category,p.purchase_price,p.sale_price,p.register_date,IFNULL(per.id,0),IFNULL(per.name,""),s.user_id,u.name
+						FROM stock_demo.stock AS s
+						JOIN stock_demo.product AS p ON s.product_id = p.id 
+						LEFT JOIN stock_demo.person AS per ON s.dealer_id = per.id
+						JOIN stock_demo.user AS u ON s.user_id=u.id WHERE  s.update_date > 1534423265 AND s.update_date < 1537015265 ORDER BY  p.name  ASC ]
+DEBUG: 2018/09/15 15:41:05 [SELECT r.id,r.person_id,r.amount,r.creation_date,r.update_date,r.expected_date,r.status,p.name,p.phone,r.summary,r.user_id,u.name
+						FROM stock_demo.payment as r
+						JOIN stock_demo.person as p ON r.person_id = p.id
+						JOIN stock_demo.user as u ON r.user_id = u.id WHERE  r.update_date > 1534423265 AND r.update_date < 1537015265 ORDER BY  r.expected_date  ASC ]
+DEBUG: 2018/09/15 15:41:05 [SELECT r.id,r.person_id,r.amount,r.creation_date,r.update_date,r.expected_date,r.status,p.name,p.phone,r.product_ids,r.user_id,u.name
+						FROM stock_demo.receiving as r
+						JOIN stock_demo.person as p ON r.person_id = p.id
+						JOIN stock_demo.user as u ON u.id = r.user_id WHERE  r.update_date > 1534423265 AND r.update_date < 1537015265 ORDER BY  r.expected_date  ASC ]
+DEBUG: 2018/09/15 15:41:05 [SELECT e.id, e.name, e.description, e.price, e.creation_date, e.update_date, e.user_id, u.name 
+				FROM stock_demo.expense as e JOIN stock_demo.user AS u
+				ON e.user_id = u.id WHERE  e.update_date > 1534423265 AND e.update_date < 1537015265 ORDER BY  u.name  ASC ]
+INFO: 2018/09/15 15:41:05 [200 GET /api/retrieveActivityLog 59.881846ms]
+ERROR: 2018/09/15 16:13:23 common/gateways/sql/saleDetailRepo.go : 62 [Error 1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'qty=?,discount=?,user_id=?
+								WHERE id=?' at line 1]
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] POST   /login                    --> stock/apps/dashboard/controller.handleLogin (5 handlers)
+[GIN-debug] GET    /api/me                   --> stock/apps/dashboard/controller.handleGetMe (6 handlers)
+[GIN-debug] GET    /api/fillProductTable     --> stock/apps/dashboard/controller.fillProductTable (6 handlers)
+[GIN-debug] POST   /api/createProduct        --> stock/apps/dashboard/controller.createProduct (6 handlers)
+[GIN-debug] POST   /api/updateProduct        --> stock/apps/dashboard/controller.updateProduct (6 handlers)
+[GIN-debug] GET    /api/getProductById       --> stock/apps/dashboard/controller.getProductById (6 handlers)
+[GIN-debug] GET    /api/deleteProducts       --> stock/apps/dashboard/controller.deleteProducts (6 handlers)
+[GIN-debug] GET    /api/getProducts          --> stock/apps/dashboard/controller.getProducts (6 handlers)
+[GIN-debug] GET    /api/retrieveCategories   --> stock/apps/dashboard/controller.retrieveCategories (6 handlers)
+[GIN-debug] POST   /api/createStock          --> stock/apps/dashboard/controller.createStock (6 handlers)
+[GIN-debug] POST   /api/updateStock          --> stock/apps/dashboard/controller.updateStock (6 handlers)
+[GIN-debug] GET    /api/getStockById         --> stock/apps/dashboard/controller.getStockById (6 handlers)
+[GIN-debug] GET    /api/deleteStocks         --> stock/apps/dashboard/controller.deleteStocks (6 handlers)
+[GIN-debug] GET    /api/getStocks            --> stock/apps/dashboard/controller.getStocks (6 handlers)
+[GIN-debug] POST   /api/createPerson         --> stock/apps/dashboard/controller.createPerson (6 handlers)
+[GIN-debug] POST   /api/updatePerson         --> stock/apps/dashboard/controller.updatePerson (6 handlers)
+[GIN-debug] GET    /api/getPersonById        --> stock/apps/dashboard/controller.getPersonById (6 handlers)
+[GIN-debug] GET    /api/deletePeople         --> stock/apps/dashboard/controller.deletePeople (6 handlers)
+[GIN-debug] GET    /api/getPeople            --> stock/apps/dashboard/controller.getPeople (6 handlers)
+[GIN-debug] POST   /api/createReceiving      --> stock/apps/dashboard/controller.createReceiving (6 handlers)
+[GIN-debug] POST   /api/updateReceiving      --> stock/apps/dashboard/controller.updateReceiving (6 handlers)
+[GIN-debug] GET    /api/getReceivingById     --> stock/apps/dashboard/controller.getReceivingById (6 handlers)
+[GIN-debug] GET    /api/deleteReceivings     --> stock/apps/dashboard/controller.deleteReceivings (6 handlers)
+[GIN-debug] GET    /api/getReceivings        --> stock/apps/dashboard/controller.getReceivings (6 handlers)
+[GIN-debug] GET    /api/setReceivingStatus   --> stock/apps/dashboard/controller.setReceivingStatus (6 handlers)
+[GIN-debug] POST   /api/createPayment        --> stock/apps/dashboard/controller.createPayment (6 handlers)
+[GIN-debug] POST   /api/updatePayment        --> stock/apps/dashboard/controller.updatePayment (6 handlers)
+[GIN-debug] GET    /api/getPaymentById       --> stock/apps/dashboard/controller.getPaymentById (6 handlers)
+[GIN-debug] GET    /api/deletePayments       --> stock/apps/dashboard/controller.deletePayments (6 handlers)
+[GIN-debug] GET    /api/getPayments          --> stock/apps/dashboard/controller.getPayments (6 handlers)
+[GIN-debug] GET    /api/setPaymentStatus     --> stock/apps/dashboard/controller.setPaymentStatus (6 handlers)
+[GIN-debug] POST   /api/createExpense        --> stock/apps/dashboard/controller.createExpense (6 handlers)
+[GIN-debug] POST   /api/updateExpense        --> stock/apps/dashboard/controller.updateExpense (6 handlers)
+[GIN-debug] GET    /api/getExpenseById       --> stock/apps/dashboard/controller.getExpenseById (6 handlers)
+[GIN-debug] GET    /api/deleteExpenses       --> stock/apps/dashboard/controller.deleteExpenses (6 handlers)
+[GIN-debug] GET    /api/getExpenses          --> stock/apps/dashboard/controller.getExpenses (6 handlers)
+[GIN-debug] POST   /createUser               --> stock/apps/dashboard/controller.createUser (5 handlers)
+[GIN-debug] POST   /api/updateUser           --> stock/apps/dashboard/controller.updateUser (6 handlers)
+[GIN-debug] GET    /api/getUserById          --> stock/apps/dashboard/controller.getUserById (6 handlers)
+[GIN-debug] GET    /api/deleteUsers          --> stock/apps/dashboard/controller.deleteUsers (6 handlers)
+[GIN-debug] GET    /api/getUsers             --> stock/apps/dashboard/controller.getUsers (6 handlers)
+[GIN-debug] POST   /api/createSale           --> stock/apps/dashboard/controller.createSale (6 handlers)
+[GIN-debug] POST   /api/updateSale           --> stock/apps/dashboard/controller.updateSale (6 handlers)
+[GIN-debug] GET    /api/getSaleById          --> stock/apps/dashboard/controller.getSaleById (6 handlers)
+[GIN-debug] GET    /api/deleteSales          --> stock/apps/dashboard/controller.deleteSales (6 handlers)
+[GIN-debug] GET    /api/getSales             --> stock/apps/dashboard/controller.getSales (6 handlers)
+[GIN-debug] GET    /api/getSaleSummaryReportDaily --> stock/apps/dashboard/controller.getSaleSummaryReportDaily (6 handlers)
+[GIN-debug] GET    /api/getCurrentStockReport --> stock/apps/dashboard/controller.getCurrentStockReport (6 handlers)
+[GIN-debug] GET    /api/retrieveActivityLog  --> stock/apps/dashboard/controller.getActivityLog (6 handlers)
+[GIN-debug] GET    /api/getPaymentReport     --> stock/apps/dashboard/controller.getPaymentReport (6 handlers)
+ERROR: 2018/09/15 16:19:26 common/gateways/sql/saleDetailRepo.go : 62 [Error 1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'qty=?,discount=?,user_id=?
+								WHERE id=?' at line 1]
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] POST   /login                    --> stock/apps/dashboard/controller.handleLogin (5 handlers)
+[GIN-debug] GET    /api/me                   --> stock/apps/dashboard/controller.handleGetMe (6 handlers)
+[GIN-debug] GET    /api/fillProductTable     --> stock/apps/dashboard/controller.fillProductTable (6 handlers)
+[GIN-debug] POST   /api/createProduct        --> stock/apps/dashboard/controller.createProduct (6 handlers)
+[GIN-debug] POST   /api/updateProduct        --> stock/apps/dashboard/controller.updateProduct (6 handlers)
+[GIN-debug] GET    /api/getProductById       --> stock/apps/dashboard/controller.getProductById (6 handlers)
+[GIN-debug] GET    /api/deleteProducts       --> stock/apps/dashboard/controller.deleteProducts (6 handlers)
+[GIN-debug] GET    /api/getProducts          --> stock/apps/dashboard/controller.getProducts (6 handlers)
+[GIN-debug] GET    /api/retrieveCategories   --> stock/apps/dashboard/controller.retrieveCategories (6 handlers)
+[GIN-debug] POST   /api/createStock          --> stock/apps/dashboard/controller.createStock (6 handlers)
+[GIN-debug] POST   /api/updateStock          --> stock/apps/dashboard/controller.updateStock (6 handlers)
+[GIN-debug] GET    /api/getStockById         --> stock/apps/dashboard/controller.getStockById (6 handlers)
+[GIN-debug] GET    /api/deleteStocks         --> stock/apps/dashboard/controller.deleteStocks (6 handlers)
+[GIN-debug] GET    /api/getStocks            --> stock/apps/dashboard/controller.getStocks (6 handlers)
+[GIN-debug] POST   /api/createPerson         --> stock/apps/dashboard/controller.createPerson (6 handlers)
+[GIN-debug] POST   /api/updatePerson         --> stock/apps/dashboard/controller.updatePerson (6 handlers)
+[GIN-debug] GET    /api/getPersonById        --> stock/apps/dashboard/controller.getPersonById (6 handlers)
+[GIN-debug] GET    /api/deletePeople         --> stock/apps/dashboard/controller.deletePeople (6 handlers)
+[GIN-debug] GET    /api/getPeople            --> stock/apps/dashboard/controller.getPeople (6 handlers)
+[GIN-debug] POST   /api/createReceiving      --> stock/apps/dashboard/controller.createReceiving (6 handlers)
+[GIN-debug] POST   /api/updateReceiving      --> stock/apps/dashboard/controller.updateReceiving (6 handlers)
+[GIN-debug] GET    /api/getReceivingById     --> stock/apps/dashboard/controller.getReceivingById (6 handlers)
+[GIN-debug] GET    /api/deleteReceivings     --> stock/apps/dashboard/controller.deleteReceivings (6 handlers)
+[GIN-debug] GET    /api/getReceivings        --> stock/apps/dashboard/controller.getReceivings (6 handlers)
+[GIN-debug] GET    /api/setReceivingStatus   --> stock/apps/dashboard/controller.setReceivingStatus (6 handlers)
+[GIN-debug] POST   /api/createPayment        --> stock/apps/dashboard/controller.createPayment (6 handlers)
+[GIN-debug] POST   /api/updatePayment        --> stock/apps/dashboard/controller.updatePayment (6 handlers)
+[GIN-debug] GET    /api/getPaymentById       --> stock/apps/dashboard/controller.getPaymentById (6 handlers)
+[GIN-debug] GET    /api/deletePayments       --> stock/apps/dashboard/controller.deletePayments (6 handlers)
+[GIN-debug] GET    /api/getPayments          --> stock/apps/dashboard/controller.getPayments (6 handlers)
+[GIN-debug] GET    /api/setPaymentStatus     --> stock/apps/dashboard/controller.setPaymentStatus (6 handlers)
+[GIN-debug] POST   /api/createExpense        --> stock/apps/dashboard/controller.createExpense (6 handlers)
+[GIN-debug] POST   /api/updateExpense        --> stock/apps/dashboard/controller.updateExpense (6 handlers)
+[GIN-debug] GET    /api/getExpenseById       --> stock/apps/dashboard/controller.getExpenseById (6 handlers)
+[GIN-debug] GET    /api/deleteExpenses       --> stock/apps/dashboard/controller.deleteExpenses (6 handlers)
+[GIN-debug] GET    /api/getExpenses          --> stock/apps/dashboard/controller.getExpenses (6 handlers)
+[GIN-debug] POST   /createUser               --> stock/apps/dashboard/controller.createUser (5 handlers)
+[GIN-debug] POST   /api/updateUser           --> stock/apps/dashboard/controller.updateUser (6 handlers)
+[GIN-debug] GET    /api/getUserById          --> stock/apps/dashboard/controller.getUserById (6 handlers)
+[GIN-debug] GET    /api/deleteUsers          --> stock/apps/dashboard/controller.deleteUsers (6 handlers)
+[GIN-debug] GET    /api/getUsers             --> stock/apps/dashboard/controller.getUsers (6 handlers)
+[GIN-debug] POST   /api/createSale           --> stock/apps/dashboard/controller.createSale (6 handlers)
+[GIN-debug] POST   /api/updateSale           --> stock/apps/dashboard/controller.updateSale (6 handlers)
+[GIN-debug] GET    /api/getSaleById          --> stock/apps/dashboard/controller.getSaleById (6 handlers)
+[GIN-debug] GET    /api/deleteSales          --> stock/apps/dashboard/controller.deleteSales (6 handlers)
+[GIN-debug] GET    /api/getSales             --> stock/apps/dashboard/controller.getSales (6 handlers)
+[GIN-debug] GET    /api/getSaleSummaryReportDaily --> stock/apps/dashboard/controller.getSaleSummaryReportDaily (6 handlers)
+[GIN-debug] GET    /api/getCurrentStockReport --> stock/apps/dashboard/controller.getCurrentStockReport (6 handlers)
+[GIN-debug] GET    /api/retrieveActivityLog  --> stock/apps/dashboard/controller.getActivityLog (6 handlers)
+[GIN-debug] GET    /api/getPaymentReport     --> stock/apps/dashboard/controller.getPaymentReport (6 handlers)
