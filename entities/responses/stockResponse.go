@@ -20,15 +20,15 @@ type StockResponse struct {
 }
 
 type CurrentStockReportItem struct {
-	Id int `json:"id"`
-	Name string `json:"name"`
-	Category string `json:"category"`
-	Qty int	`json:"qty"`
-	PurchasePrice float64 `json:"purchasePrice"`
-	SalePrice float64 `json:"salePrice"`
-	GrossValue float64 `json:"grossValue"`
-	NetValue float64  `json:"netValue"`
-	TotalProfit	float64 `json:"totalProfit"`
+	Id 				int `json:"id"`
+	Name 				string `json:"name"`
+	Category 			string `json:"category"`
+	Qty 				int	`json:"qty"`
+	PurchasePrice 			float64 `json:"purchasePrice"`
+	SalePrice 			float64 `json:"salePrice"`
+	GrossValue 			float64 `json:"grossValue"`
+	NetValue 			float64  `json:"netValue"`
+	TotalProfit			float64 `json:"totalProfit"`
 }
 
 type CurrentStockReportResponse struct {

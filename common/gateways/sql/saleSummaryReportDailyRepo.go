@@ -182,6 +182,8 @@ func (slrp *SaleSummaryReportDailyRepo) SelectSaleSummaryReportDailyItems(timeIn
 		filter += " AND timestamp < " + strconv.FormatInt(int64(timeInterval[1]),10)
 	}
 
+	filter += " ORDER BY timestamp"
+
 	stSelectItems += filter
 
 	LogDebug(stSelectItems)

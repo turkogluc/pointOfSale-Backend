@@ -15,9 +15,10 @@ type PaymentReport struct {
 }
 
 type PaymentList struct {
-	Person	string 	`json:"person"`
-	Amount  float64	`json:"amount"`
+	Person		string 	`json:"person"`
+	Amount  	float64	`json:"amount"`
 	Timestamp	int		`json:"timestamp"`
-	Status	string `json:"status"`
-	Detail	string	`json:"detail"`
+	Status		string `json:"status"`
+	Detail		string	`json:"detail"`
+	Type 		string 	`json:"type"`
 }

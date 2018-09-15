@@ -969,6 +969,7 @@ func (DashboardInteractor) GetPaymentReport(tInterval string) (*PaymentReport,  
 			Timestamp:v.ExpectedDate,
 			Status:v.Status,
 			Detail:v.Summary,
+			Type: "Ödeme",
 		}
 
 		result.ItemsAsObject = append(result.ItemsAsObject,paymentItem)
@@ -1011,6 +1012,7 @@ func (DashboardInteractor) GetPaymentReport(tInterval string) (*PaymentReport,  
 			Timestamp:v.ExpectedDate,
 			Status:v.Status,
 			Detail:"Tahsilat",
+			Type: "Tahsilat",
 		}
 
 		result.ItemsAsObject = append(result.ItemsAsObject,paymentItem)
@@ -1046,6 +1048,7 @@ func (DashboardInteractor) GetPaymentReport(tInterval string) (*PaymentReport,  
 			Timestamp:v.UpdateDate,
 			Status:"Bitti",
 			Detail:v.Name,
+			Type: "Harcama",
 		}
 
 		result.ItemsAsObject = append(result.ItemsAsObject,paymentItem)
@@ -1085,48 +1088,30 @@ func (DashboardInteractor) GetSaleSummaryReportDailyAsExcel(tInterval string) (s
 	for _,i := range items.AsObject.Items{
 
 		p.GrossProfit += i.GrossProfit
-		p.GrossProfits = append(p.GrossProfits, i.GrossProfit)
-
 		p.NetProfit += i.NetProfit
-		p.NetProfits = append(p.NetProfits, i.NetProfit)
-
 		p.SaleCount += i.SaleCount
-		p.SaleCounts = append(p.SaleCounts, i.SaleCount)
-
 		p.ItemCount += i.ItemCount
-		p.ItemCounts = append(p.ItemCounts, i.ItemCount)
-
 		p.CustomerCount += i.CustomerCount
-		p.CustomerCounts = append(p.CustomerCounts, i.CustomerCount)
-
 		p.Discount += i.Discount
-		p.Discounts = append(p.Discounts, i.Discount)
-
 		p.BasketValue += i.BasketValue
-		p.BasketValues = append(p.BasketValues, i.BasketValue)
-
 		p.BasketSize += i.BasketSize
-		p.BasketSizes = append(p.BasketSizes, i.BasketSize)
-
-		p.Timestamps = append(p.Timestamps, i.Timestamp)
 
 	}
 
-
 	fileName := "Sale-Summary-Daily-Report"
-	SaveSaleReportAsExcelFile(p.AsObject.Items,fileName)
+	filePath := "./excelFiles/" + fileName + ".xlsx"
+	SaveSaleReportAsExcelFile(p,fileName)
 
-	return "./excelFiles/" + fileName + ".xlsx",nil
+	return filePath,nil
 }
 
-func (DashboardInteractor) GetCurrentStockReportAsExcel(name,category,orderBy,orderAs string,pageNumber, pageSize int) (*responses.CurrentStockReportResponse,  *ErrorType){
+func (DashboardInteractor) GetCurrentStockReportAsExcel(name,category,orderBy,orderAs string,pageNumber, pageSize int) (string,  *ErrorType){
 
 	p,err := interactors.StockRepo.SelectCurrentStockReport(name,category,orderBy,orderAs,pageNumber, pageSize)
 	if err != nil{
 		LogError(err)
-		return nil,GetError(0)
+		return "",GetError(0)
 	}
-
 	p.Total.Name = "Total"
 	for _,v := range p.Items {
 		p.Total.Qty += v.Qty
@@ -1137,11 +1122,15 @@ func (DashboardInteractor) GetCurrentStockReportAsExcel(name,category,orderBy,or
 		p.Total.TotalProfit += v.TotalProfit
 	}
 
-	return p,nil
+	fileName := "Current-Stock-Report"
+	filePath := "./excelFiles/" + fileName + ".xlsx"
+	SaveCurrentStockReportAsExcelFile(p, fileName)
+
+	return filePath,nil
 }
 
 
-func (DashboardInteractor) GetPaymentReportAsExcel(tInterval string) (*PaymentReport,  *ErrorType){
+func (DashboardInteractor) GetPaymentReportAsExcel(tInterval string) (string,  *ErrorType){
 
 	strInter := strings.Split(tInterval,",")
 	intInter := []int{}
@@ -1174,7 +1163,7 @@ func (DashboardInteractor) GetPaymentReportAsExcel(tInterval string) (*PaymentRe
 	payments,err := interactors.PaymentRepo.SelectPayments(intInter,"","","","",0,0,0)
 	if err != nil {
 		LogError(err)
-		return nil,GetError(0)
+		return "",GetError(0)
 	}
 
 	for _,v := range payments.Items{
@@ -1203,6 +1192,7 @@ func (DashboardInteractor) GetPaymentReportAsExcel(tInterval string) (*PaymentRe
 			Timestamp:v.ExpectedDate,
 			Status:v.Status,
 			Detail:v.Summary,
+			Type: "Ödeme",
 		}
 
 		result.ItemsAsObject = append(result.ItemsAsObject,paymentItem)
@@ -1217,7 +1207,7 @@ func (DashboardInteractor) GetPaymentReportAsExcel(tInterval string) (*PaymentRe
 	receivings,err := interactors.ReceivingRepo.SelectReceivings(intInter,"","","","",0,0,0)
 	if err != nil {
 		LogError(err)
-		return nil,GetError(0)
+		return "",GetError(0)
 	}
 
 	for _,v := range receivings.Items{
@@ -1245,6 +1235,7 @@ func (DashboardInteractor) GetPaymentReportAsExcel(tInterval string) (*PaymentRe
 			Timestamp:v.ExpectedDate,
 			Status:v.Status,
 			Detail:"Tahsilat",
+			Type: "Tahsilat",
 		}
 
 		result.ItemsAsObject = append(result.ItemsAsObject,paymentItem)
@@ -1257,7 +1248,7 @@ func (DashboardInteractor) GetPaymentReportAsExcel(tInterval string) (*PaymentRe
 	expenses,err := interactors.ExpenseRepo.SelectExpenses(intInter,"","","","",0,0,0)
 	if err != nil {
 		LogError(err)
-		return nil,GetError(0)
+		return "",GetError(0)
 	}
 
 	for _,v := range expenses.Items{
@@ -1280,6 +1271,7 @@ func (DashboardInteractor) GetPaymentReportAsExcel(tInterval string) (*PaymentRe
 			Timestamp:v.UpdateDate,
 			Status:"Bitti",
 			Detail:v.Name,
+			Type: "Harcama",
 		}
 
 		result.ItemsAsObject = append(result.ItemsAsObject,paymentItem)
@@ -1291,16 +1283,22 @@ func (DashboardInteractor) GetPaymentReportAsExcel(tInterval string) (*PaymentRe
 
 	result.Expenses = expensesList
 
-	return result,nil
+	fileName := "Payment-Report"
+	filePath := "./excelFiles/" + fileName + ".xlsx"
+	SavePaymentReportAsExcelFile(result, fileName)
+
+	return filePath,nil
 }
 
 
-func SaveSaleReportAsExcelFile(items []*SaleSummaryObjectItem, fileName string) {
+func SaveSaleReportAsExcelFile(saleReport *SaleSummaryReportDaily, fileName string) {
 	file := excelize.NewFile()
 	// Create a new sheet.
 	//index := file.NewSheet("Sheet1")
 	// Set value of a cell.
 	var cols []string
+	cols = append(cols, "No")
+	cols = append(cols, "Tarih")
 	cols = append(cols, "Gross Profit")
 	cols = append(cols, "Net Profit")
 	cols = append(cols, "Sale Count")
@@ -1309,7 +1307,7 @@ func SaveSaleReportAsExcelFile(items []*SaleSummaryObjectItem, fileName string) 
 	cols = append(cols, "Discount")
 	cols = append(cols, "Basket Value")
 	cols = append(cols, "Basket Size")
-	cols = append(cols, "Timestamp")
+
 
 
 	//print titles
@@ -1324,10 +1322,14 @@ func SaveSaleReportAsExcelFile(items []*SaleSummaryObjectItem, fileName string) 
 	//print values
 	colIndex = 'A'
 	rowIndex += 1
-	for k,v := range items {
+	for k,v := range saleReport.AsObject.Items {
 		rowIndex = k + 2
 		colIndex = 'A'
 
+		file.SetCellValue("Sheet1", string(colIndex) + strconv.Itoa(rowIndex),k+1)
+		colIndex++
+		file.SetCellValue("Sheet1", string(colIndex) + strconv.Itoa(rowIndex),time.Unix(int64(v.Timestamp),0).Format("02/01/2006 03:04"))
+		colIndex++
 		file.SetCellValue("Sheet1", string(colIndex) + strconv.Itoa(rowIndex),v.GrossProfit)
 		colIndex++
 		file.SetCellValue("Sheet1", string(colIndex) + strconv.Itoa(rowIndex),v.NetProfit)
@@ -1344,9 +1346,242 @@ func SaveSaleReportAsExcelFile(items []*SaleSummaryObjectItem, fileName string) 
 		colIndex++
 		file.SetCellValue("Sheet1", string(colIndex) + strconv.Itoa(rowIndex),v.BasketSize)
 		colIndex++
-		file.SetCellValue("Sheet1", string(colIndex) + strconv.Itoa(rowIndex),v.Timestamp)
+
+	}
+
+	rowIndex += 1
+	colIndex = 'A'
+
+	file.SetCellValue("Sheet1", string(colIndex) + strconv.Itoa(rowIndex),"Toplam")
+	colIndex++
+	colIndex++
+	file.SetCellValue("Sheet1", string(colIndex) + strconv.Itoa(rowIndex),saleReport.GrossProfit)
+	colIndex++
+	file.SetCellValue("Sheet1", string(colIndex) + strconv.Itoa(rowIndex),saleReport.NetProfit)
+	colIndex++
+	file.SetCellValue("Sheet1", string(colIndex) + strconv.Itoa(rowIndex),saleReport.SaleCount)
+	colIndex++
+	file.SetCellValue("Sheet1", string(colIndex) + strconv.Itoa(rowIndex),saleReport.ItemCount)
+	colIndex++
+	file.SetCellValue("Sheet1", string(colIndex) + strconv.Itoa(rowIndex),saleReport.CustomerCount)
+	colIndex++
+	file.SetCellValue("Sheet1", string(colIndex) + strconv.Itoa(rowIndex),saleReport.Discount)
+	colIndex++
+	file.SetCellValue("Sheet1", string(colIndex) + strconv.Itoa(rowIndex),saleReport.BasketValue)
+	colIndex++
+	file.SetCellValue("Sheet1", string(colIndex) + strconv.Itoa(rowIndex),saleReport.BasketSize)
+	colIndex++
+
+	rowIndex += 1
+	colIndex = 'A'
+
+	file.SetCellValue("Sheet1", string(colIndex) + strconv.Itoa(rowIndex),"Ortalama")
+	colIndex++
+	colIndex++
+	file.SetCellValue("Sheet1", string(colIndex) + strconv.Itoa(rowIndex),saleReport.GrossProfit/float64(saleReport.AsObject.Count))
+	colIndex++
+	file.SetCellValue("Sheet1", string(colIndex) + strconv.Itoa(rowIndex),saleReport.NetProfit/float64(saleReport.AsObject.Count))
+	colIndex++
+	file.SetCellValue("Sheet1", string(colIndex) + strconv.Itoa(rowIndex),saleReport.SaleCount/saleReport.AsObject.Count)
+	colIndex++
+	file.SetCellValue("Sheet1", string(colIndex) + strconv.Itoa(rowIndex),saleReport.ItemCount/saleReport.AsObject.Count)
+	colIndex++
+	file.SetCellValue("Sheet1", string(colIndex) + strconv.Itoa(rowIndex),saleReport.CustomerCount/saleReport.AsObject.Count)
+	colIndex++
+	file.SetCellValue("Sheet1", string(colIndex) + strconv.Itoa(rowIndex),saleReport.Discount/float64(saleReport.AsObject.Count))
+	colIndex++
+	file.SetCellValue("Sheet1", string(colIndex) + strconv.Itoa(rowIndex),saleReport.BasketValue/float64(saleReport.AsObject.Count))
+	colIndex++
+	file.SetCellValue("Sheet1", string(colIndex) + strconv.Itoa(rowIndex),saleReport.BasketSize/float64(saleReport.AsObject.Count))
+	colIndex++
+
+
+	err := file.SaveAs("./excelFiles/" + fileName + ".xlsx")
+	if err != nil {
+		fmt.Println(err)
+	}
+}
+
+func SaveCurrentStockReportAsExcelFile(stockReport *responses.CurrentStockReportResponse, fileName string) {
+	file := excelize.NewFile()
+	// Create a new sheet.
+	//index := file.NewSheet("Sheet1")
+	// Set value of a cell.
+	var cols []string
+	cols = append(cols, "No")
+	cols = append(cols, "Name")
+	cols = append(cols, "Category")
+	cols = append(cols, "Qty")
+	cols = append(cols, "Purchase Price")
+	cols = append(cols, "Sale Price")
+	cols = append(cols, "Gross Value")
+	cols = append(cols, "Net Value")
+	cols = append(cols, "Total Profit")
+
+
+	//print titles
+	rowIndex := 1
+	colIndex := 'A'
+	for j:=0; j < len(cols); j++ {
+
+		file.SetCellValue("Sheet1", string(colIndex) + strconv.Itoa(rowIndex), cols[j])
 		colIndex++
 	}
+
+	//print values
+	colIndex = 'A'
+	rowIndex += 1
+
+	for k,v := range stockReport.Items{
+		rowIndex = k + 2
+		colIndex = 'A'
+
+		file.SetCellValue("Sheet1", string(colIndex) + strconv.Itoa(rowIndex),k+1)
+		colIndex++
+		file.SetCellValue("Sheet1", string(colIndex) + strconv.Itoa(rowIndex),v.Name)
+		colIndex++
+		file.SetCellValue("Sheet1", string(colIndex) + strconv.Itoa(rowIndex),v.Category)
+		colIndex++
+		file.SetCellValue("Sheet1", string(colIndex) + strconv.Itoa(rowIndex),v.Qty)
+		colIndex++
+		file.SetCellValue("Sheet1", string(colIndex) + strconv.Itoa(rowIndex),v.PurchasePrice)
+		colIndex++
+		file.SetCellValue("Sheet1", string(colIndex) + strconv.Itoa(rowIndex),v.SalePrice)
+		colIndex++
+		file.SetCellValue("Sheet1", string(colIndex) + strconv.Itoa(rowIndex),v.GrossValue)
+		colIndex++
+		file.SetCellValue("Sheet1", string(colIndex) + strconv.Itoa(rowIndex),v.NetValue)
+		colIndex++
+		file.SetCellValue("Sheet1", string(colIndex) + strconv.Itoa(rowIndex),v.TotalProfit)
+		colIndex++
+
+	}
+
+	rowIndex += 1
+	colIndex = 'A'
+
+	file.SetCellValue("Sheet1", string(colIndex) + strconv.Itoa(rowIndex),"Total")
+	colIndex++
+	file.SetCellValue("Sheet1", string(colIndex) + strconv.Itoa(rowIndex),stockReport.Total.Name)
+	colIndex++
+	file.SetCellValue("Sheet1", string(colIndex) + strconv.Itoa(rowIndex),stockReport.Total.Category)
+	colIndex++
+	file.SetCellValue("Sheet1", string(colIndex) + strconv.Itoa(rowIndex),stockReport.Total.Qty)
+	colIndex++
+	file.SetCellValue("Sheet1", string(colIndex) + strconv.Itoa(rowIndex),stockReport.Total.PurchasePrice)
+	colIndex++
+	file.SetCellValue("Sheet1", string(colIndex) + strconv.Itoa(rowIndex),stockReport.Total.SalePrice)
+	colIndex++
+	file.SetCellValue("Sheet1", string(colIndex) + strconv.Itoa(rowIndex),stockReport.Total.GrossValue)
+	colIndex++
+	file.SetCellValue("Sheet1", string(colIndex) + strconv.Itoa(rowIndex),stockReport.Total.NetValue)
+	colIndex++
+	file.SetCellValue("Sheet1", string(colIndex) + strconv.Itoa(rowIndex),stockReport.Total.TotalProfit)
+	colIndex++
+
+	err := file.SaveAs("./excelFiles/" + fileName + ".xlsx")
+	if err != nil {
+		fmt.Println(err)
+	}
+}
+
+func SavePaymentReportAsExcelFile(paymentReport *PaymentReport, fileName string) {
+	file := excelize.NewFile()
+	// Create a new sheet.
+	//index := file.NewSheet("Sheet1")
+	// Set value of a cell.
+	var cols []string
+	cols = append(cols, "No")
+	cols = append(cols, "Timestamp")
+	cols = append(cols, "Person")
+	cols = append(cols, "Amount")
+	cols = append(cols, "Status")
+	cols = append(cols, "Detail")
+	cols = append(cols, "Type")
+
+
+
+	//print titles
+	rowIndex := 1
+	colIndex := 'A'
+	for j:=0; j < len(cols); j++ {
+
+		file.SetCellValue("Sheet1", string(colIndex) + strconv.Itoa(rowIndex), cols[j])
+		colIndex++
+	}
+
+	//print values
+	colIndex = 'A'
+	rowIndex += 1
+
+	for k,v := range paymentReport.ItemsAsObject{
+		rowIndex = k + 2
+		colIndex = 'A'
+
+		file.SetCellValue("Sheet1", string(colIndex) + strconv.Itoa(rowIndex),k+1)
+		colIndex++
+		file.SetCellValue("Sheet1", string(colIndex) + strconv.Itoa(rowIndex),time.Unix(int64(v.Timestamp),0).Format("02/01/2006 03:04"))
+		colIndex++
+		file.SetCellValue("Sheet1", string(colIndex) + strconv.Itoa(rowIndex),v.Person)
+		colIndex++
+		file.SetCellValue("Sheet1", string(colIndex) + strconv.Itoa(rowIndex),v.Amount)
+		colIndex++
+		file.SetCellValue("Sheet1", string(colIndex) + strconv.Itoa(rowIndex),v.Status)
+		colIndex++
+		file.SetCellValue("Sheet1", string(colIndex) + strconv.Itoa(rowIndex),v.Detail)
+		colIndex++
+		file.SetCellValue("Sheet1", string(colIndex) + strconv.Itoa(rowIndex),v.Type)
+		colIndex++
+
+	}
+
+	rowIndex += 2
+	colIndex = 'A'
+
+	file.SetCellValue("Sheet1", string(colIndex) + strconv.Itoa(rowIndex),"Özet")
+	colIndex++
+	file.SetCellValue("Sheet1", string(colIndex) + strconv.Itoa(rowIndex),"-")
+	colIndex++
+	file.SetCellValue("Sheet1", string(colIndex) + strconv.Itoa(rowIndex),"Harcamalar Toplamı")
+	colIndex++
+	file.SetCellValue("Sheet1", string(colIndex) + strconv.Itoa(rowIndex),paymentReport.TotalExpenses)
+	colIndex++
+
+	rowIndex += 1
+	colIndex = 'A'
+
+	file.SetCellValue("Sheet1", string(colIndex) + strconv.Itoa(rowIndex),"Özet")
+	colIndex++
+	file.SetCellValue("Sheet1", string(colIndex) + strconv.Itoa(rowIndex),"-")
+	colIndex++
+	file.SetCellValue("Sheet1", string(colIndex) + strconv.Itoa(rowIndex),"Ödemeler Toplamı")
+	colIndex++
+	file.SetCellValue("Sheet1", string(colIndex) + strconv.Itoa(rowIndex),paymentReport.TotalPayments)
+	colIndex++
+
+	rowIndex += 1
+	colIndex = 'A'
+
+	file.SetCellValue("Sheet1", string(colIndex) + strconv.Itoa(rowIndex),"Özet")
+	colIndex++
+	file.SetCellValue("Sheet1", string(colIndex) + strconv.Itoa(rowIndex),"+")
+	colIndex++
+	file.SetCellValue("Sheet1", string(colIndex) + strconv.Itoa(rowIndex),"Tahsilat Toplamı")
+	colIndex++
+	file.SetCellValue("Sheet1", string(colIndex) + strconv.Itoa(rowIndex),paymentReport.TotalReceivings)
+	colIndex++
+
+	rowIndex += 1
+	colIndex = 'A'
+
+	file.SetCellValue("Sheet1", string(colIndex) + strconv.Itoa(rowIndex),"Özet")
+	colIndex++
+	file.SetCellValue("Sheet1", string(colIndex) + strconv.Itoa(rowIndex),"₺")
+	colIndex++
+	file.SetCellValue("Sheet1", string(colIndex) + strconv.Itoa(rowIndex),"Net Toplam")
+	colIndex++
+	file.SetCellValue("Sheet1", string(colIndex) + strconv.Itoa(rowIndex),paymentReport.TotalReceivings - paymentReport.TotalPayments - paymentReport.TotalExpenses)
+	colIndex++
 
 
 	err := file.SaveAs("./excelFiles/" + fileName + ".xlsx")

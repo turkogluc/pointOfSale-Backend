@@ -969,7 +969,7 @@ func getSaleSummaryReportDailyAsExcel (c *gin.Context){
 		c.JSON(200, generateFailResponse(err))
 		return
 	}
-	
+
 	println("file:",fileName)
 	c.Header("Content-Transfer-Encoding", "binary")
 	c.Header("Content-Disposition", `attachment; filename=excelFile.xlsx` )
@@ -989,13 +989,17 @@ func getCurrentStockReportAsExcel(c *gin.Context){
 	orderBy := c.Query("orderBy")
 	orderAs := c.Query("orderAs")
 
-	p, err := UseCase.GetCurrentStockReportAsExcel(name,category,orderBy,orderAs,pageNumber, pageSize)
+	fileName, err := UseCase.GetCurrentStockReportAsExcel(name,category,orderBy,orderAs,pageNumber, pageSize)
 	if err != nil{
 		c.JSON(200, generateFailResponse(err))
 		return
 	}
 
-	c.JSON(200, generateSuccessResponse(p))
+	println("file:",fileName)
+	c.Header("Content-Transfer-Encoding", "binary")
+	c.Header("Content-Disposition", `attachment; filename=excelFile.xlsx` )
+	c.Header("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+	c.File(fileName)
 }
 
 
@@ -1003,13 +1007,17 @@ func getPaymentReportAsExcel (c *gin.Context){
 
 	tInterval := c.Query("timeInterval")
 
-	p, err := UseCase.GetPaymentReportAsExcel(tInterval)
+	fileName, err := UseCase.GetPaymentReportAsExcel(tInterval)
 	if err != nil{
 		c.JSON(200, generateFailResponse(err))
 		return
 	}
 
-	c.JSON(200, generateSuccessResponse(p))
+	println("file:",fileName)
+	c.Header("Content-Transfer-Encoding", "binary")
+	c.Header("Content-Disposition", `attachment; filename=excelFile.xlsx` )
+	c.Header("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+	c.File(fileName)
 }
 
 
