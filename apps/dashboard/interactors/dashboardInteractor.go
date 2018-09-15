@@ -672,21 +672,47 @@ func (DashboardInteractor) GetSaleSummaryReportDaily(tInterval string) (*SaleSum
 		intInter = append(intInter,i)
 	}
 
-	p,err := interactors.SaleSummaryReportDailyRepo.SelectSaleSummaryReportDaily(intInter)
+	p := &SaleSummaryReportDaily{}
+
+	items,err := interactors.SaleSummaryReportDailyRepo.SelectSaleSummaryReportDailyItems(intInter)
 	if err != nil{
 		LogError(err)
 		return nil,GetError(0)
 	}
 
-	//receivings,err := interactors.ReceivingRepo.SelectReceivings(intInter,"","","","",0,0,0)
-	//if err != nil{
-	//	LogError(err)
-	//	return nil,GetError(0)
-	//}
-	//
-	//for _,v := range receivings.Items{
-	//	p.Receivings = append(p.Receivings,v.Amount)
-	//}
+	p.AsObject = items.AsObject
+
+	for _,i := range items.AsObject.Items{
+
+		p.GrossProfit += i.GrossProfit
+		p.GrossProfits = append(p.GrossProfits, i.GrossProfit)
+
+		p.NetProfit += i.NetProfit
+		p.NetProfits = append(p.NetProfits, i.NetProfit)
+
+		p.SaleCount += i.SaleCount
+		p.SaleCounts = append(p.SaleCounts, i.SaleCount)
+
+		p.ItemCount += i.ItemCount
+		p.ItemCounts = append(p.ItemCounts, i.ItemCount)
+
+		p.CustomerCount += i.CustomerCount
+		p.CustomerCounts = append(p.CustomerCounts, i.CustomerCount)
+
+		p.Discount += i.Discount
+		p.Discounts = append(p.Discounts, i.Discount)
+
+		p.BasketValue += i.BasketValue
+		p.BasketValues = append(p.BasketValues, i.BasketValue)
+
+		p.BasketSize += i.BasketSize
+		p.BasketSizes = append(p.BasketSizes, i.BasketSize)
+
+		p.Timestamps = append(p.Timestamps, i.Timestamp)
+
+
+	}
+
 
 	return p,nil
 }
@@ -1033,7 +1059,301 @@ func (DashboardInteractor) GetPaymentReport(tInterval string) (*PaymentReport,  
 
 	return result,nil
 }
+// ########################################################################
 
+// # Reports To Excel
+
+func (DashboardInteractor) GetSaleSummaryReportDailyAsExcel(tInterval string) (string,  *ErrorType){
+
+	strInter := strings.Split(tInterval,",")
+	intInter := []int{}
+	for _,str := range strInter{
+		i,_ := strconv.Atoi(str)
+		intInter = append(intInter,i)
+	}
+
+	p := &SaleSummaryReportDaily{}
+
+	items,err := interactors.SaleSummaryReportDailyRepo.SelectSaleSummaryReportDailyItems(intInter)
+	if err != nil{
+		LogError(err)
+		return "",GetError(0)
+	}
+
+	p.AsObject = items.AsObject
+
+	for _,i := range items.AsObject.Items{
+
+		p.GrossProfit += i.GrossProfit
+		p.GrossProfits = append(p.GrossProfits, i.GrossProfit)
+
+		p.NetProfit += i.NetProfit
+		p.NetProfits = append(p.NetProfits, i.NetProfit)
+
+		p.SaleCount += i.SaleCount
+		p.SaleCounts = append(p.SaleCounts, i.SaleCount)
+
+		p.ItemCount += i.ItemCount
+		p.ItemCounts = append(p.ItemCounts, i.ItemCount)
+
+		p.CustomerCount += i.CustomerCount
+		p.CustomerCounts = append(p.CustomerCounts, i.CustomerCount)
+
+		p.Discount += i.Discount
+		p.Discounts = append(p.Discounts, i.Discount)
+
+		p.BasketValue += i.BasketValue
+		p.BasketValues = append(p.BasketValues, i.BasketValue)
+
+		p.BasketSize += i.BasketSize
+		p.BasketSizes = append(p.BasketSizes, i.BasketSize)
+
+		p.Timestamps = append(p.Timestamps, i.Timestamp)
+
+	}
+
+
+	fileName := "Sale-Summary-Daily-Report"
+	SaveSaleReportAsExcelFile(p.AsObject.Items,fileName)
+
+	return "./excelFiles/" + fileName + ".xlsx",nil
+}
+
+func (DashboardInteractor) GetCurrentStockReportAsExcel(name,category,orderBy,orderAs string,pageNumber, pageSize int) (*responses.CurrentStockReportResponse,  *ErrorType){
+
+	p,err := interactors.StockRepo.SelectCurrentStockReport(name,category,orderBy,orderAs,pageNumber, pageSize)
+	if err != nil{
+		LogError(err)
+		return nil,GetError(0)
+	}
+
+	p.Total.Name = "Total"
+	for _,v := range p.Items {
+		p.Total.Qty += v.Qty
+		p.Total.PurchasePrice += v.PurchasePrice
+		p.Total.SalePrice += v.SalePrice
+		p.Total.GrossValue += v.GrossValue
+		p.Total.NetValue += v.NetValue
+		p.Total.TotalProfit += v.TotalProfit
+	}
+
+	return p,nil
+}
+
+
+func (DashboardInteractor) GetPaymentReportAsExcel(tInterval string) (*PaymentReport,  *ErrorType){
+
+	strInter := strings.Split(tInterval,",")
+	intInter := []int{}
+	for _,str := range strInter{
+		i,_ := strconv.Atoi(str)
+		intInter = append(intInter,i)
+	}
+
+	var timestamp []string
+	firstDay := intInter[0]
+	lastDay := intInter[1]
+
+	firstDayTimeFormat := time.Unix(int64(firstDay),0)
+	//lastDayTimeFormat := time.Unix(int64(lastDay),0)
+
+	for timeIterator:= firstDayTimeFormat ; timeIterator.Unix() < int64(lastDay) ; {
+		timeIteratorStr := timeIterator.Format("02/01") // DD/MM format
+		timestamp = append(timestamp,timeIteratorStr)
+		timeIterator = timeIterator.Add(24 *time.Hour)
+	}
+
+	result := &PaymentReport{}
+	result.Timestamps = timestamp
+
+	paymentsList := make([]float64, len(timestamp))
+	expensesList := make([]float64, len(timestamp))
+	receivingsList := make([]float64, len(timestamp))
+
+	// # check payments
+	payments,err := interactors.PaymentRepo.SelectPayments(intInter,"","","","",0,0,0)
+	if err != nil {
+		LogError(err)
+		return nil,GetError(0)
+	}
+
+	for _,v := range payments.Items{
+
+		if v.Status == "Bitti"{
+
+			// find the index number
+			expectedTimeStr := time.Unix(int64(v.ExpectedDate),0).Format("02/01")
+			var index int
+			for k,v := range timestamp {
+				if v == expectedTimeStr{
+					index = k
+				}
+			}
+
+			result.TotalPayments += v.Amount
+			paymentsList[index] += v.Amount
+
+		}else if v.Status == "Gecikmiş" {
+			result.OverduePayments += 1
+		}
+
+		paymentItem := &PaymentList{
+			Person:v.PersonName,
+			Amount:v.Amount,
+			Timestamp:v.ExpectedDate,
+			Status:v.Status,
+			Detail:v.Summary,
+		}
+
+		result.ItemsAsObject = append(result.ItemsAsObject,paymentItem)
+
+	}
+
+	//result.Payments = append(result.Payments,paymentsList...)
+	result.Payments = paymentsList
+
+
+	// # Receivings
+	receivings,err := interactors.ReceivingRepo.SelectReceivings(intInter,"","","","",0,0,0)
+	if err != nil {
+		LogError(err)
+		return nil,GetError(0)
+	}
+
+	for _,v := range receivings.Items{
+
+		if v.Status == "Bitti"{
+			// find the index number
+			expectedTimeStr := time.Unix(int64(v.ExpectedDate),0).Format("02/01")
+			var index2 int
+			for k,v := range timestamp {
+				if v == expectedTimeStr{
+					index2 = k
+				}
+			}
+
+			result.TotalReceivings += v.Amount
+			receivingsList[index2] += v.Amount
+
+		}else if v.Status == "Gecikmiş" {
+			result.OverdueReceivings += 1
+		}
+
+		paymentItem := &PaymentList{
+			Person:v.PersonName,
+			Amount:v.Amount,
+			Timestamp:v.ExpectedDate,
+			Status:v.Status,
+			Detail:"Tahsilat",
+		}
+
+		result.ItemsAsObject = append(result.ItemsAsObject,paymentItem)
+	}
+
+	result.Receivings = receivingsList
+
+
+	// # expenses
+	expenses,err := interactors.ExpenseRepo.SelectExpenses(intInter,"","","","",0,0,0)
+	if err != nil {
+		LogError(err)
+		return nil,GetError(0)
+	}
+
+	for _,v := range expenses.Items{
+
+		// find the index number
+		expectedTimeStr := time.Unix(int64(v.UpdateDate),0).Format("02/01")
+		var index3 int
+		for k,v := range timestamp {
+			if v == expectedTimeStr{
+				index3 = k
+			}
+		}
+
+		result.TotalExpenses += v.Price
+		expensesList[index3] += v.Price
+
+		paymentItem := &PaymentList{
+			Person:v.UserName,
+			Amount:v.Price,
+			Timestamp:v.UpdateDate,
+			Status:"Bitti",
+			Detail:v.Name,
+		}
+
+		result.ItemsAsObject = append(result.ItemsAsObject,paymentItem)
+	}
+
+	sort.Slice(result.ItemsAsObject, func(i, j int) bool {
+		return result.ItemsAsObject[i].Timestamp < result.ItemsAsObject[j].Timestamp
+	})
+
+	result.Expenses = expensesList
+
+	return result,nil
+}
+
+
+func SaveSaleReportAsExcelFile(items []*SaleSummaryObjectItem, fileName string) {
+	file := excelize.NewFile()
+	// Create a new sheet.
+	//index := file.NewSheet("Sheet1")
+	// Set value of a cell.
+	var cols []string
+	cols = append(cols, "Gross Profit")
+	cols = append(cols, "Net Profit")
+	cols = append(cols, "Sale Count")
+	cols = append(cols, "Item Count")
+	cols = append(cols, "Customer Count")
+	cols = append(cols, "Discount")
+	cols = append(cols, "Basket Value")
+	cols = append(cols, "Basket Size")
+	cols = append(cols, "Timestamp")
+
+
+	//print titles
+	rowIndex := 1
+	colIndex := 'A'
+	for j:=0; j < len(cols); j++ {
+
+		file.SetCellValue("Sheet1", string(colIndex) + strconv.Itoa(rowIndex), cols[j])
+		colIndex++
+	}
+
+	//print values
+	colIndex = 'A'
+	rowIndex += 1
+	for k,v := range items {
+		rowIndex = k + 2
+		colIndex = 'A'
+
+		file.SetCellValue("Sheet1", string(colIndex) + strconv.Itoa(rowIndex),v.GrossProfit)
+		colIndex++
+		file.SetCellValue("Sheet1", string(colIndex) + strconv.Itoa(rowIndex),v.NetProfit)
+		colIndex++
+		file.SetCellValue("Sheet1", string(colIndex) + strconv.Itoa(rowIndex),v.SaleCount)
+		colIndex++
+		file.SetCellValue("Sheet1", string(colIndex) + strconv.Itoa(rowIndex),v.ItemCount)
+		colIndex++
+		file.SetCellValue("Sheet1", string(colIndex) + strconv.Itoa(rowIndex),v.CustomerCount)
+		colIndex++
+		file.SetCellValue("Sheet1", string(colIndex) + strconv.Itoa(rowIndex),v.Discount)
+		colIndex++
+		file.SetCellValue("Sheet1", string(colIndex) + strconv.Itoa(rowIndex),v.BasketValue)
+		colIndex++
+		file.SetCellValue("Sheet1", string(colIndex) + strconv.Itoa(rowIndex),v.BasketSize)
+		colIndex++
+		file.SetCellValue("Sheet1", string(colIndex) + strconv.Itoa(rowIndex),v.Timestamp)
+		colIndex++
+	}
+
+
+	err := file.SaveAs("./excelFiles/" + fileName + ".xlsx")
+	if err != nil {
+		fmt.Println(err)
+	}
+}
 
 // #########################################################################
 

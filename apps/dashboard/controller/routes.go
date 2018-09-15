@@ -75,6 +75,12 @@ func InitRoutes(public,private *gin.RouterGroup) {
 	private.GET("retrieveActivityLog",getActivityLog)
 	private.GET("getPaymentReport",getPaymentReport)
 
+	// # Excel Reports #
+
+	private.GET("getSaleSummaryReportDailyAsExcel",getSaleSummaryReportDailyAsExcel)
+	private.GET("getCurrentStockReportAsExcel",getCurrentStockReportAsExcel)
+	private.GET("getPaymentReportAsExcel",getPaymentReportAsExcel)
+
 }
 
 func handleGetMe(c *gin.Context){
@@ -942,6 +948,62 @@ func getPaymentReport (c *gin.Context){
 	tInterval := c.Query("timeInterval")
 
 	p, err := UseCase.GetPaymentReport(tInterval)
+	if err != nil{
+		c.JSON(200, generateFailResponse(err))
+		return
+	}
+
+	c.JSON(200, generateSuccessResponse(p))
+}
+
+
+// # reports to excel #
+
+func getSaleSummaryReportDailyAsExcel (c *gin.Context){
+
+
+	tInterval := c.Query("timeInterval")
+
+	fileName, err := UseCase.GetSaleSummaryReportDailyAsExcel(tInterval)
+	if err != nil{
+		c.JSON(200, generateFailResponse(err))
+		return
+	}
+	
+	println("file:",fileName)
+	c.Header("Content-Transfer-Encoding", "binary")
+	c.Header("Content-Disposition", `attachment; filename=excelFile.xlsx` )
+	c.Header("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+	c.File(fileName)
+}
+
+func getCurrentStockReportAsExcel(c *gin.Context){
+
+	//barcode := c.Query("barcode")
+	name := c.Query("name")
+	category := c.Query("category")
+
+	pageNumber,_ := strconv.Atoi(c.Query("pageNumber"))
+	pageSize,_ := strconv.Atoi(c.Query("pageSize"))
+
+	orderBy := c.Query("orderBy")
+	orderAs := c.Query("orderAs")
+
+	p, err := UseCase.GetCurrentStockReportAsExcel(name,category,orderBy,orderAs,pageNumber, pageSize)
+	if err != nil{
+		c.JSON(200, generateFailResponse(err))
+		return
+	}
+
+	c.JSON(200, generateSuccessResponse(p))
+}
+
+
+func getPaymentReportAsExcel (c *gin.Context){
+
+	tInterval := c.Query("timeInterval")
+
+	p, err := UseCase.GetPaymentReportAsExcel(tInterval)
 	if err != nil{
 		c.JSON(200, generateFailResponse(err))
 		return

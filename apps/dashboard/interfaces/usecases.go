@@ -64,6 +64,13 @@ type DashboardUseCases interface {
 	GetActivityLog(tInterval string,userId int)(*ActivityLogs,*ErrorType)
 	GetPaymentReport(tInterval string) (*PaymentReport,  *ErrorType)
 
+
+	// # Reports As Excel#
+
+	GetSaleSummaryReportDailyAsExcel(tInterval string) (string,  *ErrorType)
+	GetCurrentStockReportAsExcel(name,category,orderBy,orderAs string,pageNumber, pageSize int) (*responses.CurrentStockReportResponse,  *ErrorType)
+	GetPaymentReportAsExcel(tInterval string) (*PaymentReport,  *ErrorType)
+
 	// # Util #
 
 	Login(email, password string, secret string) (*User, string, *ErrorType)

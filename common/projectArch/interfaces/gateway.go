@@ -107,6 +107,6 @@ type SaleSummaryReportDailyGateway interface {
 	UpdateSaleSummaryReportDailyById(p *SaleSummaryReportDaily, IdToUpdate int)(error)
 	DeleteSaleSummaryReportDailyById(Id int)(error)
 	DeleteSaleSummaryReportDaily(ids []int)(error)
-	SelectSaleSummaryReportDaily(timeInterval []int) (*SaleSummaryReportDaily,  error)
+	SelectSaleSummaryReportDailyItems(timeInterval []int) (*SaleSummaryReportDaily,  error)
 	Close()
 }

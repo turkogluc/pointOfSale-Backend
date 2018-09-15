@@ -157,7 +157,8 @@ func (slrp *SaleSummaryReportDailyRepo) DeleteSaleSummaryReportDaily(ids []int)(
 	return nil
 }
 
-func (slrp *SaleSummaryReportDailyRepo) SelectSaleSummaryReportDaily(timeInterval []int) (*SaleSummaryReportDaily,  error) {
+
+func (slrp *SaleSummaryReportDailyRepo) SelectSaleSummaryReportDailyItems(timeInterval []int) (*SaleSummaryReportDaily,  error) {
 
 	var timeAvail bool
 	objectItems := []*SaleSummaryObjectItem{}
@@ -166,13 +167,10 @@ func (slrp *SaleSummaryReportDailyRepo) SelectSaleSummaryReportDaily(timeInterva
 		timeAvail = true
 	}
 
-	stSelectSum := `SELECT SUM(gross_profit),SUM(net_profit),SUM(sale_count),SUM(item_count),SUM(customer_count),SUM(discount),SUM(basket_value),SUM(basket_size) 
+
+	stSelectItems := `SELECT gross_profit,net_profit,sale_count,item_count,customer_count,discount,basket_value,basket_size,timestamp
 						FROM %s.sale_summary_report_daily`
 
-	stSelectItems := `SELECT gross_profit,net_profit,sale_count,item_count,customer_count,discount,basket_value,basket_size,timestamp 
-						FROM %s.sale_summary_report_daily`
-
-	stSelectSum = s(stSelectSum)
 	stSelectItems = s(stSelectItems)
 
 	filter := ``
@@ -184,27 +182,10 @@ func (slrp *SaleSummaryReportDailyRepo) SelectSaleSummaryReportDaily(timeInterva
 		filter += " AND timestamp < " + strconv.FormatInt(int64(timeInterval[1]),10)
 	}
 
-	stSelectSum += filter
 	stSelectItems += filter
 
-	LogDebug(stSelectSum)
 	LogDebug(stSelectItems)
 
-	qSelectSum, err := DB.Prepare(stSelectSum)
-	defer qSelectSum.Close()
-
-	if err != nil{
-		LogError(err)
-		return nil, err
-	}
-
-	p := &SaleSummaryReportDaily{}
-	row := qSelectSum.QueryRow()
-	err = row.Scan(&p.GrossProfit,&p.NetProfit,&p.SaleCount,&p.ItemCount,&p.CustomerCount,&p.Discount,&p.BasketValue,&p.BasketSize)
-	if err != nil{
-		LogError(err)
-		return nil, err
-	}
 
 	qSelectItems, err := DB.Prepare(stSelectItems)
 	defer qSelectItems.Close()
@@ -213,11 +194,14 @@ func (slrp *SaleSummaryReportDailyRepo) SelectSaleSummaryReportDaily(timeInterva
 		LogError(err)
 		return nil, err
 	}
+
 	rows, err := qSelectItems.Query()
 	if err != nil{
 		LogError(err)
 		return nil, err
 	}
+
+	p := &SaleSummaryReportDaily{}
 
 	for rows.Next(){
 		var gp,np,dis,bv,bs float64
@@ -228,15 +212,6 @@ func (slrp *SaleSummaryReportDailyRepo) SelectSaleSummaryReportDaily(timeInterva
 		if err != nil {
 			LogError(err)
 		}
-		p.GrossProfits = append(p.GrossProfits, gp)
-		p.NetProfits = append(p.NetProfits, np)
-		p.SaleCounts = append(p.SaleCounts, sc)
-		p.ItemCounts = append(p.ItemCounts, ic)
-		p.CustomerCounts = append(p.CustomerCounts, cc)
-		p.Discounts = append(p.Discounts, dis)
-		p.BasketValues = append(p.BasketValues, bv)
-		p.BasketSizes = append(p.BasketSizes, bs)
-		p.Timestamps = append(p.Timestamps, ts)
 
 		obj := &SaleSummaryObjectItem{
 			GrossProfit:gp,
