@@ -63,6 +63,7 @@ type DashboardUseCases interface {
 	GetCurrentStockReport(name,category,orderBy,orderAs string,pageNumber, pageSize int) (*responses.CurrentStockReportResponse,  *ErrorType)
 	GetActivityLog(tInterval string,userId int)(*ActivityLogs,*ErrorType)
 	GetPaymentReport(tInterval string) (*PaymentReport,  *ErrorType)
+	GetProductReport(tInterval string,productName string,category string,userId int) (*ProductReport,  *ErrorType)
 
 
 	// # Reports As Excel#

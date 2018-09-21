@@ -26,6 +26,9 @@ const stTableStock = `CREATE TABLE IF NOT EXISTS %s.stock (
 const stSelectStockById = `SELECT * FROM %s.stock
 									 WHERE id=?`
 
+const stSelectStockByProductId = `SELECT * FROM %s.stock
+									 WHERE product_id=?`
+
 const stInsertStock = `INSERT INTO %s.stock (product_id,qty,dealer_id,creation_date,update_date,user_id)
 							VALUES (?,?,?,?,?,?)`
 
@@ -40,7 +43,7 @@ const stDeleteStockById = `DELETE FROM %s.stock WHERE id=?`
 type StockRepo struct {}
 
 var st *StockRepo
-var qSelectStockById,qInsertStock,qUpdateStockById,qDecrementProductFromStock,qDeleteStockById *sql.Stmt
+var qSelectStockById,qInsertStock,qSelectStockByProductId,qUpdateStockById,qDecrementProductFromStock,qDeleteStockById *sql.Stmt
 
 func GetStockRepo() *StockRepo{
 	if st == nil {
@@ -52,6 +55,11 @@ func GetStockRepo() *StockRepo{
 		}
 
 		qSelectStockById, err = DB.Prepare(s(stSelectStockById))
+		if err != nil {
+			LogError(err)
+		}
+
+		qSelectStockByProductId, err = DB.Prepare(s(stSelectStockByProductId))
 		if err != nil {
 			LogError(err)
 		}
@@ -83,6 +91,17 @@ func GetStockRepo() *StockRepo{
 func (st *StockRepo) SelectStockById(id int)(*Stock,error){
 	p := &Stock{}
 	row := qSelectStockById.QueryRow(id)
+	err := row.Scan(&p.Id,&p.ProductId,&p.Qty,&p.DealerId,&p.CreationDate,&p.UpdateDate,&p.UserId)
+	if err != nil{
+		LogError(err)
+		return nil, err
+	}
+	return p,nil
+}
+
+func (st *StockRepo) SelectStockByProductId(productId int)(*Stock,error){
+	p := &Stock{}
+	row := qSelectStockByProductId.QueryRow(productId)
 	err := row.Scan(&p.Id,&p.ProductId,&p.Qty,&p.DealerId,&p.CreationDate,&p.UpdateDate,&p.UserId)
 	if err != nil{
 		LogError(err)

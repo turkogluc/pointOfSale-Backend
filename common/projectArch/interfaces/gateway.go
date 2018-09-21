@@ -20,6 +20,7 @@ type ProductGateway interface {
 
 type StockGateway interface {
 	SelectStockById(id int)(*Stock,error)
+	SelectStockByProductId(productId int)(*Stock,error)
 	SelectStocks(timeInterval []int,barcode,name,description,category,orderBy,orderAs string,pageNumber, pageSize,dealerId int,creatorId int) (*responses.StockResponse,  error)
 	SelectCurrentStockReport(name,category,orderBy,orderAs string,pageNumber, pageSize int) (*responses.CurrentStockReportResponse,  error)
 	InsertStock(p *Stock)(error)
@@ -99,7 +100,7 @@ type SaleDetailGateway interface {
 	UpdateSaleDetailById(p *SaleDetail, IdToUpdate int)(error)
 	DeleteSaleDetailById(Id int)(error)
 	DeleteSaleDetails(ids []int)(error)
-	SelectSaleDetails(timeInterval []int,productId, userId int,orderBy,orderAs string,pageNumber, pageSize int)
+	SelectSaleDetails(timeInterval []int,productName string,category string, userId int)(*ProductReport,error)
 }
 
 type SaleSummaryReportDailyGateway interface {

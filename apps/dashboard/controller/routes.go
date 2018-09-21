@@ -74,6 +74,7 @@ func InitRoutes(public,private *gin.RouterGroup) {
 	private.GET("getCurrentStockReport",getCurrentStockReport)
 	private.GET("retrieveActivityLog",getActivityLog)
 	private.GET("getPaymentReport",getPaymentReport)
+	private.GET("getProductReport",getProductReport)
 
 	// # Excel Reports #
 
@@ -949,6 +950,23 @@ func getPaymentReport (c *gin.Context){
 	tInterval := c.Query("timeInterval")
 
 	p, err := UseCase.GetPaymentReport(tInterval)
+	if err != nil{
+		c.JSON(200, generateFailResponse(err))
+		return
+	}
+
+	c.JSON(200, generateSuccessResponse(p))
+}
+
+func getProductReport (c *gin.Context){
+
+	tInterval := c.Query("timeInterval")
+	category := c.Query("category")
+	productName := c.Query("productName")
+	userId,_ := strconv.Atoi(c.Query("userId"))
+
+
+	p, err := UseCase.GetProductReport(tInterval,productName,category,userId)
 	if err != nil{
 		c.JSON(200, generateFailResponse(err))
 		return

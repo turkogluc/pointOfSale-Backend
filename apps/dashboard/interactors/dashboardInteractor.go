@@ -172,13 +172,33 @@ func (DashboardInteractor) RetrieveCategories()([]string,*ErrorType){
 
 func (DashboardInteractor) CreateStock(p *Stock) *ErrorType{
 
-	p.CreationDate = int(time.Now().Unix())
-	p.UpdateDate = int(time.Now().Unix())
-	err := interactors.StockRepo.InsertStock(p)
-	if err != nil{
-		LogError(err)
-		return GetError(0)
+	product,err := interactors.StockRepo.SelectStockByProductId(p.ProductId)
+	if product != nil {
+		temp := &Stock{
+			Id:			product.Id,
+			ProductId:	p.ProductId,
+			Qty: 		product.Qty+p.Qty, // add up the quantity of product if it is already exist
+			UpdateDate: int(time.Now().Unix()),
+			UserId:		p.UserId,
+			DealerId:	p.DealerId,
+		}
+
+		err := interactors.StockRepo.UpdateStockById(temp,temp.Id)
+		if err != nil {
+			LogError(err)
+			return GetError(0)
+		}
+
+	}else if product == nil {
+		p.CreationDate = int(time.Now().Unix())
+		p.UpdateDate = int(time.Now().Unix())
+		err = interactors.StockRepo.InsertStock(p)
+		if err != nil{
+			LogError(err)
+			return GetError(0)
+		}
 	}
+
 	return nil
 
 }
@@ -1100,6 +1120,30 @@ func (DashboardInteractor) GetPaymentReport(tInterval string) (*PaymentReport,  
 	result.Expenses = expensesList
 
 	return result,nil
+}
+
+func (DashboardInteractor) GetProductReport(tInterval string,productName string,category string,userId int) (*ProductReport,  *ErrorType){
+
+	strInter := strings.Split(tInterval,",")
+	intInter := []int{}
+	for _,str := range strInter{
+		i,_ := strconv.Atoi(str)
+		intInter = append(intInter,i)
+	}
+
+	res,err := interactors.SaleDetailRepo.SelectSaleDetails(intInter,productName,category,userId)
+	if err != nil{
+		LogError(err)
+		return nil,GetError(0)
+	}
+
+	// TODO : profit percentage sürüm hesabı olmadı
+	// profil percentage'i sql den kaldırabiliriz
+	for k,v := range res.Items{
+		res.Items[k].ProfitPercentage = v.NetProfit / (res.TotalNetProfit) * 100
+	}
+
+	return res,nil
 }
 // ########################################################################
 

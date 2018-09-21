@@ -157,131 +157,121 @@ func (sldt *SaleDetailRepo) DeleteSaleDetails(ids []int)(error){
 	return nil
 }
 
-func (sldt *SaleDetailRepo) SelectSaleDetails(timeInterval []int,productId, userId int,orderBy,orderAs string,pageNumber, pageSize int) {
+func (sldt *SaleDetailRepo) SelectSaleDetails(timeInterval []int,productName string,category string, userId int)(*ProductReport,error) {
 
-	//response := &responses.SaleDetailResponse{}
-	//items := []*SaleDetail{}
-	//
-	//var timeAvail bool
-	//var userAvail bool
-	//
-	//var orderByAvail bool
-	//var pageNumberAvail bool
-	//var pageSizeAvail bool
-	//
-	//
-	//if len(timeInterval) > 0{
-	//	timeAvail = true
-	//}
-	//
-	//if userId > 0 {
-	//	userAvail = true
-	//}
-	//
-	//if len(orderBy) != 0{
-	//	if orderBy != "id" {
-	//		orderByAvail = true
-	//	}
-	//}
-	//if pageNumber > 0 {
-	//	pageNumberAvail = true
-	//}
-	//if pageSize > 0 {
-	//	pageSizeAvail = true
-	//}
-	//
-	//stSelect := `SELECT s.id,s.creation_date,s.items,s.user_id,u.name
-	//					FROM %s.sale_detail AS s
-	//					JOIN %s.user AS u ON u.id=s.user_id`
-	//stCount := `SELECT COUNT(*) FROM %s.sale_detail AS s
-	//					JOIN %s.user AS u ON u.id=s.user_id`
-	//
-	//stSelect = ss(stSelect)
-	//stCount = ss(stCount)
-	//
-	//filter := ``
-	//
-	//if  timeAvail || userAvail{
-	//	filter += " WHERE "
-	//
-	//
-	//	if timeAvail{
-	//		filter += " s.creation_date > " + strconv.FormatInt(int64(timeInterval[0]),10)
-	//		filter += " AND s.creation_date < " + strconv.FormatInt(int64(timeInterval[1]),10)
-	//
-	//		if userAvail{
-	//			filter += ` AND `
-	//		}
-	//	}
-	//
-	//	if userAvail{
-	//		filter += ` s.user_id = ` + strconv.FormatInt(int64(userId),10)
-	//	}
-	//
-	//
-	//}
-	//
-	//stSelect += filter
-	//stCount += filter
-	//
-	//stSelect += ` ORDER BY `
-	//if orderByAvail {
-	//	stSelect +=  orderBy
-	//}else{
-	//	stSelect += ` s.id `
-	//}
-	//if orderAs == "asc"{
-	//	stSelect += ` ASC `
-	//}else{
-	//	stSelect += ` DESC `
-	//}
-	//if pageNumberAvail && pageSizeAvail {
-	//	offset := strconv.FormatInt(int64((pageNumber-1)*pageSize),10)
-	//	pageSizeStr := strconv.FormatInt(int64(pageSize),10)
-	//	stSelect += ` LIMIT ` + offset + `,` + pageSizeStr
-	//}
-	//
-	//LogDebug(stSelect)
-	//
-	//qSelect, err := DB.Prepare(stSelect)
-	//defer qSelect.Close()
-	//
-	//if err != nil{
-	//	LogError(err)
-	//	return nil, err
-	//}
-	//
-	//rows, err := qSelect.Query()
-	//if err != nil{
-	//	LogError(err)
-	//	return nil, err
-	//}
-	//
-	//for rows.Next(){
-	//	p := &SaleDetail{}
-	//	err = rows.Scan(&p.Id,&p.CreationDate,&p.ItemsStr,&p.UserId,&p.UserName)
-	//	if err != nil {
-	//		LogError(err)
-	//	}
-	//	items = append(items, p)
-	//}
-	//
-	//response.Items = items
-	//
-	//qCount, err := DB.Prepare(stCount)
-	//defer qCount.Close()
-	//if err != nil{
-	//	LogError(err)
-	//	return nil, err
-	//}
-	//count := qCount.QueryRow()
-	//if err != nil{
-	//	LogError(err)
-	//	return nil, err
-	//}
-	//count.Scan(&response.Count)
-	//
-	//return response,nil
+	response := &ProductReport{}
+	items := []*ProductReportItem{}
+
+	var timeAvail bool
+	var userAvail bool
+	var productAvail bool
+	var catAvail bool
+
+	if len(timeInterval) > 0{
+		timeAvail = true
+	}
+
+	if userId > 0 {
+		userAvail = true
+	}
+
+	if len(productName) > 0 {
+		productAvail = true
+	}
+
+	if len(category)> 0{
+		catAvail = true
+	}
+
+	stSelect := `SELECT p.id,
+				    p.name,
+  					SUM(sd.qty) as qty,
+  					SUM(sd.qty)* p.sale_price as grossProfit,
+  					SUM(sd.qty)* p.sale_price - SUM(sd.qty)* p.purchase_price as netProfit,
+  					SUM(discount) as discount,
+  					TRUNCATE((sale_price-p.purchase_price)/p.purchase_price*100,2) as markUp,
+  					(SUM(sd.qty)* p.sale_price - SUM(sd.qty)* p.purchase_price)* SUM(sd.qty) as profitRank
+  					FROM %s.sale_detail as sd
+  					JOIN %s.product p ON p.id = sd.product_id`
+
+  					// group by will be added after where
+
+
+	stSelect = ss(stSelect)
+
+	filter := ``
+
+	if  timeAvail || userAvail || productAvail || catAvail{
+		filter += " WHERE "
+
+
+		if timeAvail{
+			filter += " sd.creation_date > " + strconv.FormatInt(int64(timeInterval[0]),10)
+			filter += " AND sd.creation_date < " + strconv.FormatInt(int64(timeInterval[1]),10)
+
+			if userAvail || productAvail || catAvail{
+				filter += ` AND `
+			}
+		}
+
+		if userAvail{
+			filter += ` sd.user_id = ` + strconv.FormatInt(int64(userId),10)
+
+			if productAvail || catAvail {
+				filter += ` AND `
+			}
+		}
+
+		if productAvail{
+			filter += ` p.name LIKE '%` + productName + `%' `
+
+			if catAvail {
+				filter += ` AND `
+			}
+		}
+
+		if catAvail{
+			filter += ` p.category LIKE '%` + category + `%' `
+		}
+	}
+
+	stSelect += filter
+
+	stSelect += ` GROUP BY p.id,p.name,p.purchase_price,p.sale_price `
+
+	LogDebug(stSelect)
+
+	qSelect, err := DB.Prepare(stSelect)
+	defer qSelect.Close()
+
+	if err != nil{
+		LogError(err)
+		return nil, err
+	}
+
+	rows, err := qSelect.Query()
+	if err != nil{
+		LogError(err)
+		return nil, err
+	}
+
+	for rows.Next(){
+		p := &ProductReportItem{}
+		err = rows.Scan(&p.ProductId,&p.ProductName,&p.Qty,&p.GrossProfit,&p.NetProfit,&p.Discount,&p.Markup,&p.ProfitPercentage)
+		if err != nil {
+			LogError(err)
+		}
+		items = append(items, p)
+		response.TotalQty += p.Qty
+		response.TotalGrossProfit += p.GrossProfit
+		response.TotalNetProfit += p.NetProfit
+		response.TotalDiscount += p.Discount
+	}
+
+	response.Items = items
+	response.Count = len(items)
+
+	return response,nil
 }
 
 func (sldt *SaleDetailRepo) Close() {
