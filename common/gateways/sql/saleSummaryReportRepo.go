@@ -8,7 +8,7 @@ import (
 	"strconv"
 )
 
-const stTableSaleSummaryReportDaily = `CREATE TABLE IF NOT EXISTS %s.sale_summary_report_daily (
+const stTableSaleSummaryReport = `CREATE TABLE IF NOT EXISTS %s.sale_summary_report (
 	id             	INT AUTO_INCREMENT PRIMARY KEY,
 	gross_profit   	FLOAT DEFAULT 0,
 	net_profit		FLOAT DEFAULT 0,
@@ -23,48 +23,48 @@ const stTableSaleSummaryReportDaily = `CREATE TABLE IF NOT EXISTS %s.sale_summar
 
 
 
-const stSelectSaleSummaryReportDailyById = `SELECT id,gross_profit,net_profit,sale_count,item_count,customer_count,discount,basket_value,basket_size,timestamp 
-										FROM %s.sale_summary_report_daily
+const stSelectSaleSummaryReportById = `SELECT id,gross_profit,net_profit,sale_count,item_count,customer_count,discount,basket_value,basket_size,timestamp 
+										FROM %s.sale_summary_report
 									 	WHERE id=?`
 
-const stInsertSaleSummaryReportDaily = `INSERT INTO %s.sale_summary_report_daily (gross_profit,net_profit,sale_count,item_count,customer_count,discount,basket_value,basket_size,timestamp)
+const stInsertSaleSummaryReport = `INSERT INTO %s.sale_summary_report (gross_profit,net_profit,sale_count,item_count,customer_count,discount,basket_value,basket_size,timestamp)
 							VALUES (?,?,?,?,?,?,?,?,?)`
 
-const stUpdateSaleSummaryReportDailyById = `UPDATE %s.sale_summary_report_daily SET
+const stUpdateSaleSummaryReportById = `UPDATE %s.sale_summary_report SET
 								gross_profit=?, net_profit=?, sale_count=?, item_count=?, customer_count=?, discount=?, basket_value=?, basket_size=?, timestamp=?
 								WHERE id=?`
 
-const stDeleteSaleSummaryReportDailyById = `DELETE FROM %s.sale_summary_report_daily WHERE id=?`
+const stDeleteSaleSummaryReportById = `DELETE FROM %s.sale_summary_report WHERE id=?`
 
-type SaleSummaryReportDailyRepo struct {}
+type SaleSummaryReportRepo struct {}
 
-var slrp *SaleSummaryReportDailyRepo
-var qSelectSaleSummaryReportDailyById,qInsertSaleSummaryReportDaily,qUpdateSaleSummaryReportDailyById,qDeleteSaleSummaryReportDailyById *sql.Stmt
+var slrp *SaleSummaryReportRepo
+var qSelectSaleSummaryReportById, qInsertSaleSummaryReport, qUpdateSaleSummaryReportById, qDeleteSaleSummaryReportById *sql.Stmt
 
-func GetSaleSummaryReportDailyRepo() *SaleSummaryReportDailyRepo{
+func GetSaleSummaryReportRepo() *SaleSummaryReportRepo {
 	if slrp == nil {
-		slrp = &SaleSummaryReportDailyRepo{}
+		slrp = &SaleSummaryReportRepo{}
 
 		var err error
-		if _, err = DB.Exec(s(stTableSaleSummaryReportDaily)); err != nil {
+		if _, err = DB.Exec(s(stTableSaleSummaryReport)); err != nil {
 			LogError(err)
 		}
 
-		qSelectSaleSummaryReportDailyById, err = DB.Prepare(s(stSelectSaleSummaryReportDailyById))
+		qSelectSaleSummaryReportById, err = DB.Prepare(s(stSelectSaleSummaryReportById))
 		if err != nil {
 			LogError(err)
 		}
 
-		qInsertSaleSummaryReportDaily, err = DB.Prepare(s(stInsertSaleSummaryReportDaily))
+		qInsertSaleSummaryReport, err = DB.Prepare(s(stInsertSaleSummaryReport))
 		if err != nil {
 			LogError(err)
 		}
 
-		qUpdateSaleSummaryReportDailyById, err = DB.Prepare(s(stUpdateSaleSummaryReportDailyById))
+		qUpdateSaleSummaryReportById, err = DB.Prepare(s(stUpdateSaleSummaryReportById))
 		if err != nil {
 			LogError(err)
 		}
-		qDeleteSaleSummaryReportDailyById, err = DB.Prepare(s(stDeleteSaleSummaryReportDailyById))
+		qDeleteSaleSummaryReportById, err = DB.Prepare(s(stDeleteSaleSummaryReportById))
 		if err != nil {
 			LogError(err)
 		}
@@ -73,9 +73,9 @@ func GetSaleSummaryReportDailyRepo() *SaleSummaryReportDailyRepo{
 	return slrp
 }
 
-func (slrp *SaleSummaryReportDailyRepo) SelectSaleSummaryReportDailyById(id int)(*SaleSummaryReportDaily,error){
-	p := &SaleSummaryReportDaily{}
-	row := qSelectSaleSummaryReportDailyById.QueryRow(id)
+func (slrp *SaleSummaryReportRepo) SelectSaleSummaryReportById(id int)(*SaleSummaryReport,error){
+	p := &SaleSummaryReport{}
+	row := qSelectSaleSummaryReportById.QueryRow(id)
 	err := row.Scan(&p.Id,&p.GrossProfit,&p.NetProfit,&p.SaleCount,&p.ItemCount,&p.CustomerCount,&p.Discount,&p.BasketValue,&p.BasketSize,&p.Timestamp)
 	if err != nil{
 		LogError(err)
@@ -85,9 +85,9 @@ func (slrp *SaleSummaryReportDailyRepo) SelectSaleSummaryReportDailyById(id int)
 }
 
 
-func (slrp *SaleSummaryReportDailyRepo) InsertSaleSummaryReportDaily(p *SaleSummaryReportDaily)(error){
+func (slrp *SaleSummaryReportRepo) InsertSaleSummaryReport(p *SaleSummaryReport)(error){
 
-	result,err := qInsertSaleSummaryReportDaily.Exec(p.GrossProfit,p.NetProfit,p.SaleCount,p.ItemCount,p.CustomerCount,p.Discount,p.BasketValue,p.BasketSize,p.Timestamp)
+	result,err := qInsertSaleSummaryReport.Exec(p.GrossProfit,p.NetProfit,p.SaleCount,p.ItemCount,p.CustomerCount,p.Discount,p.BasketValue,p.BasketSize,p.Timestamp)
 	if err != nil{
 		LogError(err)
 		return err
@@ -103,9 +103,9 @@ func (slrp *SaleSummaryReportDailyRepo) InsertSaleSummaryReportDaily(p *SaleSumm
 	return nil
 }
 
-func (slrp *SaleSummaryReportDailyRepo) UpdateSaleSummaryReportDailyById(p *SaleSummaryReportDaily, IdToUpdate int)(error){
+func (slrp *SaleSummaryReportRepo) UpdateSaleSummaryReportById(p *SaleSummaryReport, IdToUpdate int)(error){
 
-	_,err := qUpdateSaleSummaryReportDailyById.Exec(p.GrossProfit,p.NetProfit,p.SaleCount,p.ItemCount,p.CustomerCount,p.Discount,p.BasketValue,p.BasketSize,p.Timestamp,IdToUpdate)
+	_,err := qUpdateSaleSummaryReportById.Exec(p.GrossProfit,p.NetProfit,p.SaleCount,p.ItemCount,p.CustomerCount,p.Discount,p.BasketValue,p.BasketSize,p.Timestamp,IdToUpdate)
 	if err != nil{
 		LogError(err)
 		return err
@@ -114,9 +114,9 @@ func (slrp *SaleSummaryReportDailyRepo) UpdateSaleSummaryReportDailyById(p *Sale
 	return nil
 }
 
-func (slrp *SaleSummaryReportDailyRepo) DeleteSaleSummaryReportDailyById(Id int)(error){
+func (slrp *SaleSummaryReportRepo) DeleteSaleSummaryReportById(Id int)(error){
 
-	_,err := qDeleteSaleSummaryReportDailyById.Exec(Id)
+	_,err := qDeleteSaleSummaryReportById.Exec(Id)
 	if err != nil{
 		LogError(err)
 		return err
@@ -125,10 +125,10 @@ func (slrp *SaleSummaryReportDailyRepo) DeleteSaleSummaryReportDailyById(Id int)
 	return nil
 }
 
-func (slrp *SaleSummaryReportDailyRepo) DeleteSaleSummaryReportDaily(ids []int)(error){
+func (slrp *SaleSummaryReportRepo) DeleteSaleSummaryReport(ids []int)(error){
 
 
-	stDelete := `DELETE FROM %s.sale_summary_report_daily WHERE id in (`
+	stDelete := `DELETE FROM %s.sale_summary_report WHERE id in (`
 
 	for k,v := range ids{
 		stDelete += strconv.FormatInt(int64(v),10)
@@ -158,7 +158,7 @@ func (slrp *SaleSummaryReportDailyRepo) DeleteSaleSummaryReportDaily(ids []int)(
 }
 
 
-func (slrp *SaleSummaryReportDailyRepo) SelectSaleSummaryReportDailyItems(timeInterval []int) (*SaleSummaryReportDaily,  error) {
+func (slrp *SaleSummaryReportRepo) SelectSaleSummaryReportItems(timeInterval []int) (*SaleSummaryReport,  error) {
 
 	var timeAvail bool
 	objectItems := []*SaleSummaryObjectItem{}
@@ -169,7 +169,7 @@ func (slrp *SaleSummaryReportDailyRepo) SelectSaleSummaryReportDailyItems(timeIn
 
 
 	stSelectItems := `SELECT gross_profit,net_profit,sale_count,item_count,customer_count,discount,basket_value,basket_size,timestamp
-						FROM %s.sale_summary_report_daily`
+						FROM %s.sale_summary_report`
 
 	stSelectItems = s(stSelectItems)
 
@@ -203,7 +203,7 @@ func (slrp *SaleSummaryReportDailyRepo) SelectSaleSummaryReportDailyItems(timeIn
 		return nil, err
 	}
 
-	p := &SaleSummaryReportDaily{}
+	p := &SaleSummaryReport{}
 
 	for rows.Next(){
 		var gp,np,dis,bv,bs float64
@@ -238,9 +238,9 @@ func (slrp *SaleSummaryReportDailyRepo) SelectSaleSummaryReportDailyItems(timeIn
 	return p,nil
 }
 
-func (slrp *SaleSummaryReportDailyRepo) Close() {
-	qSelectSaleSummaryReportDailyById.Close()
-	qInsertSaleSummaryReportDaily.Close()
-	qUpdateSaleSummaryReportDailyById.Close()
-	qDeleteSaleSummaryReportDailyById.Close()
+func (slrp *SaleSummaryReportRepo) Close() {
+	qSelectSaleSummaryReportById.Close()
+	qInsertSaleSummaryReport.Close()
+	qUpdateSaleSummaryReportById.Close()
+	qDeleteSaleSummaryReportById.Close()
 }

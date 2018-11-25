@@ -1,6 +1,6 @@
 package entities
 
-type SaleSummaryReportDaily struct {
+type SaleSummaryReport struct {
 	Id 				int 		`json:"id"`
 	GrossProfits	[]float64		`json:"grossProfits"`
 	GrossProfit		float64		`json:"grossProfit"`
