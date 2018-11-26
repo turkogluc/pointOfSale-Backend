@@ -8,4 +8,5 @@ type Stock struct {
 	CreationDate int    `json:"creationDate"`
 	UpdateDate int      `json:"updateDate"`
 	UserId int			`json:"userId"`
+	IsFavorite bool		`json:"isFavorite"`
 }

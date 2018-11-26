@@ -226,7 +226,7 @@ func (DashboardInteractor) GetStockById(id int) (*Stock,*ErrorType){
 
 }
 
-func (DashboardInteractor) GetStocks(tInterval string,barcode,name,description,category,orderBy,orderAs string,pageNumber, pageSize,dealerId, userId int) (*responses.StockResponse,  *ErrorType){
+func (DashboardInteractor) GetStocks(tInterval string,barcode,name,description,category,orderBy,orderAs string,pageNumber, pageSize,dealerId, userId int,isFavorite bool) (*responses.StockResponse,  *ErrorType){
 
 	strInter := strings.Split(tInterval,",")
 	intInter := []int{}
@@ -235,7 +235,7 @@ func (DashboardInteractor) GetStocks(tInterval string,barcode,name,description,c
 		intInter = append(intInter,i)
 	}
 
-	p,err := interactors.StockRepo.SelectStocks(intInter,barcode,name,description,category,orderBy,orderAs,pageNumber, pageSize,dealerId,userId)
+	p,err := interactors.StockRepo.SelectStocks(intInter,barcode,name,description,category,orderBy,orderAs,pageNumber, pageSize,dealerId,userId,isFavorite)
 	if err != nil{
 		LogError(err)
 		return nil,GetError(0)
@@ -251,6 +251,17 @@ func (DashboardInteractor) DeleteStocks(ids []int) *ErrorType{
 		return GetError(0)
 	}
 	return nil
+}
+
+func (DashboardInteractor) SetFavoriteProduct(productId int, isFavorite bool) *ErrorType{
+
+	err := interactors.StockRepo.SetFavoriteByProductId(productId,isFavorite)
+	if err != nil{
+		LogError(err)
+		return GetError(0)
+	}
+	return nil
+
 }
 
 // ###################################################################
@@ -643,6 +654,8 @@ func (DashboardInteractor) CreateSaleDetail(p *SaleBasket) {
 		LogError(err)
 	}
 
+	//var reportEntry SaleSummaryReport
+
 	for _,v := range basket{
 
 		sDetail := &SaleDetail{
@@ -722,7 +735,7 @@ func (DashboardInteractor) DeleteSaleBaskets(ids []int) *ErrorType{
 
 // # Reports #
 
-func (DashboardInteractor) GetSaleSummaryReportDaily(tInterval string) (*SaleSummaryReportDaily,  *ErrorType){
+func (DashboardInteractor) GetSaleSummaryReport(tInterval string) (*SaleSummaryReport,  *ErrorType){
 
 	strInter := strings.Split(tInterval,",")
 	intInter := []int{}
@@ -731,9 +744,9 @@ func (DashboardInteractor) GetSaleSummaryReportDaily(tInterval string) (*SaleSum
 		intInter = append(intInter,i)
 	}
 
-	p := &SaleSummaryReportDaily{}
+	p := &SaleSummaryReport{}
 
-	items,err := interactors.SaleSummaryReportDailyRepo.SelectSaleSummaryReportDailyItems(intInter)
+	items,err := interactors.SaleSummaryReportRepo.SelectSaleSummaryReportItems(intInter)
 	if err != nil{
 		LogError(err)
 		return nil,GetError(0)
@@ -768,7 +781,6 @@ func (DashboardInteractor) GetSaleSummaryReportDaily(tInterval string) (*SaleSum
 		p.BasketSizes = append(p.BasketSizes, i.BasketSize)
 
 		p.Timestamps = append(p.Timestamps, i.Timestamp)
-
 
 	}
 
@@ -856,7 +868,7 @@ func (DashboardInteractor) GetActivityLog(tInterval string,userId int)(*Activity
 	}
 
 	// # get stock entries
-	stocks ,err := interactors.StockRepo.SelectStocks(intInter,"","","","","","",0,0,0,userId)
+	stocks ,err := interactors.StockRepo.SelectStocks(intInter,"","","","","","",0,0,0,userId,false)
 	if err != nil {
 		LogError(err)
 		return nil,GetError(0)
@@ -1149,7 +1161,7 @@ func (DashboardInteractor) GetProductReport(tInterval string,productName string,
 
 // # Reports To Excel
 
-func (DashboardInteractor) GetSaleSummaryReportDailyAsExcel(tInterval string) (string,  *ErrorType){
+func (DashboardInteractor) GetSaleSummaryReportAsExcel(tInterval string) (string,  *ErrorType){
 
 	strInter := strings.Split(tInterval,",")
 	intInter := []int{}
@@ -1158,9 +1170,9 @@ func (DashboardInteractor) GetSaleSummaryReportDailyAsExcel(tInterval string) (s
 		intInter = append(intInter,i)
 	}
 
-	p := &SaleSummaryReportDaily{}
+	p := &SaleSummaryReport{}
 
-	items,err := interactors.SaleSummaryReportDailyRepo.SelectSaleSummaryReportDailyItems(intInter)
+	items,err := interactors.SaleSummaryReportRepo.SelectSaleSummaryReportItems(intInter)
 	if err != nil{
 		LogError(err)
 		return "",GetError(0)
@@ -1181,7 +1193,7 @@ func (DashboardInteractor) GetSaleSummaryReportDailyAsExcel(tInterval string) (s
 
 	}
 
-	fileName := "Sale-Summary-Daily-Report"
+	fileName := "Sale-Summary-Report"
 	filePath := "./excelFiles/" + fileName + ".xlsx"
 	SaveSaleReportAsExcelFile(p,fileName)
 
@@ -1211,7 +1223,6 @@ func (DashboardInteractor) GetCurrentStockReportAsExcel(name,category,orderBy,or
 
 	return filePath,nil
 }
-
 
 func (DashboardInteractor) GetPaymentReportAsExcel(tInterval string) (string,  *ErrorType){
 
@@ -1373,8 +1384,104 @@ func (DashboardInteractor) GetPaymentReportAsExcel(tInterval string) (string,  *
 	return filePath,nil
 }
 
+func (d DashboardInteractor) GetProductReportAsExcel(tInterval string,productName string,category string,userId int) (string,  *ErrorType){
 
-func SaveSaleReportAsExcelFile(saleReport *SaleSummaryReportDaily, fileName string) {
+	result,err := d.GetProductReport(tInterval,productName,category,userId)
+	if err != nil {
+		LogError(err)
+		return "",err
+	}
+
+	fileName := "Current-Product-Report"
+	filePath := "./excelFiles/" + fileName + ".xlsx"
+	SaveProductReportAsExcelFile(result, fileName)
+
+	return filePath,nil
+}
+
+func SaveProductReportAsExcelFile(p *ProductReport,fileName string){
+	file := excelize.NewFile()
+	// Create a new sheet.
+	//index := file.NewSheet("Sheet1")
+	// Set value of a cell.
+	var cols []string
+	cols = append(cols, "No")
+	cols = append(cols, "İsim")
+	cols = append(cols, "Adet")
+	cols = append(cols, "Brüt Kar")
+	cols = append(cols, "Net Kar")
+	cols = append(cols, "İndirim")
+	cols = append(cols, "Kar Marjı (%)")
+	cols = append(cols, "Kar Dilimi (%)")
+	cols = append(cols, "İade Sayısı (%)")
+
+	//print titles
+	rowIndex := 1
+	colIndex := 'A'
+	for j:=0; j < len(cols); j++ {
+
+		file.SetCellValue("Sheet1", string(colIndex) + strconv.Itoa(rowIndex), cols[j])
+		colIndex++
+	}
+
+	//print values
+	colIndex = 'A'
+	rowIndex += 1
+	for k,v := range p.Items {
+		rowIndex = k + 2
+		colIndex = 'A'
+
+		file.SetCellValue("Sheet1", string(colIndex) + strconv.Itoa(rowIndex),k+1)
+		colIndex++
+		file.SetCellValue("Sheet1", string(colIndex) + strconv.Itoa(rowIndex),v.ProductName)
+		colIndex++
+		file.SetCellValue("Sheet1", string(colIndex) + strconv.Itoa(rowIndex),v.Qty)
+		colIndex++
+		file.SetCellValue("Sheet1", string(colIndex) + strconv.Itoa(rowIndex),v.GrossProfit)
+		colIndex++
+		file.SetCellValue("Sheet1", string(colIndex) + strconv.Itoa(rowIndex),v.NetProfit)
+		colIndex++
+		file.SetCellValue("Sheet1", string(colIndex) + strconv.Itoa(rowIndex),v.Discount)
+		colIndex++
+		file.SetCellValue("Sheet1", string(colIndex) + strconv.Itoa(rowIndex),v.Markup)
+		colIndex++
+		file.SetCellValue("Sheet1", string(colIndex) + strconv.Itoa(rowIndex),v.ProfitPercentage)
+		colIndex++
+		file.SetCellValue("Sheet1", string(colIndex) + strconv.Itoa(rowIndex),v.NumberOfReturn)
+		colIndex++
+	}
+
+	rowIndex += 1
+	colIndex = 'A'
+
+	file.SetCellValue("Sheet1", string(colIndex) + strconv.Itoa(rowIndex),"Toplam")
+	colIndex++
+	//productName
+	colIndex++
+	file.SetCellValue("Sheet1", string(colIndex) + strconv.Itoa(rowIndex),p.TotalQty)
+	colIndex++
+	file.SetCellValue("Sheet1", string(colIndex) + strconv.Itoa(rowIndex),p.TotalGrossProfit)
+	colIndex++
+	file.SetCellValue("Sheet1", string(colIndex) + strconv.Itoa(rowIndex),p.TotalNetProfit)
+	colIndex++
+	file.SetCellValue("Sheet1", string(colIndex) + strconv.Itoa(rowIndex),p.TotalDiscount)
+	colIndex++
+	// markup
+	colIndex++
+	// profitPercentage
+	colIndex++
+	file.SetCellValue("Sheet1", string(colIndex) + strconv.Itoa(rowIndex),p.TotalNumberOfReturn)
+	colIndex++
+
+	err := file.SaveAs("./excelFiles/" + fileName + ".xlsx")
+	if err != nil {
+		LogError(err)
+	}
+
+}
+
+
+func SaveSaleReportAsExcelFile(saleReport *SaleSummaryReport, fileName string) {
 	file := excelize.NewFile()
 	// Create a new sheet.
 	//index := file.NewSheet("Sheet1")

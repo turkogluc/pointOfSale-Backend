@@ -28,6 +28,8 @@ type Environment struct {
 var s Specification
 var e Environment
 
+var SaleReporterJobInterval string
+
 var logFile *os.File
 
 func main() {
@@ -40,6 +42,8 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	SaleReporterJobInterval = viper.GetString("app.reporterJobInterval")
 
 	s.SqlHost = viper.GetString("app.sql.host")
 	s.SqlPort = viper.GetString("app.sql.port")
@@ -56,6 +60,9 @@ func main() {
 	viper.OnConfigChange(func(e fsnotify.Event) {
 		log.Println("Config file changed:", e.Name, "APP:", viper.Get("app.name"))
 	})
+
+	// Init image path
+	controllers.SetImagePath(viper.GetString("app.image.path"))
 
 	// Init logging
 	logFile, err = os.OpenFile(s.LogFile, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
@@ -80,7 +87,7 @@ func main() {
 	common.UserRepo = sql.GetUserRepo()
 	common.SaleBasketRepo = sql.GetSaleBasketRepo()
 	common.SaleDetailRepo = sql.GetSaleDetailRepo()
-	common.SaleSummaryReportDailyRepo = sql.GetSaleSummaryReportDailyRepo()
+	common.SaleSummaryReportRepo = sql.GetSaleSummaryReportRepo()
 
-	controllers.StartApplicationBackend()
+	controllers.StartApplicationBackend(SaleReporterJobInterval)
 }

@@ -17,7 +17,7 @@ var UseCase DashboardUseCases
 
 var secret = "developmentSecretIsNotSoSecret"
 
-func StartApplicationBackend() {
+func StartApplicationBackend(interval string) {
 
 	router := gin.New()
 	router.Use(gin.Recovery(), Logger(), Headers())
@@ -27,7 +27,10 @@ func StartApplicationBackend() {
 
 	UseCase = app.DashboardInteractor{}
 	InitRoutes(public,private)
+
+	// start cron jobs
 	app.StartReceivingCheckCronJob()
+	app.SaleReporterJob(interval)
 
 	// Listen and server on 0.0.0.0:8080
 	http.ListenAndServe(":8091", router)

@@ -15,6 +15,8 @@ type SaleBasket struct {
 	UserName string  `json:"userName"`
 	TotalDiscount float64 `json:"totalDiscount"`
 	TotalPrice	float64		`json:"totalPrice"`
+	CustomerId int	`json:"customerId"`
+	IsProcessed bool `json:"isProcessed"`
 }
 
 type SaleBasketItems struct {

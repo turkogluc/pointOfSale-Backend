@@ -17,27 +17,32 @@ const stTableSaleDetail = `CREATE TABLE IF NOT EXISTS %s.sale_detail (
 						  qty			 INT	DEFAULT 0,
 						  discount		 INT	DEFAULT 0,
 						  user_id 		 INT 	DEFAULT 1,
+						  is_processed   BOOLEAN DEFAULT FALSE,
 						  FOREIGN KEY (user_id) REFERENCES %s.user (id) ON DELETE CASCADE ON UPDATE CASCADE,
 						  FOREIGN KEY (basket_id) REFERENCES %s.sale_basket (id) ON DELETE CASCADE ON UPDATE CASCADE	
 						)ENGINE=InnoDB DEFAULT CHARSET=utf8;`
 
 
+						// TODO: I should delete is_processed parameter here
 
-const stSelectSaleDetailById = `SELECT id,creation_date,basket_id,product_id,qty,discount,user_id FROM %s.sale_detail
+const stSelectSaleDetailById = `SELECT id,creation_date,basket_id,product_id,qty,discount,user_id,is_processed FROM %s.sale_detail
 									 WHERE id=?`
 
 const stInsertSaleDetail = `INSERT INTO %s.sale_detail (creation_date,basket_id,product_id,qty,discount,user_id)
 							VALUES (?,?,?,?,?,?)`
 
-const stUpdateSaleDetailById = `UPDATE %s.sale_detail SET creation_date=?,basket_id=?,product_id,qty=?,discount=?,user_id=?
+const stUpdateSaleDetailById = `UPDATE %s.sale_detail SET creation_date=?,basket_id=?,product_id=?,qty=?,discount=?,user_id=?
 								WHERE id=?`
+
+const stSetAsProcessedByReporterJob = `UPDATE %s.sale_detail SET is_processed=?
+								WHERE basket_id=?`
 
 const stDeleteSaleDetailById = `DELETE FROM %s.sale_detail WHERE id=?`
 
 type SaleDetailRepo struct {}
 
 var sldt *SaleDetailRepo
-var qSelectSaleDetailById,qInsertSaleDetail,qUpdateSaleDetailById,qDeleteSaleDetailById *sql.Stmt
+var qSelectSaleDetailById,qInsertSaleDetail,qUpdateSaleDetailById,qDeleteSaleDetailById,qSetAsProcessedByReporterJob *sql.Stmt
 
 func GetSaleDetailRepo() *SaleDetailRepo{
 	if sldt == nil {
@@ -62,6 +67,10 @@ func GetSaleDetailRepo() *SaleDetailRepo{
 		if err != nil {
 			LogError(err)
 		}
+		qSetAsProcessedByReporterJob, err = DB.Prepare(s(stSetAsProcessedByReporterJob))
+		if err != nil {
+			LogError(err)
+		}
 		qDeleteSaleDetailById, err = DB.Prepare(s(stDeleteSaleDetailById))
 		if err != nil {
 			LogError(err)
@@ -74,7 +83,7 @@ func GetSaleDetailRepo() *SaleDetailRepo{
 func (sldt *SaleDetailRepo) SelectSaleDetailById(id int)(*SaleDetail,error){
 	p := &SaleDetail{}
 	row := qSelectSaleDetailById.QueryRow(id)
-	err := row.Scan(&p.Id,&p.CreationDate,&p.BasketId,&p.ProductId,&p.Qty,&p.Discount,&p.UserId)
+	err := row.Scan(&p.Id,&p.CreationDate,&p.BasketId,&p.ProductId,&p.Qty,&p.Discount,&p.UserId,&p.IsProcessed)
 	if err != nil{
 		LogError(err)
 		return nil, err
@@ -106,6 +115,17 @@ func (sldt *SaleDetailRepo) UpdateSaleDetailById(p *SaleDetail, IdToUpdate int)(
 
 	timeNOW := int(time.Now().Unix())
 	_,err := qUpdateSaleDetailById.Exec(timeNOW,p.BasketId,p.ProductId,p.Qty,p.Discount,p.UserId,IdToUpdate)
+	if err != nil{
+		LogError(err)
+		return err
+	}
+
+	return nil
+}
+
+func (sldt *SaleDetailRepo) ChangeIsProcessedStatus(status bool, basketIdToUpdate int)(error){
+
+	_,err := qSetAsProcessedByReporterJob.Exec(status,basketIdToUpdate)
 	if err != nil{
 		LogError(err)
 		return err

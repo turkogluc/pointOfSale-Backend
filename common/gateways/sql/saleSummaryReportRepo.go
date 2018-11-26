@@ -27,6 +27,10 @@ const stSelectSaleSummaryReportById = `SELECT id,gross_profit,net_profit,sale_co
 										FROM %s.sale_summary_report
 									 	WHERE id=?`
 
+const stSelectSaleSummaryReportByDate = `SELECT id,gross_profit,net_profit,sale_count,item_count,customer_count,discount,basket_value,basket_size,timestamp 
+										FROM %s.sale_summary_report
+									 	WHERE timestamp=?`
+
 const stInsertSaleSummaryReport = `INSERT INTO %s.sale_summary_report (gross_profit,net_profit,sale_count,item_count,customer_count,discount,basket_value,basket_size,timestamp)
 							VALUES (?,?,?,?,?,?,?,?,?)`
 
@@ -84,8 +88,19 @@ func (slrp *SaleSummaryReportRepo) SelectSaleSummaryReportById(id int)(*SaleSumm
 	return p,nil
 }
 
+func (slrp *SaleSummaryReportRepo) SelectSaleSummaryReportByDate(id int)(*SaleSummaryObjectItem,error){
+	p := &SaleSummaryObjectItem{}
+	row := qSelectSaleSummaryReportById.QueryRow(id)
+	err := row.Scan(&p.Id,&p.GrossProfit,&p.NetProfit,&p.SaleCount,&p.ItemCount,&p.CustomerCount,&p.Discount,&p.BasketValue,&p.BasketSize,&p.Timestamp)
+	if err != nil{
+		LogError(err)
+		return nil, err
+	}
+	return p,nil
+}
 
-func (slrp *SaleSummaryReportRepo) InsertSaleSummaryReport(p *SaleSummaryReport)(error){
+
+func (slrp *SaleSummaryReportRepo) InsertSaleSummaryReport(p *SaleSummaryObjectItem)(error){
 
 	result,err := qInsertSaleSummaryReport.Exec(p.GrossProfit,p.NetProfit,p.SaleCount,p.ItemCount,p.CustomerCount,p.Discount,p.BasketValue,p.BasketSize,p.Timestamp)
 	if err != nil{
@@ -103,7 +118,7 @@ func (slrp *SaleSummaryReportRepo) InsertSaleSummaryReport(p *SaleSummaryReport)
 	return nil
 }
 
-func (slrp *SaleSummaryReportRepo) UpdateSaleSummaryReportById(p *SaleSummaryReport, IdToUpdate int)(error){
+func (slrp *SaleSummaryReportRepo) UpdateSaleSummaryReportById(p *SaleSummaryObjectItem, IdToUpdate int)(error){
 
 	_,err := qUpdateSaleSummaryReportById.Exec(p.GrossProfit,p.NetProfit,p.SaleCount,p.ItemCount,p.CustomerCount,p.Discount,p.BasketValue,p.BasketSize,p.Timestamp,IdToUpdate)
 	if err != nil{

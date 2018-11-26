@@ -17,18 +17,23 @@ const stTableSaleBasket = `CREATE TABLE IF NOT EXISTS %s.sale_basket (
 						  user_id 		 INT 	DEFAULT 1,
 						  total_price	 FLOAT	DEFAULT 0,
 						  total_discount FLOAT 	DEFAULT 0,
+						  customer_id	 INT    DEFAULT 0,
+                          is_processed   BOOLEAN DEFAULT FALSE,
 						  FOREIGN KEY (user_id) REFERENCES %s.user (id) ON DELETE CASCADE ON UPDATE CASCADE	
 						)ENGINE=InnoDB DEFAULT CHARSET=utf8;`
 
 
 
-const stSelectSaleBasketById = `SELECT id,creation_date,items,user_id,total_price,total_discount FROM %s.sale_basket
+const stSelectSaleBasketById = `SELECT id,creation_date,items,user_id,total_price,total_discount,customer_id,is_processed FROM %s.sale_basket
 									 WHERE id=?`
 
-const stInsertSaleBasket = `INSERT INTO %s.sale_basket (creation_date,items,user_id,total_price,total_discount)
-							VALUES (?,?,?,?,?)`
+const stInsertSaleBasket = `INSERT INTO %s.sale_basket (creation_date,items,user_id,total_price,total_discount,customer_id)
+							VALUES (?,?,?,?,?,?)`
 
-const stUpdateSaleBasketById = `UPDATE %s.sale_basket SET creation_date=?,items=?,user_id=?,total_price=?,total_discount=?
+const stUpdateSaleBasketById = `UPDATE %s.sale_basket SET creation_date=?,items=?,user_id=?,total_price=?,total_discount=?,customer_id=?
+								WHERE id=?`
+
+const stSetSaleBasketIsProcessedStatus= `UPDATE %s.sale_basket SET is_processed=?
 								WHERE id=?`
 
 const stDeleteSaleBasketById = `DELETE FROM %s.sale_basket WHERE id=?`
@@ -36,7 +41,7 @@ const stDeleteSaleBasketById = `DELETE FROM %s.sale_basket WHERE id=?`
 type SaleBasketRepo struct {}
 
 var sl *SaleBasketRepo
-var qSelectSaleBasketById,qInsertSaleBasket,qUpdateSaleBasketById,qDeleteSaleBasketById *sql.Stmt
+var qSelectSaleBasketById,qInsertSaleBasket,qUpdateSaleBasketById,qSetSaleBasketIsProcessedStatus,qDeleteSaleBasketById *sql.Stmt
 
 func GetSaleBasketRepo() *SaleBasketRepo{
 	if sl == nil {
@@ -61,6 +66,11 @@ func GetSaleBasketRepo() *SaleBasketRepo{
 		if err != nil {
 			LogError(err)
 		}
+
+		qSetSaleBasketIsProcessedStatus, err = DB.Prepare(s(stSetSaleBasketIsProcessedStatus))
+		if err != nil {
+			LogError(err)
+		}
 		qDeleteSaleBasketById, err = DB.Prepare(s(stDeleteSaleBasketById))
 		if err != nil {
 			LogError(err)
@@ -73,7 +83,7 @@ func GetSaleBasketRepo() *SaleBasketRepo{
 func (sl *SaleBasketRepo) SelectSaleBasketById(id int)(*SaleBasket,error){
 	p := &SaleBasket{}
 	row := qSelectSaleBasketById.QueryRow(id)
-	err := row.Scan(&p.Id,&p.CreationDate,&p.ItemsStr,&p.UserId,&p.TotalPrice,&p.TotalDiscount)
+	err := row.Scan(&p.Id,&p.CreationDate,&p.ItemsStr,&p.UserId,&p.TotalPrice,&p.TotalDiscount,&p.CustomerId,&p.IsProcessed)
 	if err != nil{
 		LogError(err)
 		return nil, err
@@ -81,11 +91,55 @@ func (sl *SaleBasketRepo) SelectSaleBasketById(id int)(*SaleBasket,error){
 	return p,nil
 }
 
+func (sl *SaleBasketRepo) RetrieveNotProcessedRecords()(*SaleSummaryObject,error){
+	result := &SaleSummaryObject{}
+
+	st := `SELECT d.basket_id,
+				SUM(d.qty*p.sale_price) as grossProfit,
+				SUM(d.qty*(p.sale_price-p.purchase_price)) as netProfit,
+				1 as saleCount,
+				SUM(qty) as itemCount,
+				MAX(b.customer_id) as customerCount,
+				MAX(b.total_discount) as discount,
+				MAX(b.total_price) as basket_value,
+				COUNT(d.product_id) as basket_size,
+				b.creation_date AS timestamp
+			FROM %s.sale_basket AS b
+			JOIN %s.sale_detail AS d ON d.basket_id = b.id
+			JOIN %s.product AS p ON d.product_id = p.id
+			WHERE b.is_processed = FALSE
+			GROUP BY b.id,b.creation_date;`
+
+	qSelect, err := DB.Prepare(sss(st))
+	defer qSelect.Close()
+	if err != nil{
+		LogError(err)
+		return nil, err
+	}
+
+	rows, err := qSelect.Query()
+	if err != nil{
+		LogError(err)
+		return nil, err
+	}
+
+	for rows.Next(){
+		p := &SaleSummaryObjectItem{}
+		err = rows.Scan(&p.Id,&p.GrossProfit,&p.NetProfit,&p.SaleCount,&p.ItemCount,&p.CustomerCount,&p.Discount,&p.BasketValue,&p.BasketSize,&p.Timestamp)
+		if err != nil {
+			LogError(err)
+		}
+		result.Items = append(result.Items, p)
+	}
+
+	return result,nil
+}
+
 
 func (sl *SaleBasketRepo) InsertSaleBasket(p *SaleBasket)(error){
 
 	timeNOW := int(time.Now().Unix())
-	result,err := qInsertSaleBasket.Exec(timeNOW,p.ItemsStr,p.UserId,p.TotalPrice,p.TotalDiscount)
+	result,err := qInsertSaleBasket.Exec(timeNOW,p.ItemsStr,p.UserId,p.TotalPrice,p.TotalDiscount,p.CustomerId)
 	if err != nil{
 		LogError(err)
 		return err
@@ -104,7 +158,18 @@ func (sl *SaleBasketRepo) InsertSaleBasket(p *SaleBasket)(error){
 func (sl *SaleBasketRepo) UpdateSaleBasketById(p *SaleBasket, IdToUpdate int)(error){
 
 	timeNOW := int(time.Now().Unix())
-	_,err := qUpdateSaleBasketById.Exec(timeNOW,p.ItemsStr,p.UserId,p.TotalPrice,p.TotalDiscount,IdToUpdate)
+	_,err := qUpdateSaleBasketById.Exec(timeNOW,p.ItemsStr,p.UserId,p.TotalPrice,p.TotalDiscount,p.CustomerId,IdToUpdate)
+	if err != nil{
+		LogError(err)
+		return err
+	}
+
+	return nil
+}
+
+func (sl *SaleBasketRepo) SetSaleBasketIsProcessedStatus(IdToUpdate int,status bool)(error){
+
+	_,err := qSetSaleBasketIsProcessedStatus.Exec(status,IdToUpdate)
 	if err != nil{
 		LogError(err)
 		return err
@@ -189,7 +254,7 @@ func (sl *SaleBasketRepo) SelectSaleBaskets(timeInterval []int,userId int,orderB
 		pageSizeAvail = true
 	}
 
-	stSelect := `SELECT s.id,s.creation_date,s.items,s.user_id,u.name, s.total_price, s.total_discount 
+	stSelect := `SELECT s.id,s.creation_date,s.items,s.user_id,u.name, s.total_price, s.total_discount, s.customer_id 
 						FROM %s.sale_basket AS s
 						JOIN %s.user AS u ON u.id=s.user_id`
 	stCount := `SELECT COUNT(*) FROM %s.sale_basket AS s
@@ -258,7 +323,7 @@ func (sl *SaleBasketRepo) SelectSaleBaskets(timeInterval []int,userId int,orderB
 
 	for rows.Next(){
 		p := &SaleBasket{}
-		err = rows.Scan(&p.Id,&p.CreationDate,&p.ItemsStr,&p.UserId,&p.UserName,&p.TotalPrice,&p.TotalDiscount)
+		err = rows.Scan(&p.Id,&p.CreationDate,&p.ItemsStr,&p.UserId,&p.UserName,&p.TotalPrice,&p.TotalDiscount,&p.CustomerId)
 		if err != nil {
 			LogError(err)
 		}

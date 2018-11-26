@@ -16,8 +16,9 @@ type DashboardUseCases interface {
 	CreateStock(p *Stock) *ErrorType
 	UpdateStock(p *Stock) *ErrorType
 	GetStockById(id int) (*Stock,*ErrorType)
-	GetStocks(timeInterval string,barcode,name,description,category,orderBy,orderAs string,pageNumber, pageSize,dealerId,userId int) (*responses.StockResponse,  *ErrorType)
+	GetStocks(timeInterval string,barcode,name,description,category,orderBy,orderAs string,pageNumber, pageSize,dealerId,userId int,isFavorite bool) (*responses.StockResponse,  *ErrorType)
 	DeleteStocks(ids []int) *ErrorType
+	SetFavoriteProduct(productId int, isFavorite bool) *ErrorType
 
 	CreatePerson(p *Person) *ErrorType
 	UpdatePerson(p *Person) *ErrorType
@@ -59,7 +60,7 @@ type DashboardUseCases interface {
 
 	// # Reports #
 
-	GetSaleSummaryReportDaily(tInterval string) (*SaleSummaryReportDaily,  *ErrorType)
+	GetSaleSummaryReport(tInterval string) (*SaleSummaryReport,  *ErrorType)
 	GetCurrentStockReport(name,category,orderBy,orderAs string,pageNumber, pageSize int) (*responses.CurrentStockReportResponse,  *ErrorType)
 	GetActivityLog(tInterval string,userId int)(*ActivityLogs,*ErrorType)
 	GetPaymentReport(tInterval string) (*PaymentReport,  *ErrorType)
@@ -68,9 +69,10 @@ type DashboardUseCases interface {
 
 	// # Reports As Excel#
 
-	GetSaleSummaryReportDailyAsExcel(tInterval string) (string,  *ErrorType)
+	GetSaleSummaryReportAsExcel(tInterval string) (string,  *ErrorType)
 	GetCurrentStockReportAsExcel(name,category,orderBy,orderAs string,pageNumber, pageSize int) (string,  *ErrorType)
 	GetPaymentReportAsExcel(tInterval string) (string,  *ErrorType)
+	GetProductReportAsExcel(tInterval string,productName string,category string,userId int)(string,*ErrorType)
 
 	// # Util #
 

@@ -1,5 +1,6 @@
 app:
   name: Dashboard_app
+  reporterJobInterval: "@every 5m"
   sql:
     host:   localhost
     port:   3306
@@ -9,9 +10,5 @@ app:
   log:
     file: "dashboard_app.log"
     debug: true
-  mail:
-    user: no-reply@iugo.tech
-    password: iugo14112016
-    smtpAddress: smtp.gmail.com
-    smtpPort: 587
-    templateFilePathPrefix: ./templates/email/
+  image:
+    path: "/home/cemal/workstation/sirket/app/assets/ProductPhotos/"

@@ -31,6 +31,7 @@ type SaleSummaryObject struct{
 }
 
 type SaleSummaryObjectItem struct {
+	Id				int			`json:"id"`
 	GrossProfit		float64		`json:"grossProfit"`
 	NetProfit		float64		`json:"netProfit"`
 	SaleCount		int			`json:"saleCount"`

@@ -23,4 +23,5 @@ type ProductItem struct {
 	RegisterDate  int  `json:"registerDate"`
 	UserId 		  int 	`json:"userId"`
 	UserName 	string 	`json:"userName"`
+	ImagePath	string	`json:"imagePath"`
 }

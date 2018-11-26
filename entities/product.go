@@ -10,4 +10,5 @@ type Product struct {
 	SalePrice     float64 `json:"salePrice"`
 	RegisterDate  int  `json:"registerDate"`
 	UserId 		  int 	`json:"userId"`
+	ImagePath	string	`json:"imagePath"`
 }

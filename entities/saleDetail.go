@@ -9,4 +9,9 @@ type SaleDetail struct {
 	Qty			int		`json:"qty"`
 	Discount	float64		`json:"discount"`
 	UserId int 		`json:"userId"`
+	IsProcessed bool `json:"isProcessed"`
+}
+
+type SaleDetails struct{
+	Items	[]*SaleDetail `json:"items"`
 }

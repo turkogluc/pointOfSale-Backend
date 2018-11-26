@@ -21,11 +21,12 @@ type ProductGateway interface {
 type StockGateway interface {
 	SelectStockById(id int)(*Stock,error)
 	SelectStockByProductId(productId int)(*Stock,error)
-	SelectStocks(timeInterval []int,barcode,name,description,category,orderBy,orderAs string,pageNumber, pageSize,dealerId int,creatorId int) (*responses.StockResponse,  error)
+	SelectStocks(timeInterval []int,barcode,name,description,category,orderBy,orderAs string,pageNumber, pageSize,dealerId int,creatorId int,isFavorite bool) (*responses.StockResponse,  error)
 	SelectCurrentStockReport(name,category,orderBy,orderAs string,pageNumber, pageSize int) (*responses.CurrentStockReportResponse,  error)
 	InsertStock(p *Stock)(error)
 	UpdateStockById(p *Stock, IdToUpdate int)(error)
 	DecrementProductFromStock(productId,count int)(error)
+	SetFavoriteByProductId(productId int,fav bool)(error)
 	DeleteStockById(Id int)(error)
 	DeleteStocks(ids []int)(error)
 	Close()
@@ -87,8 +88,10 @@ type UserGateway interface {
 type SaleBasketGateway interface {
 	SelectSaleBasketById(id int)(*SaleBasket,error)
 	SelectSaleBaskets(timeInterval []int,userId int,orderBy,orderAs string,pageNumber, pageSize int) (*responses.SaleBasketResponse,  error)
+	RetrieveNotProcessedRecords()(*SaleSummaryObject,error)
 	InsertSaleBasket(p *SaleBasket)(error)
 	UpdateSaleBasketById(p *SaleBasket, IdToUpdate int)(error)
+	SetSaleBasketIsProcessedStatus(IdToUpdate int,status bool)(error)
 	DeleteSaleBasketById(Id int)(error)
 	DeleteSaleBaskets(ids []int)(error)
 	Close()
@@ -101,14 +104,17 @@ type SaleDetailGateway interface {
 	DeleteSaleDetailById(Id int)(error)
 	DeleteSaleDetails(ids []int)(error)
 	SelectSaleDetails(timeInterval []int,productName string,category string, userId int)(*ProductReport,error)
+	//RetrieveNotProcessedRecords()(*SaleSummaryObject,error)
+	//ChangeIsProcessedStatus(status bool, basketIdToUpdate int)(error)
 }
 
-type SaleSummaryReportDailyGateway interface {
-	SelectSaleSummaryReportDailyById(id int)(*SaleSummaryReportDaily,error)
-	InsertSaleSummaryReportDaily(p *SaleSummaryReportDaily)(error)
-	UpdateSaleSummaryReportDailyById(p *SaleSummaryReportDaily, IdToUpdate int)(error)
-	DeleteSaleSummaryReportDailyById(Id int)(error)
-	DeleteSaleSummaryReportDaily(ids []int)(error)
-	SelectSaleSummaryReportDailyItems(timeInterval []int) (*SaleSummaryReportDaily,  error)
+type SaleSummaryReportGateway interface {
+	SelectSaleSummaryReportById(id int)(*SaleSummaryReport,error)
+	InsertSaleSummaryReport(p *SaleSummaryObjectItem)(error)
+	UpdateSaleSummaryReportById(p *SaleSummaryObjectItem, IdToUpdate int)(error)
+	DeleteSaleSummaryReportById(Id int)(error)
+	DeleteSaleSummaryReport(ids []int)(error)
+	SelectSaleSummaryReportItems(timeInterval []int) (*SaleSummaryReport,  error)
+	SelectSaleSummaryReportByDate(id int)(*SaleSummaryObjectItem,error)
 	Close()
 }

@@ -8,8 +8,16 @@ import (
 	"stock/entities/responses"
 	. "stock/common/logger"
 	"github.com/dgrijalva/jwt-go"
+	"fmt"
+	"os"
+	"io"
 )
 
+var imagePath string
+
+func SetImagePath(path string){
+	imagePath = path
+}
 
 func InitRoutes(public,private *gin.RouterGroup) {
 
@@ -23,12 +31,14 @@ func InitRoutes(public,private *gin.RouterGroup) {
 	private.GET("deleteProducts", deleteProducts)
 	private.GET("getProducts",getProducts)
 	private.GET("retrieveCategories",retrieveCategories)
+	private.POST("uploadFile", uploadFile)
 
 	private.POST("createStock", createStock)
 	private.POST("updateStock", updateStock)
 	private.GET("getStockById", getStockById)
 	private.GET("deleteStocks", deleteStocks)
 	private.GET("getStocks",getStocks)
+	private.GET("setFavoriteProduct", setFavoriteProduct)
 
 	private.POST("createPerson", createPerson)
 	private.POST("updatePerson", updatePerson)
@@ -70,7 +80,7 @@ func InitRoutes(public,private *gin.RouterGroup) {
 
 	// # Reports #
 
-	private.GET("getSaleSummaryReportDaily",getSaleSummaryReportDaily)
+	private.GET("getSaleSummaryReport", getSaleSummaryReport)
 	private.GET("getCurrentStockReport",getCurrentStockReport)
 	private.GET("retrieveActivityLog",getActivityLog)
 	private.GET("getPaymentReport",getPaymentReport)
@@ -78,9 +88,10 @@ func InitRoutes(public,private *gin.RouterGroup) {
 
 	// # Excel Reports #
 
-	private.GET("getSaleSummaryReportDailyAsExcel",getSaleSummaryReportDailyAsExcel)
+	private.GET("getSaleSummaryReportAsExcel", getSaleSummaryReportAsExcel)
 	private.GET("getCurrentStockReportAsExcel",getCurrentStockReportAsExcel)
 	private.GET("getPaymentReportAsExcel",getPaymentReportAsExcel)
+	private.GET("getProductReportAsExcel",getProductReportAsExcel)
 
 }
 
@@ -125,11 +136,25 @@ func createProduct (c *gin.Context){
 	p := Product{}
 	c.BindJSON(&p)
 
-	p.UserId = getUserIdFromToken(c)
-	err := UseCase.CreateProduct(&p)
+	//// upload picture
+	//file, err := c.FormFile("file")
+	//if err != nil && file != nil {
+	//	c.String(http.StatusBadRequest, fmt.Sprintf("get form err: %s", err.Error()))
+	//	return
+	//}else{
+	//	fileName := strconv.Itoa(p.Id) + "jpg"
+	//
+	//	if err := c.SaveUploadedFile(file, fileName); err != nil {
+	//		c.String(http.StatusBadRequest, fmt.Sprintf("upload file err: %s", err.Error()))
+	//		return
+	//	}
+	//}
 
-	if err != nil{
-		c.JSON(200, generateFailResponse(err))
+	p.UserId = getUserIdFromToken(c)
+	err2 := UseCase.CreateProduct(&p)
+
+	if err2 != nil{
+		c.JSON(200, generateFailResponse(err2))
 		return
 	}
 
@@ -231,6 +256,84 @@ func retrieveCategories (c *gin.Context){
 
 }
 
+func uploadFile(c *gin.Context) {
+
+	//pId := getProfileIdFromToken(c)
+
+	file, header , err := c.Request.FormFile("file")
+	if err != nil{
+		fmt.Println(err)
+		c.JSON(200, nil)
+	}
+	filename := header.Filename
+
+
+	//filename = strconv.Itoa(int(time.Now().Unix()))
+
+	if err != nil{
+		LogError(err)
+		c.JSON(200, err)
+		return
+	}
+
+	out, err := os.Create(imagePath + filename)
+	if err != nil {
+		LogError(err)
+		c.JSON(200, err)
+		return
+	}
+
+	defer out.Close()
+	_, err = io.Copy(out, file)
+	if err != nil {
+		LogError(err)
+		c.JSON(200, nil)
+	}
+
+	c.JSON(200,gin.H{"url": imagePath + filename})
+}
+
+func removeFile(c *gin.Context) {
+
+	path := c.Query("path")
+
+	err := os.Remove(path)
+	if err != nil {
+		LogError(err)
+		c.JSON(200, err)
+		return
+	}
+	c.JSON(200, nil)
+
+}
+
+//func DownloadMedia(c *gin.Context) {
+//	m := MediaURL{}
+//	err := c.BindJSON(&m)
+//	if err != nil {
+//		LogError(err)
+//		c.JSON(200, nil)
+//		return
+//	}
+//
+//
+//
+//	//c.Header("Content-Encoding","utf-8")
+//	//c.Header("Content-Description", "File Transfer")
+//	//c.Header("Content-Transfer-Encoding", "binary")
+//	c.Header("Content-Disposition", `attachment;filename="` + m.FileName + `"`)
+//	c.Header("Content-Type",  m.Type)
+//	c.Header("Content-Length", strconv.FormatInt(int64(m.Size), 10))
+//	c.File("/home/iugo/WebFleet" + m.Url)
+//
+//
+//	//c.Header("Content-Description", "File Transfer")
+//	//c.Header("Content-Disposition", `attachment; filename=TripMeasData.text` )
+//	//c.Header("Content-Type", "application/octet-stream")
+//	//c.File("/home/iugo/WebFleet/media/TripMeasData_app.txt")
+//
+//}
+
 // ########################################################
 
 func createStock (c *gin.Context){
@@ -312,14 +415,29 @@ func getStocks (c *gin.Context){
 	orderBy := c.Query("orderBy")
 	orderAs := c.Query("orderAs")
 	//isDropdown,_ := strconv.ParseBool(c.Query("isDropdown"))
+	isFavorite,_ := strconv.ParseBool(c.Query("isFavorite"))
 
-	p, err := UseCase.GetStocks(tInterval,barcode,name,description,category,orderBy,orderAs,pageNumber, pageSize,dealerId,creator)
+	p, err := UseCase.GetStocks(tInterval,barcode,name,description,category,orderBy,orderAs,pageNumber, pageSize,dealerId,creator,isFavorite)
 	if err != nil{
 		c.JSON(200, generateFailResponse(err))
 		return
 	}
 
 	c.JSON(200, generateSuccessResponse(p))
+}
+
+func setFavoriteProduct (c *gin.Context){
+
+	id,_ := strconv.Atoi(c.Query("productId"))
+	isFavorite,_ := strconv.ParseBool(c.Query("isFavorite"))
+
+	err := UseCase.SetFavoriteProduct(id,isFavorite)
+	if err != nil{
+		c.JSON(200, generateFailResponse(err))
+		return
+	}
+
+	c.JSON(200, generateSuccessResponse("ok"))
 }
 
 // ###########################################
@@ -897,11 +1015,11 @@ func getSales (c *gin.Context){
 
 // # reports #
 
-func getSaleSummaryReportDaily (c *gin.Context){
+func getSaleSummaryReport(c *gin.Context){
 
 	tInterval := c.Query("timeInterval")
 
-	p, err := UseCase.GetSaleSummaryReportDaily(tInterval)
+	p, err := UseCase.GetSaleSummaryReport(tInterval)
 	if err != nil{
 		c.JSON(200, generateFailResponse(err))
 		return
@@ -978,12 +1096,12 @@ func getProductReport (c *gin.Context){
 
 // # reports to excel #
 
-func getSaleSummaryReportDailyAsExcel (c *gin.Context){
+func getSaleSummaryReportAsExcel(c *gin.Context){
 
 
 	tInterval := c.Query("timeInterval")
 
-	fileName, err := UseCase.GetSaleSummaryReportDailyAsExcel(tInterval)
+	fileName, err := UseCase.GetSaleSummaryReportAsExcel(tInterval)
 	if err != nil{
 		c.JSON(200, generateFailResponse(err))
 		return
@@ -1027,6 +1145,26 @@ func getPaymentReportAsExcel (c *gin.Context){
 	tInterval := c.Query("timeInterval")
 
 	fileName, err := UseCase.GetPaymentReportAsExcel(tInterval)
+	if err != nil{
+		c.JSON(200, generateFailResponse(err))
+		return
+	}
+
+	println("file:",fileName)
+	c.Header("Content-Transfer-Encoding", "binary")
+	c.Header("Content-Disposition", `attachment; filename=excelFile.xlsx` )
+	c.Header("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+	c.File(fileName)
+}
+
+func getProductReportAsExcel(c *gin.Context){
+
+	tInterval := c.Query("timeInterval")
+	category := c.Query("category")
+	productName := c.Query("productName")
+	userId,_ := strconv.Atoi(c.Query("userId"))
+
+	fileName, err := UseCase.GetProductReportAsExcel(tInterval,productName,category,userId)
 	if err != nil{
 		c.JSON(200, generateFailResponse(err))
 		return

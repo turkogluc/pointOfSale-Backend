@@ -17,6 +17,7 @@ const stTableStock = `CREATE TABLE IF NOT EXISTS %s.stock (
   creation_date       INT NOT NULL,
   update_date INT NOT NULL,
   user_id 		 INT 	DEFAULT 1,
+  favorite		BOOLEAN	DEFAULT false,
   FOREIGN KEY (user_id) REFERENCES %s.user (id) ON DELETE CASCADE ON UPDATE CASCADE,
   FOREIGN KEY (product_id) REFERENCES %s.product (id) ON DELETE CASCADE ON UPDATE CASCADE
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;`
@@ -29,13 +30,16 @@ const stSelectStockById = `SELECT * FROM %s.stock
 const stSelectStockByProductId = `SELECT * FROM %s.stock
 									 WHERE product_id=?`
 
-const stInsertStock = `INSERT INTO %s.stock (product_id,qty,dealer_id,creation_date,update_date,user_id)
-							VALUES (?,?,?,?,?,?)`
+const stInsertStock = `INSERT INTO %s.stock (product_id,qty,dealer_id,creation_date,update_date,user_id,favorite)
+							VALUES (?,?,?,?,?,?,?)`
 
-const stUpdateStockById = `UPDATE %s.stock SET product_id=?, qty=?, dealer_id=?, update_date=?,user_id=?
+const stUpdateStockById = `UPDATE %s.stock SET product_id=?, qty=?, dealer_id=?, update_date=?,user_id=?,favorite=?
 								WHERE id=?`
 
 const stDecrementProductFromStock = `UPDATE %s.stock SET qty = qty - ?
+								WHERE product_id=?`
+
+const stSetFavoriteByProductId = `UPDATE %s.stock SET favorite = ?
 								WHERE product_id=?`
 
 const stDeleteStockById = `DELETE FROM %s.stock WHERE id=?`
@@ -43,7 +47,7 @@ const stDeleteStockById = `DELETE FROM %s.stock WHERE id=?`
 type StockRepo struct {}
 
 var st *StockRepo
-var qSelectStockById,qInsertStock,qSelectStockByProductId,qUpdateStockById,qDecrementProductFromStock,qDeleteStockById *sql.Stmt
+var qSelectStockById,qInsertStock,qSetFavoriteByProductId,qSelectStockByProductId,qUpdateStockById,qDecrementProductFromStock,qDeleteStockById *sql.Stmt
 
 func GetStockRepo() *StockRepo{
 	if st == nil {
@@ -79,6 +83,11 @@ func GetStockRepo() *StockRepo{
 			LogError(err)
 		}
 
+		qSetFavoriteByProductId, err = DB.Prepare(s(stSetFavoriteByProductId))
+		if err != nil {
+			LogError(err)
+		}
+
 		qDeleteStockById, err = DB.Prepare(s(stDeleteStockById))
 		if err != nil {
 			LogError(err)
@@ -91,7 +100,7 @@ func GetStockRepo() *StockRepo{
 func (st *StockRepo) SelectStockById(id int)(*Stock,error){
 	p := &Stock{}
 	row := qSelectStockById.QueryRow(id)
-	err := row.Scan(&p.Id,&p.ProductId,&p.Qty,&p.DealerId,&p.CreationDate,&p.UpdateDate,&p.UserId)
+	err := row.Scan(&p.Id,&p.ProductId,&p.Qty,&p.DealerId,&p.CreationDate,&p.UpdateDate,&p.UserId,&p.IsFavorite)
 	if err != nil{
 		LogError(err)
 		return nil, err
@@ -102,7 +111,7 @@ func (st *StockRepo) SelectStockById(id int)(*Stock,error){
 func (st *StockRepo) SelectStockByProductId(productId int)(*Stock,error){
 	p := &Stock{}
 	row := qSelectStockByProductId.QueryRow(productId)
-	err := row.Scan(&p.Id,&p.ProductId,&p.Qty,&p.DealerId,&p.CreationDate,&p.UpdateDate,&p.UserId)
+	err := row.Scan(&p.Id,&p.ProductId,&p.Qty,&p.DealerId,&p.CreationDate,&p.UpdateDate,&p.UserId,&p.IsFavorite)
 	if err != nil{
 		LogError(err)
 		return nil, err
@@ -113,7 +122,7 @@ func (st *StockRepo) SelectStockByProductId(productId int)(*Stock,error){
 
 func (st *StockRepo) InsertStock(p *Stock)(error){
 
-	result,err := qInsertStock.Exec(p.ProductId,p.Qty,p.DealerId,p.CreationDate,p.UpdateDate,p.UserId)
+	result,err := qInsertStock.Exec(p.ProductId,p.Qty,p.DealerId,p.CreationDate,p.UpdateDate,p.UserId,p.IsFavorite)
 	if err != nil{
 		LogError(err)
 		return err
@@ -131,7 +140,7 @@ func (st *StockRepo) InsertStock(p *Stock)(error){
 
 func (st *StockRepo) UpdateStockById(p *Stock, IdToUpdate int)(error){
 
-	_,err := qUpdateStockById.Exec(p.ProductId,p.Qty,p.DealerId,p.UpdateDate,p.UserId,IdToUpdate)
+	_,err := qUpdateStockById.Exec(p.ProductId,p.Qty,p.DealerId,p.UpdateDate,p.UserId,p.IsFavorite,IdToUpdate)
 	if err != nil{
 		LogError(err)
 		return err
@@ -143,6 +152,17 @@ func (st *StockRepo) UpdateStockById(p *Stock, IdToUpdate int)(error){
 func (st *StockRepo) DecrementProductFromStock(productId,count int)(error){
 
 	_,err := qDecrementProductFromStock.Exec(count,productId)
+	if err != nil{
+		LogError(err)
+		return err
+	}
+
+	return nil
+}
+
+func (st *StockRepo) SetFavoriteByProductId(productId int,fav bool)(error){
+
+	_,err := qSetFavoriteByProductId.Exec(fav,productId)
 	if err != nil{
 		LogError(err)
 		return err
@@ -195,7 +215,7 @@ func (st *StockRepo) DeleteStocks(ids []int)(error){
 }
 
 
-func (st *StockRepo) SelectStocks(timeInterval []int,barcode,name,description,category,orderBy,orderAs string,pageNumber, pageSize,dealerId int,creatorId int) (*responses.StockResponse,  error) {
+func (st *StockRepo) SelectStocks(timeInterval []int,barcode,name,description,category,orderBy,orderAs string,pageNumber, pageSize,dealerId int,creatorId int,isFavorite bool) (*responses.StockResponse,  error) {
 
 	stes := &responses.StockResponse{}
 	items := []*responses.StockItem{}
@@ -208,6 +228,7 @@ func (st *StockRepo) SelectStocks(timeInterval []int,barcode,name,description,ca
 	var catAvail bool
 	var dealerAvail bool
 	var crtAvail bool
+	var favAvail bool
 
 	var orderByAvail bool
 	var pageNumberAvail bool
@@ -236,6 +257,9 @@ func (st *StockRepo) SelectStocks(timeInterval []int,barcode,name,description,ca
 	if creatorId > 0 {
 		crtAvail = true
 	}
+	if isFavorite == true {
+		favAvail = true
+	}
 
 	if len(orderBy) != 0{
 		if orderBy != "name" {
@@ -249,7 +273,7 @@ func (st *StockRepo) SelectStocks(timeInterval []int,barcode,name,description,ca
 		pageSizeAvail = true
 	}
 
-	stSelect := `SELECT s.id,s.product_id,s.qty,s.dealer_id,s.creation_date,s.update_date,p.barcode,p.name,p.description,p.category,p.purchase_price,p.sale_price,p.register_date,IFNULL(per.id,0),IFNULL(per.name,""),s.user_id,u.name
+	stSelect := `SELECT s.id,s.product_id,s.qty,s.dealer_id,s.creation_date,s.update_date,p.barcode,p.name,p.description,p.category,p.purchase_price,p.sale_price,p.register_date,IFNULL(per.id,0),IFNULL(per.name,""),s.user_id,u.name,s.favorite,p.image_path
 						FROM %s.stock AS s
 						JOIN %s.product AS p ON s.product_id = p.id 
 						LEFT JOIN %s.person AS per ON s.dealer_id = per.id
@@ -265,9 +289,16 @@ func (st *StockRepo) SelectStocks(timeInterval []int,barcode,name,description,ca
 
 	filter := ``
 
-	if  crtAvail || timeAvail || barAvail || nameAvail || descAvail || catAvail || dealerAvail{
+	if  crtAvail || timeAvail || barAvail || nameAvail || descAvail || catAvail || dealerAvail || favAvail{
 		filter += " WHERE "
 
+		if favAvail {
+			filter +=  ` s.favorite = true `
+
+			if crtAvail || timeAvail || barAvail || nameAvail || descAvail || catAvail || dealerAvail{
+				filter += " AND "
+			}
+		}
 		if crtAvail {
 			filter +=  ` s.user_id = ` + strconv.FormatInt(int64(creatorId),10)
 
@@ -363,7 +394,7 @@ func (st *StockRepo) SelectStocks(timeInterval []int,barcode,name,description,ca
 	for rows.Next(){
 		p := &responses.StockItem{}
 		p.Product = &Product{}
-		err = rows.Scan(&p.Id,&p.Product.Id,&p.Qty,&p.DealerId,&p.CreationDate,&p.UpdateDate,&p.Product.Barcode,&p.Product.Name,&p.Product.Description,&p.Product.Category,&p.Product.PurchasePrice,&p.Product.SalePrice,&p.Product.RegisterDate,&p.DealerId,&p.DealerName,&p.UserId,&p.UserName)
+		err = rows.Scan(&p.Id,&p.Product.Id,&p.Qty,&p.DealerId,&p.CreationDate,&p.UpdateDate,&p.Product.Barcode,&p.Product.Name,&p.Product.Description,&p.Product.Category,&p.Product.PurchasePrice,&p.Product.SalePrice,&p.Product.RegisterDate,&p.DealerId,&p.DealerName,&p.UserId,&p.UserName,&p.IsFavorite,&p.Product.ImagePath)
 		if err != nil {
 			LogError(err)
 		}

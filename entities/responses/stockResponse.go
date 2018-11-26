@@ -12,6 +12,7 @@ type StockItem struct {
 	UpdateDate int      `json:"updateDate"`
 	UserId int			`json:"userId"`
 	UserName string 	`json:"userName"`
+	IsFavorite bool		`json:"isFavorite"`
 }
 
 type StockResponse struct {
