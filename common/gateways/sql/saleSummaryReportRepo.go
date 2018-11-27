@@ -43,7 +43,7 @@ const stDeleteSaleSummaryReportById = `DELETE FROM %s.sale_summary_report WHERE 
 type SaleSummaryReportRepo struct {}
 
 var slrp *SaleSummaryReportRepo
-var qSelectSaleSummaryReportById, qInsertSaleSummaryReport, qUpdateSaleSummaryReportById, qDeleteSaleSummaryReportById *sql.Stmt
+var qSelectSaleSummaryReportById, qInsertSaleSummaryReport, qUpdateSaleSummaryReportById,qSelectSaleSummaryReportByDate, qDeleteSaleSummaryReportById *sql.Stmt
 
 func GetSaleSummaryReportRepo() *SaleSummaryReportRepo {
 	if slrp == nil {
@@ -55,6 +55,11 @@ func GetSaleSummaryReportRepo() *SaleSummaryReportRepo {
 		}
 
 		qSelectSaleSummaryReportById, err = DB.Prepare(s(stSelectSaleSummaryReportById))
+		if err != nil {
+			LogError(err)
+		}
+
+		qSelectSaleSummaryReportByDate, err = DB.Prepare(s(stSelectSaleSummaryReportByDate))
 		if err != nil {
 			LogError(err)
 		}
@@ -90,7 +95,7 @@ func (slrp *SaleSummaryReportRepo) SelectSaleSummaryReportById(id int)(*SaleSumm
 
 func (slrp *SaleSummaryReportRepo) SelectSaleSummaryReportByDate(id int)(*SaleSummaryObjectItem,error){
 	p := &SaleSummaryObjectItem{}
-	row := qSelectSaleSummaryReportById.QueryRow(id)
+	row := qSelectSaleSummaryReportByDate.QueryRow(id)
 	err := row.Scan(&p.Id,&p.GrossProfit,&p.NetProfit,&p.SaleCount,&p.ItemCount,&p.CustomerCount,&p.Discount,&p.BasketValue,&p.BasketSize,&p.Timestamp)
 	if err != nil{
 		LogError(err)

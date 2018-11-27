@@ -87,24 +87,27 @@ func SaleReporterJob(interval string){
 				record.CustomerCount = 1
 			}
 
+			LogDebug("record id =>", record.Id)
+
 			existentRecord,err := interactors.SaleSummaryReportRepo.SelectSaleSummaryReportByDate(roundedTimestamp)
 			if err != nil && existentRecord == nil {
 				// means there is no record about this day already written
 				// so we should create the first record for this day
 				LogDebug(err)
 
-
-				err = interactors.SaleSummaryReportRepo.InsertSaleSummaryReport(record)
-				if err != nil{
-					LogError(err)
-					fmt.Println("Fatal error:", err)
+				LogDebug("record id =>", record.Id, " not exist record")
+				record.Timestamp = roundedTimestamp
+				err2 := interactors.SaleSummaryReportRepo.InsertSaleSummaryReport(record)
+				if err2 != nil{
+					LogError(err2)
+					fmt.Println("Fatal error:", err2)
 				}else{
 					// set processed true
-
-					err := interactors.SaleBasketRepo.SetSaleBasketIsProcessedStatus(record.Id,true)
-					if err != nil{
-						LogError(err)
-						fmt.Println("Fatal error:", err)
+					LogDebug("record id =>", record.Id, " set ps true")
+					err2 := interactors.SaleBasketRepo.SetSaleBasketIsProcessedStatus(record.Id,true)
+					if err2 != nil{
+						LogError(err2)
+						fmt.Println("Fatal error:", err2)
 					}
 				}
 
@@ -112,6 +115,7 @@ func SaleReporterJob(interval string){
 			}else if existentRecord != nil{
 				// there is already a record and we should update it by summing up
 
+				LogDebug("record id =>", record.Id, " already exists area")
 				temp := &entities.SaleSummaryObjectItem{}
 
 				temp.GrossProfit = record.GrossProfit + existentRecord.GrossProfit
@@ -124,17 +128,17 @@ func SaleReporterJob(interval string){
 				temp.BasketSize = float64(temp.ItemCount) / float64(temp.SaleCount)
 				temp.Timestamp = roundedTimestamp
 
-				err = interactors.SaleSummaryReportRepo.UpdateSaleSummaryReportById(temp,existentRecord.Id)
-				if err != nil {
-					LogError(err)
-					fmt.Println("Fatal error:", err)
+				err2 := interactors.SaleSummaryReportRepo.UpdateSaleSummaryReportById(temp,existentRecord.Id)
+				if err2 != nil {
+					LogError(err2)
+					fmt.Println("Fatal error:", err2)
 				}else{
 					// set processed true
-
-					err := interactors.SaleBasketRepo.SetSaleBasketIsProcessedStatus(record.Id,true)
-					if err != nil{
-						LogError(err)
-						fmt.Println("Fatal error:", err)
+					LogDebug("record id =>", record.Id, " set ps true 2")
+					err2 := interactors.SaleBasketRepo.SetSaleBasketIsProcessedStatus(record.Id,true)
+					if err2 != nil{
+						LogError(err2)
+						fmt.Println("Fatal error:", err2)
 					}
 				}
 
