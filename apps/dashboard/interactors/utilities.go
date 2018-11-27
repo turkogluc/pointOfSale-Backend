@@ -97,7 +97,9 @@ func SaleReporterJob(interval string){
 
 				LogDebug("record id =>", record.Id, " not exist record")
 				record.Timestamp = roundedTimestamp
-				err2 := interactors.SaleSummaryReportRepo.InsertSaleSummaryReport(record)
+				var temp entities.SaleSummaryObjectItem
+				temp = *record
+				err2 := interactors.SaleSummaryReportRepo.InsertSaleSummaryReport(&temp)
 				if err2 != nil{
 					LogError(err2)
 					fmt.Println("Fatal error:", err2)
