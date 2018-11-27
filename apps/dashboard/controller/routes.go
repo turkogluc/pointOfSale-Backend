@@ -276,6 +276,7 @@ func uploadFile(c *gin.Context) {
 		return
 	}
 
+	// image path is /var/www/html/ximage/
 	out, err := os.Create(imagePath + filename)
 	if err != nil {
 		LogError(err)
@@ -290,7 +291,9 @@ func uploadFile(c *gin.Context) {
 		c.JSON(200, nil)
 	}
 
-	c.JSON(200,gin.H{"url": imagePath + filename})
+	ipAddress := "http://128.199.53.5/ximages/" + filename
+
+	c.JSON(200,gin.H{"url": ipAddress})
 }
 
 func removeFile(c *gin.Context) {

@@ -2,7 +2,7 @@ package interactors
 
 import (
 	"golang.org/x/crypto/bcrypt"
-	. "iugo.fleet/common/logger"
+	. "stock/common/logger"
 	"github.com/robfig/cron"
 	"fmt"
 	"stock/common/projectArch/interactors"
@@ -91,7 +91,7 @@ func SaleReporterJob(interval string){
 			if err != nil && existentRecord == nil {
 				// means there is no record about this day already written
 				// so we should create the first record for this day
-				LogError(err)
+				LogDebug(err)
 
 
 				err = interactors.SaleSummaryReportRepo.InsertSaleSummaryReport(record)
@@ -122,7 +122,7 @@ func SaleReporterJob(interval string){
 				temp.CustomerCount = record.CustomerCount + existentRecord.CustomerCount
 				temp.BasketValue = temp.GrossProfit / float64(temp.SaleCount)
 				temp.BasketSize = float64(temp.ItemCount) / float64(temp.SaleCount)
-				temp.Timestamp = existentRecord.Timestamp
+				temp.Timestamp = roundedTimestamp
 
 				err = interactors.SaleSummaryReportRepo.UpdateSaleSummaryReportById(temp,existentRecord.Id)
 				if err != nil {
