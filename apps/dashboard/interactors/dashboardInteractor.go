@@ -181,6 +181,7 @@ func (DashboardInteractor) CreateStock(p *Stock) *ErrorType{
 			UpdateDate: int(time.Now().Unix()),
 			UserId:		p.UserId,
 			DealerId:	p.DealerId,
+			IsFavorite: p.IsFavorite,
 		}
 
 		err := interactors.StockRepo.UpdateStockById(temp,temp.Id)
@@ -784,6 +785,8 @@ func (DashboardInteractor) GetSaleSummaryReport(tInterval string) (*SaleSummaryR
 
 	}
 
+	p.BasketValue = p.GrossProfit / float64(p.SaleCount)
+
 
 	return p,nil
 }
@@ -850,7 +853,7 @@ func (DashboardInteractor) GetActivityLog(tInterval string,userId int)(*Activity
 			if err != nil {
 				LogError(err)
 			}
-			text += product.Name + `: ` + strconv.Itoa(vv.Qty) + ` adet `
+			text += product.Name + `: ` + strconv.Itoa(vv.Qty) + ` piece `
 			text += ` `
 
 		}
@@ -860,7 +863,7 @@ func (DashboardInteractor) GetActivityLog(tInterval string,userId int)(*Activity
 			Date:v.CreationDate,
 			ActivityType:"Sale",
 			Description:text,
-			Title: "Satış",
+			Title: "Sale",
 		}
 
 		res = append(res,temp)
@@ -876,15 +879,15 @@ func (DashboardInteractor) GetActivityLog(tInterval string,userId int)(*Activity
 
 	for _,v := range stocks.Items {
 
-		text := strconv.Itoa(v.Qty) + ` adet ` + v.Product.Name
-		detail := "Toptancı:" + v.DealerName
+		text := strconv.Itoa(v.Qty) + ` piece ` + v.Product.Name
+		detail := "Dealer:" + v.DealerName
 		temp := &ActivityLogItem{
 			User:v.UserName,
 			Date:v.UpdateDate,
 			ActivityType:"Stock",
 			Description:text,
 			Detail:detail,
-			Title: "Stok Girişi",
+			Title: "Stock Entry",
 
 		}
 
@@ -900,15 +903,15 @@ func (DashboardInteractor) GetActivityLog(tInterval string,userId int)(*Activity
 	}
 
 	for _,v := range payments.Items{
-		text := v.PersonName + ` adlı sahıs, ` + strconv.FormatFloat(v.Amount,'f',2,64) + ` miktarınca.`
-		detail := `Ödenme Tarihi: ` + time.Unix(int64(v.ExpectedDate),0).Format("2016-01-02 15:04:05")
+		text := v.PersonName + ` named operator, ` + strconv.FormatFloat(v.Amount,'f',2,64) + ` amount.`
+		detail := `Payment Date: ` + time.Unix(int64(v.ExpectedDate),0).Format("2016-01-02 15:04:05")
 		temp := &ActivityLogItem{
 			User:v.UserName,
 			Date:v.UpdateDate,
 			ActivityType:"Payment",
 			Description:text,
 			Detail:detail,
-			Title: "Ödeme Girişi",
+			Title: "Payment Entry",
 
 		}
 
@@ -924,15 +927,15 @@ func (DashboardInteractor) GetActivityLog(tInterval string,userId int)(*Activity
 
 	for _,v := range receivings.Items{
 
-		text := v.PersonName + ` adlı şahıs, ` + strconv.FormatFloat(v.Amount,'f',2,64) + ` miktarınca.`
-		detail := `Ödenme Tarihi: ` + time.Unix(int64(v.ExpectedDate),0).Format("2016-01-02 15:04:05")
+		text := v.PersonName + ` named operator, ` + strconv.FormatFloat(v.Amount,'f',2,64) + ` amount.`
+		detail := `Payment Date: ` + time.Unix(int64(v.ExpectedDate),0).Format("2016-01-02 15:04:05")
 		temp := &ActivityLogItem{
 			User:v.UserName,
 			Date:v.UpdateDate,
 			ActivityType:"Receiving",
 			Description:text,
 			Detail:detail,
-			Title: "Tahsilat Girişi",
+			Title: "Receiving Entry",
 
 		}
 
@@ -949,14 +952,14 @@ func (DashboardInteractor) GetActivityLog(tInterval string,userId int)(*Activity
 
 	for _,v := range expenses.Items{
 
-		text := `'` + v.Name + ` adlı harcama,` + strconv.FormatFloat(v.Price,'f',2,64) + ` miktarınca.`
+		text := `'` + v.Name + ` named person,` + strconv.FormatFloat(v.Price,'f',2,64) + ` amount.`
 		//detail := `Ödenme Tarihi: ` + time.Unix(int64(v.ExpectedDate),0).Format("2016-01-02 15:04:05")
 		temp := &ActivityLogItem{
 			User:v.UserName,
 			Date:v.UpdateDate,
 			ActivityType:"Expense",
 			Description:text,
-			Title: "Harcama Girişi",
+			Title: "Expense Entry",
 			//Detail:detail,
 		}
 
