@@ -78,7 +78,7 @@ func SaleReporterJob(interval string){
 			// use the timestamp of YYYY-MM-DD 13:00:00 as the identifier of that specific day
 
 			t := time.Unix(int64(record.Timestamp), 0)		// convert timestamp to time
-			roundedTime := time.Date(t.Year(), t.Month(), t.Day(), 04, 0, 0, 0, t.Location()) // set the hour 13:00
+			roundedTime := time.Date(t.Year(), t.Month(), t.Day(), 03, 0, 0, 0, t.Location()) // set the hour 13:00
 			roundedTimestamp := int(roundedTime.Unix())
 
 			// customer_id is returned to custome_count, always 1 customer is expected for 1 sale

@@ -1043,7 +1043,15 @@ func (DashboardInteractor) GetPaymentReport(tInterval string) (*PaymentReport,  
 			Timestamp:v.ExpectedDate,
 			Status:v.Status,
 			Detail:v.Summary,
-			Type: "Ödeme",
+			Type: "Payment",
+		}
+
+		if paymentItem.Status == "Gecikmiş" {
+			paymentItem.Status = "Overdue"
+		}else if paymentItem.Status == "Bitti"{
+			paymentItem.Status = "Finished"
+		}else if paymentItem.Status == "Bekliyor" {
+			paymentItem.Status = "Pending"
 		}
 
 		result.ItemsAsObject = append(result.ItemsAsObject,paymentItem)
@@ -1085,9 +1093,18 @@ func (DashboardInteractor) GetPaymentReport(tInterval string) (*PaymentReport,  
 			Amount:v.Amount,
 			Timestamp:v.ExpectedDate,
 			Status:v.Status,
-			Detail:"Tahsilat",
-			Type: "Tahsilat",
+			Detail:"Receiving",
+			Type: "Receiving",
 		}
+
+		if paymentItem.Status == "Gecikmiş" {
+			paymentItem.Status = "Overdue"
+		}else if paymentItem.Status == "Bitti"{
+			paymentItem.Status = "Finished"
+		}else if paymentItem.Status == "Bekliyor" {
+			paymentItem.Status = "Pending"
+		}
+
 
 		result.ItemsAsObject = append(result.ItemsAsObject,paymentItem)
 	}
@@ -1120,9 +1137,9 @@ func (DashboardInteractor) GetPaymentReport(tInterval string) (*PaymentReport,  
 			Person:v.UserName,
 			Amount:v.Price,
 			Timestamp:v.UpdateDate,
-			Status:"Bitti",
+			Status:"Finished",
 			Detail:v.Name,
-			Type: "Harcama",
+			Type: "Expense",
 		}
 
 		result.ItemsAsObject = append(result.ItemsAsObject,paymentItem)
