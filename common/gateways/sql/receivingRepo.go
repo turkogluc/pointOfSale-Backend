@@ -16,7 +16,7 @@ const stTableReceiving = `CREATE TABLE IF NOT EXISTS %s.receiving (
 		creation_date	INT,
 		update_date		INT,
 		expected_date	INT,
-		product_ids		VARCHAR(200) DEFAULT '',
+		product_ids		TEXT,
 		status			ENUM('Bekliyor','Bitti','Gecikmiş'),
 		user_id 		 INT 	DEFAULT 1,
   		FOREIGN KEY (user_id) REFERENCES %s.user (id) ON DELETE CASCADE ON UPDATE CASCADE,

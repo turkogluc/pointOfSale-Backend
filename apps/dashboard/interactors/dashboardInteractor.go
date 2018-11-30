@@ -325,16 +325,42 @@ func (DashboardInteractor) DeletePersons(ids []int) *ErrorType{
 
 // #################################################################
 
-func (DashboardInteractor) CreateReceiving(p *Receiving) *ErrorType{
+func (d DashboardInteractor) CreateReceiving(p *Receiving) *ErrorType{
 
 	p.CreationDate = int(time.Now().Unix())
 	p.UpdateDate = int(time.Now().Unix())
+	if len(p.Status) == 0 {
+		p.Status = "Bekliyor"
+	}
 	err := interactors.ReceivingRepo.InsertReceiving(p)
 	if err != nil{
 		LogError(err)
 		return GetError(0)
 	}
+
+	go d.HandleReceiving(p)
 	return nil
+
+}
+
+func (d DashboardInteractor) HandleReceiving(p *Receiving){
+
+	// Decrement the products from stock table
+	ItemStr := p.ProductIds
+
+	var basket []SaleBasketItem
+
+	if err := json.Unmarshal([]byte(ItemStr),&basket); err != nil{
+		LogError(err)
+	}
+
+	for _,v := range basket{
+
+		if err := interactors.StockRepo.DecrementProductFromStock(v.Id,v.Qty); err != nil{
+			LogError(err)
+			// TODO: rollback
+		}
+	}
 
 }
 
@@ -378,20 +404,30 @@ func (DashboardInteractor) GetReceivings(tInterval string,person,status,orderBy,
 
 	// insert product details to productList
 	for k,item := range p.Items{
-		var prodInt []int
-		prodStr := strings.Split(item.ProductIds,",")
-		for _,v := range prodStr{
-			vInt,_ := strconv.Atoi(v)
-			prodInt = append(prodInt,vInt)
+
+		var basket []SaleBasketItem
+		if err := json.Unmarshal([]byte(item.ProductIds),&basket); err != nil{
+			LogError(err)
 		}
-		for _,v := range prodInt{
-			product,err := interactors.ProductRepo.SelectProductById(v)
+
+
+		for _,v := range basket{
+			product,err := interactors.ProductRepo.SelectProductById(v.Id)
 			if err != nil{
 				LogError(err)
 				return nil,GetError(0)
 			}
 
-			p.Items[k].ProductList = append(p.Items[k].ProductList,product)
+			temp := &ProductShortList{
+				Id:product.Id,
+				Name:product.Name,
+				Qty:v.Qty,
+				Discount:v.Discount,
+				SalePrice:product.SalePrice,
+				TotalCost:(float64(v.Qty)*product.SalePrice)-v.Discount,
+			}
+
+			p.Items[k].ProductList = append(p.Items[k].ProductList,temp)
 		}
 
 	}
