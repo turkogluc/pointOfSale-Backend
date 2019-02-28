@@ -1,4 +1,4 @@
-# Point of Sale Frontend
+# Point of Sale Backend
 
 - Point of Sale with barcode scanning
 - Inventory Management
